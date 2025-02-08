@@ -2,8 +2,17 @@ import React from "react";
 import products from "../assets/api/topProducts.json";
 import { NavLink } from "react-router-dom";
 import { Heart } from "react-feather";
+import { useDispatch, useSelector } from "react-redux";
+import { addToList } from "../features/Add To List/addToListSlice";
 
 const Bodyhome = () => {
+  const allList = useSelector((state) => state.addToList.list)
+  const dispatch = useDispatch();
+
+  const handleAddToList = (id, name, price) => {
+    dispatch(addToList({id, name, price}));
+  };
+
   return (
     // main body
     <div className=" w-full h-screen flex justify-center">
@@ -39,7 +48,10 @@ const Bodyhome = () => {
                     alt={name}
                     className="group-hover:scale-[1.2] transition-all h-72 ease-linear duration-[0.3s]"
                   />
-                  <button className=" absolute left-4 top-[18.5rem] z-10 transition-[top] ease-linear duration-[0.2s] h-12 w-44 text-base border-[0.01rem] border-black rounded-lg bg-buttonColor flex items-center justify-center gap-2 active:bg-clickColor group-hover:top-56">
+                  <button
+                    className=" absolute left-4 top-[18.5rem] z-10 transition-[top] ease-linear duration-[0.2s] h-12 w-44 text-base border-[0.01rem] border-black rounded-lg bg-buttonColor flex items-center justify-center gap-2 active:bg-clickColor group-hover:top-56"
+                    onClick={() => handleAddToList(id, name, price)}
+                  >
                     <Heart />
                     <p className=" text-base font-[550]">Add to Whishlist</p>
                   </button>
