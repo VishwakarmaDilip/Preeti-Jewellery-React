@@ -18,6 +18,7 @@ const router = createBrowserRouter(
       element:
       <div>
         <Navbar/>
+        <Footer/>
       </div>
     },
     {
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       element:
       <div>
         <Navbar/>
+        <Footer/>
       </div>
     },
     {
@@ -32,6 +34,7 @@ const router = createBrowserRouter(
       element:
       <div>
         <Navbar/>
+        <Footer/>
       </div>
     },
     {
@@ -39,6 +42,7 @@ const router = createBrowserRouter(
       element:
       <div>
         <Navbar/>
+        <Footer/>
       </div>
     },
 
