@@ -25,6 +25,9 @@ export default {
         "clickColor": "#d1aa37",
         "footerBag": "#ebd6b4"
       },
+      boxShadow: {
+        "boxShadow": "0.5rem 0.4rem 1.2rem rgb(182, 180, 180)"
+      }
     },
   },
   plugins: [],
