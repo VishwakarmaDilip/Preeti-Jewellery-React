@@ -1,0 +1,14 @@
+[
+    {
+      "id": 1,
+      "name": "Ear Ring",
+      "price": 269,
+      "image": "../Image/earRing.jpeg"
+    },
+    {
+      "id": 2,
+      "name": "Chain",
+      "price": 369,
+      "image": "../Image/Chain.jpeg"
+    }
+  ]
