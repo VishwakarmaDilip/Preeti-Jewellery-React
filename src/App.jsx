@@ -2,6 +2,7 @@ import Head from "./components/Head"
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Bodyhome from "./components/Bodyhome";
 
 const router = createBrowserRouter(
   [
@@ -10,6 +11,7 @@ const router = createBrowserRouter(
       element:
       <div>
         <Head/>
+        <Bodyhome/>
         <Footer/>
       </div>
     },
