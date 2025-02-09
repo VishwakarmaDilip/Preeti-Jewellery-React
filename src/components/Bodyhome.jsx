@@ -3,7 +3,7 @@ import products from "../assets/api/topProducts.json";
 import { NavLink } from "react-router-dom";
 import { Heart } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import { addToList } from "../features/Add To List/addToListSlice";
+import { addToList } from "../features/Add To List/listFunctionSlice";
 
 const Bodyhome = () => {
   const allList = useSelector((state) => state.addToList.list)

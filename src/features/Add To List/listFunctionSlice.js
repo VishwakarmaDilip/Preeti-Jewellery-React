@@ -7,8 +7,8 @@ const initialState = {
     : []
 }
 
-export const addToListSlice = createSlice({
-  name: 'addToList',
+export const listFunctionSlice = createSlice({
+  name: 'listFunction',
   initialState,
   reducers: {
     addToList: (state, action) => {
@@ -28,6 +28,6 @@ export const addToListSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addToList } = addToListSlice.actions
+export const { addToList } = listFunctionSlice.actions
 
-export default addToListSlice.reducer
+export default listFunctionSlice.reducer
