@@ -1,8 +1,13 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Heart, User } from "react-feather";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const allList = useSelector((state) => state.addToList.list);
+
+  const productsInList = allList.length;
+
   return (
     <nav className=" bg-navBag flex absolute h-[40px] w-4/5 items-center justify-between px-8 rounded-[2rem] top-5">
       {/* logo */}
@@ -72,7 +77,10 @@ const Navbar = () => {
             }
           >
             <Heart className="text-[1.5rem]" />
-            <sup className=" absolute top-0 right-[-7px] font-extrabold">0</sup> {/* whish count */} 
+            <sup className=" absolute top-0 right-[-7px] font-extrabold">
+              {productsInList}
+            </sup>{" "}
+            {/* whish count */}
           </NavLink>
         </li>
         <li className="group">

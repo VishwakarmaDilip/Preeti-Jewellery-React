@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import toast from 'react-hot-toast';
 
 const initialState = {
   list: localStorage.getItem("listProductLS")
@@ -12,20 +13,17 @@ export const addToListSlice = createSlice({
   reducers: {
     addToList: (state, action) => {
       const prodData = action.payload;
- 
-      state.list.push(prodData)
-      localStorage.setItem("listProductLS",JSON.stringify(state.list))
 
-      
-      
+      let isProdExist = state.list.some((currProd) => currProd.id === prodData.id)
 
+      if (!isProdExist) {
+        state.list.push(prodData)
+        localStorage.setItem("listProductLS", JSON.stringify(state.list))
+        toast.success(`${prodData.name} is added to your List`)
+      }else {
+        toast.error(`${prodData.name} is already in your list`)
+      }
     },
-    // decrement: (state) => {
-    //   state.value -= 1
-    // },
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload
-    // },
   },
 })
 
