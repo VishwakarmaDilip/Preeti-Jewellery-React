@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Bodyhome from "./components/Bodyhome";
 import { Toaster } from "react-hot-toast";
+import BodyWishlist from "./components/BodyWishlist";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +48,10 @@ const router = createBrowserRouter([
     path: "/wishList",
     element: (
       <div>
+        <header className=" h-[13dvh] flex justify-center">
         <Navbar />
+        </header>
+        <BodyWishlist/>
         <Footer />
       </div>
     ),

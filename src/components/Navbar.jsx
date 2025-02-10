@@ -69,7 +69,7 @@ const Navbar = () => {
       <ul className="flex justify-between items-center w-20">
         <li className="group">
           <NavLink
-            to="wishList.html"
+            to="/wishList"
             className={({ isActive }) =>
               isActive
                 ? " text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
@@ -79,7 +79,7 @@ const Navbar = () => {
             <Heart className="text-[1.5rem]" />
             <sup className=" absolute top-0 right-[-7px] font-extrabold">
               {productsInList}
-            </sup>{" "}
+            </sup>
             {/* whish count */}
           </NavLink>
         </li>

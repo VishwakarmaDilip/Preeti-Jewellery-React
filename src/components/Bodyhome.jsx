@@ -9,8 +9,8 @@ const Bodyhome = () => {
   const allList = useSelector((state) => state.addToList.list)
   const dispatch = useDispatch();
 
-  const handleAddToList = (id, name, price) => {
-    dispatch(addToList({id, name, price}));
+  const handleAddToList = (id, name, price,image) => {
+    dispatch(addToList({id, name, price, image}));
   };
 
   return (
@@ -50,7 +50,7 @@ const Bodyhome = () => {
                   />
                   <button
                     className=" absolute left-4 top-[18.5rem] z-10 transition-[top] ease-linear duration-[0.2s] h-12 w-44 text-base border-[0.01rem] border-black rounded-lg bg-buttonColor flex items-center justify-center gap-2 active:bg-clickColor group-hover:top-56"
-                    onClick={() => handleAddToList(id, name, price)}
+                    onClick={() => handleAddToList(id, name, price,image)}
                   >
                     <Heart />
                     <p className=" text-base font-[550]">Add to Whishlist</p>
