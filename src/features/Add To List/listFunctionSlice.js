@@ -24,10 +24,22 @@ export const listFunctionSlice = createSlice({
         toast.error(`${prodData.name} is already in your list`)
       }
     },
+    removeItem: (state, action) => {
+      let id = action.payload
+
+      const updatedList = state.list.filter((currProd) => currProd.id !== id)
+
+      state.list = updatedList
+
+      localStorage.setItem("listProductLS", JSON.stringify(updatedList))
+
+      toast.success("Item removed from your list!")
+      
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addToList } = listFunctionSlice.actions
+export const { addToList, removeItem } = listFunctionSlice.actions
 
 export default listFunctionSlice.reducer
