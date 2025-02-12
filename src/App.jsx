@@ -6,6 +6,7 @@ import Bodyhome from "./components/Bodyhome";
 import { Toaster } from "react-hot-toast";
 import BodyWishlist from "./components/BodyWishlist";
 import BodyProducts from "./components/BodyProducts";
+import BodyContactUs from "./components/BodyContactUs";
 
 const router = createBrowserRouter([
   {
@@ -43,7 +44,10 @@ const router = createBrowserRouter([
     path: "/contactUs",
     element: (
       <div>
-        <Navbar />
+        <header className=" h-[13dvh] flex justify-center">
+          <Navbar />
+        </header>
+        <BodyContactUs />
         <Footer />
       </div>
     ),
