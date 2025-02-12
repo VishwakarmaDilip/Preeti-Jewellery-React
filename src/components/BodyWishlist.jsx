@@ -1,41 +1,44 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem } from "../features/Add To List/listFunctionSlice";
 
 const BodyWishlist = () => {
   const allList = useSelector((state) => state.addToList.list);
+  const dispatch = useDispatch()
 
-  const listValue = allList.reduce((accum , currProd) => {
-    return accum + currProd.price
-  },0)
+  const listValue = allList.reduce((accum, currProd) => {
+    return accum + currProd.price;
+  }, 0);
 
-  const tax = 20
+  const tax = 20;
 
+  const handleRemove = (id) => {
+    dispatch(removeItem(id))
+  }
 
   return (
     <div>
-      {allList ? (
+      {allList.length > 0 ? (
         <div className=" min-h-screen flex flex-col items-center gap-8">
           {/* wish Container */}
-          <div className=" w-4/5 h-fit bg-backgroundColor2 p-6 flex justify-center items-center flex-col " >
+          <div className=" w-4/5 h-fit bg-backgroundColor2 p-6 flex justify-center items-center flex-col ">
             {allList.map((currProd) => {
               const { id, name, price, image } = currProd;
 
               return (
                 <div key={id} className=" w-full ">
-                    {/* Wish product container */}
+                  {/* Wish product container */}
                   <div className=" w-full my-4 flex justify-between items-center">
                     <div className=" flex items-center justify-between text-[2rem] w-[25rem]">
                       <div className=" h-20">
-                        <img
-                          src={image}
-                          className=" h-full"
-                          alt={name}
-                        />
+                        <img src={image} className=" h-full" alt={name} />
                       </div>
-                      <p >{name}</p>
-                      <p >₹{price}</p>
+                      <p>{name}</p>
+                      <p>₹{price}</p>
                     </div>
-                    <button className=" w-36 h-12 font-semibold bg-buttonColor text-textColor1 rounded-lg hover:shadow-boxShadow active:bg-clickColor">Remove</button>
+                    <button className=" w-36 h-12 font-semibold bg-buttonColor text-textColor1 rounded-lg hover:shadow-boxShadow active:bg-clickColor" onClick={() => handleRemove(id)}>
+                      Remove
+                    </button>
                   </div>
                 </div>
               );
@@ -55,15 +58,21 @@ const BodyWishlist = () => {
               <hr />
               <div className="flex justify-between">
                 <p>Final Total:</p>
-                <p className=" text-textColor1 font-semibold">{listValue + tax}</p>
+                <p className=" text-textColor1 font-semibold">
+                  {listValue + tax}
+                </p>
               </div>
-              <button className=" cursor-pointer text-[1.1rem] font-[550] h-[1.8rem] bg-buttonColor rounded-[0.4rem] hover:shadow-boxShadow active:bg-clickColor">Send List</button>
+              <button className=" cursor-pointer text-[1.1rem] font-[550] h-[1.8rem] bg-buttonColor rounded-[0.4rem] hover:shadow-boxShadow active:bg-clickColor">
+                Send List
+              </button>
             </div>
           </section>
         </div>
       ) : (
-        <div>
-          <p>No List</p>
+        <div className="flex justify-center items-center" >
+          <div className=" w-4/5 h-[70vh] bg-backgroundColor2 flex justify-center items-center mb-[7vh]">
+            <p>No Items in List.</p>
+          </div>
         </div>
       )}
     </div>
