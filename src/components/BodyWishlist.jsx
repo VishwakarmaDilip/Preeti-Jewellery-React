@@ -65,7 +65,7 @@ const BodyWishlist = () => {
                   {listValue + tax}
                 </p>
               </div>
-              <button className=" cursor-pointer text-[1.1rem] font-[550] h-[1.8rem] bg-buttonColor rounded-[0.4rem] hover:shadow-boxShadow active:bg-clickColor">
+              <button className=" cursor-pointer text-[1.1rem] font-extrabold h-[1.8rem] bg-buttonColor rounded-[0.4rem] border-2 border-black hover:shadow-boxShadow active:bg-clickColor">
                 Send List
               </button>
             </div>
