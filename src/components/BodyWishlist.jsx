@@ -4,7 +4,7 @@ import { removeItem } from "../features/Add To List/listFunctionSlice";
 
 const BodyWishlist = () => {
   const allList = useSelector((state) => state.addToList.list);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const listValue = allList.reduce((accum, currProd) => {
     return accum + currProd.price;
@@ -13,8 +13,8 @@ const BodyWishlist = () => {
   const tax = 20;
 
   const handleRemove = (id) => {
-    dispatch(removeItem(id))
-  }
+    dispatch(removeItem(id));
+  };
 
   return (
     <div>
@@ -31,12 +31,15 @@ const BodyWishlist = () => {
                   <div className=" w-full my-4 flex justify-between items-center">
                     <div className=" flex items-center justify-between text-[2rem] w-[25rem]">
                       <div className=" h-20">
-                        <img src={image} className=" h-full" alt={name} />
+                        <img src={image} loading="lazy" className=" h-full" alt={name} />
                       </div>
                       <p>{name}</p>
                       <p>₹{price}</p>
                     </div>
-                    <button className=" w-36 h-12 font-semibold bg-buttonColor text-textColor1 rounded-lg hover:shadow-boxShadow active:bg-clickColor" onClick={() => handleRemove(id)}>
+                    <button
+                      className=" w-36 h-12 font-semibold bg-buttonColor text-textColor1 rounded-lg hover:shadow-boxShadow active:bg-clickColor"
+                      onClick={() => handleRemove(id)}
+                    >
                       Remove
                     </button>
                   </div>
@@ -69,8 +72,8 @@ const BodyWishlist = () => {
           </section>
         </div>
       ) : (
-        <div className="flex justify-center items-center" >
-          <div className=" w-4/5 h-[70vh] bg-backgroundColor2 flex justify-center items-center mb-[7vh]">
+        <div className="flex justify-center items-center">
+          <div className=" w-4/5 h-[80vh] bg-backgroundColor2 flex justify-center items-center mb-[7vh]">
             <p>No Items in List.</p>
           </div>
         </div>

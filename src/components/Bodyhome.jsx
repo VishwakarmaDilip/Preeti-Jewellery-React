@@ -46,6 +46,7 @@ const Bodyhome = () => {
                   <img
                     src={image}
                     alt={name}
+                    loading="lazy"
                     className="group-hover:scale-[1.2] transition-all h-72 ease-linear duration-[0.3s]"
                   />
                   <button

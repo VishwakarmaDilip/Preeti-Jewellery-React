@@ -1,17 +1,18 @@
-import Head from "./components/Head";
+import Hero from "./components/Hero";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Bodyhome from "./components/Bodyhome";
 import { Toaster } from "react-hot-toast";
 import BodyWishlist from "./components/BodyWishlist";
+import BodyProducts from "./components/BodyProducts";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <div>
-        <Head />
+        <Hero />
         <Bodyhome />
         <Footer />
       </div>
@@ -21,7 +22,10 @@ const router = createBrowserRouter([
     path: "/products",
     element: (
       <div>
-        <Navbar />
+        <header className=" h-[13dvh] flex justify-center">
+          <Navbar />
+        </header>
+        <BodyProducts />
         <Footer />
       </div>
     ),
@@ -49,9 +53,9 @@ const router = createBrowserRouter([
     element: (
       <div>
         <header className=" h-[13dvh] flex justify-center">
-        <Navbar />
+          <Navbar />
         </header>
-        <BodyWishlist/>
+        <BodyWishlist />
         <Footer />
       </div>
     ),
