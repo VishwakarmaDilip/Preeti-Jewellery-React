@@ -5,6 +5,7 @@ import {
   addToList,
   removeItem,
 } from "../features/Add To List/listFunctionSlice.js";
+import { NavLink } from "react-router-dom";
 
 const BodyProducts = () => {
   const allList = useSelector((state) => state.addToList.list);
@@ -35,7 +36,8 @@ const BodyProducts = () => {
         />
       </div>
       {/* product container */}
-      <div className=" w-4/5 h-fit place-items-center grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-4 gap-y-6 ">
+      {/* <div className=" w-4/5 h-fit place-items-center grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-4 gap-y-6 "> */}
+      <div className=" w-[75%] h-fit flex flex-wrap gap-14 gap-y-6 ">
         {products && filteredProducts.length > 0 ? (
           filteredProducts.map((currProd) => {
             const { id, name, price, image } = currProd;
@@ -43,17 +45,18 @@ const BodyProducts = () => {
             return (
               // product card
               <div
-                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-[0.8] h-[25rem] w-60 place-self-center justify-center"
+                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-[25rem] w-60"
                 key={id}
               >
+                <NavLink to={`/products/${name}`}>
                 {/* image box */}
                 <div className=" w-full h-[60%] overflow-hidden">
-                  <img
-                    src={image}
-                    alt={name}
-                    loading="lazy"
-                    className=" w-full h-full"
-                  />
+                    <img
+                      src={image}
+                      alt={name}
+                      loading="lazy"
+                      className=" w-full h-full"
+                    />
                 </div>
 
                 {/* product detail */}
@@ -66,6 +69,7 @@ const BodyProducts = () => {
                     </p>
                   </div>
                 </div>
+                </NavLink>
                 {!allList.some((currProd) => currProd.id === id) ? (
                   <button
                     className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"

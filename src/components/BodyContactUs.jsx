@@ -2,7 +2,7 @@ import React from "react";
 
 const BodyContactUs = () => {
   return (
-    <div className=" w-screen h-screen flex justify-center mb-20">
+    <div className=" w-full h-screen flex justify-center mb-20">
       {/* Contact us container */}
       <div className=" flex flex-col w-4/5 min-h-fit gap-8">
         <div className=" font-bold text-[2rem]">

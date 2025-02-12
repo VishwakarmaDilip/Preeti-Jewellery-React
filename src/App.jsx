@@ -7,6 +7,8 @@ import { Toaster } from "react-hot-toast";
 import BodyWishlist from "./components/BodyWishlist";
 import BodyProducts from "./components/BodyProducts";
 import BodyContactUs from "./components/BodyContactUs";
+import BodyAbout from "./components/BodyAbout";
+import ShowProduct from "./components/ShowProduct";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +25,7 @@ const router = createBrowserRouter([
     path: "/products",
     element: (
       <div>
-        <header className=" h-[13dvh] flex justify-center">
+        <header className="h-[13dvh] flex justify-center">
           <Navbar />
         </header>
         <BodyProducts />
@@ -35,7 +37,10 @@ const router = createBrowserRouter([
     path: "/aboutUs",
     element: (
       <div>
-        <Navbar />
+        <header className="flex justify-center">
+          <Navbar />
+        </header>
+        <BodyAbout />
         <Footer />
       </div>
     ),
@@ -60,6 +65,18 @@ const router = createBrowserRouter([
           <Navbar />
         </header>
         <BodyWishlist />
+        <Footer />
+      </div>
+    ),
+  },
+  {
+    path: "/products/:name",
+    element: (
+      <div>
+        <header className=" h-[7dvh] flex justify-center">
+          <Navbar />
+        </header>
+        <ShowProduct/>
         <Footer />
       </div>
     ),

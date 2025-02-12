@@ -3,36 +3,42 @@
     "id": 1,
     "name": "Ear Ring",
     "price": 269,
-    "image": "../Image/earRing.jpeg"
+    "image": "../Image/earRing.jpeg",
+    "quantity": 10
   },
   {
     "id": 2,
     "name": "Chain",
     "price": 369,
-    "image": "../Image/Chain.jpeg"
+    "image": "../Image/Chain.jpeg",
+    "quantity": 15
   },
   {
     "id": 3,
     "name": "Hair Clip",
     "price": 69,
-    "image": "../Image/hairClip.jpeg"
+    "image": "../Image/hairClip.jpeg",
+    "quantity": 6
   },
   {
     "id": 4,
     "name": "Bracelet",
     "price": 269,
-    "image": "../Image/bracelet.jpeg"
+    "image": "../Image/bracelet.jpeg",
+    "quantity": 2
   },
   {
     "id": 5,
     "name": "Bracelet 2",
     "price": 169,
-    "image": "../Image/bracelet2.jpeg"
+    "image": "../Image/bracelet2.jpeg",
+    "quantity": 11
   },
   {
     "id": 6,
     "name": "Ear Ring 2",
     "price": 699,
-    "image": "../Image/earRing2.jpeg"
+    "image": "../Image/earRing2.jpeg",
+    "quantity": 16
   }
 ]
