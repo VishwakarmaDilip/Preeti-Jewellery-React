@@ -7,18 +7,18 @@ const PriceDetail = (price) => {
       <div className=" h-1/2 flex flex-col justify-evenly">
         <div className=" text-lg flex justify-between">
           <p>Maximum Retail Price (MRP)</p>
-          <p>{price.price * 3}</p>
+          <p>₹{price.price * 3}</p>
         </div>
 
         <div className=" text-lg flex justify-between">
           <p>Product Price</p>
-          <p>{price.price}</p>
+          <p>₹{price.price}</p>
         </div>
 
         <hr />
         <div className=" text-lg font-semibold flex justify-between">
           <p>Final Price</p>
-          <p>{price.price}</p>
+          <p>₹{price.price}</p>
         </div>
       </div>
       <div className=" space-y-2 text-sm font-light">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeItem } from "../features/Add To List/listFunctionSlice";
+import { NavLink } from "react-router-dom";
 
 const BodyWishlist = () => {
   const allList = useSelector((state) => state.addToList.list);
@@ -29,13 +30,13 @@ const BodyWishlist = () => {
                 <div key={id} className=" w-full ">
                   {/* Wish product container */}
                   <div className=" w-full my-4 flex justify-between items-center">
-                    <div className=" flex items-center justify-between text-[2rem] w-[25rem]">
+                    <NavLink to={`/products/${name}`} target="_blank" className=" flex items-center justify-between text-[2rem] w-[25rem]">
                       <div className=" h-20">
                         <img src={image} loading="lazy" className=" h-full" alt={name} />
                       </div>
                       <p>{name}</p>
                       <p>₹{price}</p>
-                    </div>
+                    </NavLink>
                     <button
                       className=" w-36 h-12 font-semibold bg-buttonColor text-textColor1 rounded-lg hover:shadow-boxShadow active:bg-clickColor"
                       onClick={() => handleRemove(id)}

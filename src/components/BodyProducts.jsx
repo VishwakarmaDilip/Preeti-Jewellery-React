@@ -48,7 +48,7 @@ const BodyProducts = () => {
                 className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-[25rem] w-60"
                 key={id}
               >
-                <NavLink to={`/products/${name}`}>
+                <NavLink to={`/products/${name}`} target="_blank">
                 {/* image box */}
                 <div className=" w-full h-[60%] overflow-hidden">
                     <img
