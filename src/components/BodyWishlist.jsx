@@ -52,17 +52,17 @@ const BodyWishlist = () => {
               <p className="text-center text-[2rem] font-normal">Summary</p>
               <div className="flex justify-between">
                 <p>Sub total:</p>
-                <p className=" text-textColor1 font-semibold">{listValue}</p>
+                <p className=" text-textColor1 font-semibold">₹{listValue}</p>
               </div>
               <div className="flex justify-between">
                 <p>Tax:</p>
-                <p className=" text-textColor1 font-semibold">{tax}</p>
+                <p className=" text-textColor1 font-semibold">₹{tax}</p>
               </div>
               <hr />
               <div className="flex justify-between">
                 <p>Final Total:</p>
                 <p className=" text-textColor1 font-semibold">
-                  {listValue + tax}
+                ₹{listValue + tax}
                 </p>
               </div>
               <button className=" cursor-pointer text-[1.1rem] font-extrabold h-[1.8rem] bg-buttonColor rounded-[0.4rem] border-2 border-black hover:shadow-boxShadow active:bg-clickColor">
