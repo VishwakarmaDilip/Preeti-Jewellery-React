@@ -1,6 +1,16 @@
 import React from "react";
-
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { contactUsToWhatsapp } from "../features/Add To List/listFunctionSlice";
 const BodyContactUs = () => {
+  const {register, handleSubmit} = useForm();
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    dispatch(contactUsToWhatsapp(data));
+    
+  }
+
   return (
     <div className=" w-full h-screen flex justify-center mb-20">
       {/* Contact us container */}
@@ -10,17 +20,16 @@ const BodyContactUs = () => {
         </div>
 
         <div className=" w-full h-fit min-h-[70%] flex justify-between">
-          <form className=" w-[45%] flex items-center">
+          <form className=" w-[45%] flex items-center" onSubmit={handleSubmit(onSubmit)}>
 
             {/* message box */}
             <div className=" py-8 w-full h-full flex flex-col justify-around gap-4">
               <div className=" flex flex-col w-full gap-2">
                 <label for="userName">Full Name</label>
                 <input
-                  type="text"
+                  {...register("userName", {required: true})}
                   name="userName"
                   id="userName"
-                  required
                   placeholder="Enter your full name..."
                   className=" h-8 pl-2"
                 />
@@ -29,10 +38,9 @@ const BodyContactUs = () => {
               <div className=" flex flex-col w-full gap-2">
                 <label for="email">Email</label>
                 <input
-                  type="email"
+                  {...register("email", {required: true})}
                   name="email"
                   id="email"
-                  required
                   placeholder="ab12c@gmail.com.."
                   className=" h-8 pl-2"
                 />
@@ -41,10 +49,9 @@ const BodyContactUs = () => {
               <div className=" flex flex-col w-full gap-2">
                 <label for="messageTitle">Subject</label>
                 <input
-                  type="text"
+                  {...register("messageTitle", {required: true})}
                   name="messageTitle"
                   id="messageTitle"
-                  required
                   placeholder="Title Of your message."
                   className=" h-8 pl-2"
                 />
@@ -53,9 +60,9 @@ const BodyContactUs = () => {
               <div className=" flex flex-col w-full gap-2">
                 <label for="message">Message</label>
                 <textarea
+                {...register("message", {required: true})}
                   name="message"
                   id="message"
-                  required
                   cols="30"
                   rows="10"
                   placeholder="We are always here to help you..."

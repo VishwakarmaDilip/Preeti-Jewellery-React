@@ -33,13 +33,13 @@ const Footer = () => {
           <div className=" w-1/2 flex justify-between pr-32">
             <div className="flex flex-col gap-8">
               <h2 className=" text-[1.5rem] font-bold">Experience</h2>
-              <NavLink to="/products" className="text-xl">
+              <NavLink to="/products" target="_blank" className="text-xl">
                 Products
               </NavLink>
-              <NavLink to="/aboutUs" className="text-xl">
+              <NavLink to="/aboutUs" target="_blank" className="text-xl">
                 About Us
               </NavLink>
-              <NavLink to="/contactUs" className="text-xl">
+              <NavLink to="/contactUs" target="_blank" className="text-xl">
                 Contact Us
               </NavLink>
             </div>
