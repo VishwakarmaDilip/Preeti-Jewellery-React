@@ -85,7 +85,7 @@ const Navbar = () => {
         </li>
         <li className="group">
           <NavLink
-            to="*"
+            to="/user"
             className={({ isActive }) =>
               isActive
                 ? " text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"

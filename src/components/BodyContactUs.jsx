@@ -25,44 +25,36 @@ const BodyContactUs = () => {
             {/* message box */}
             <div className=" py-8 w-full h-full flex flex-col justify-around gap-4">
               <div className=" flex flex-col w-full gap-2">
-                <label for="userName">Full Name</label>
+                <label htmlFor="userName">Full Name</label>
                 <input
                   {...register("userName", {required: true})}
-                  name="userName"
-                  id="userName"
                   placeholder="Enter your full name..."
                   className=" h-8 pl-2"
                 />
               </div>
 
               <div className=" flex flex-col w-full gap-2">
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
                 <input
                   {...register("email", {required: true})}
-                  name="email"
-                  id="email"
                   placeholder="ab12c@gmail.com.."
                   className=" h-8 pl-2"
                 />
               </div>
 
               <div className=" flex flex-col w-full gap-2">
-                <label for="messageTitle">Subject</label>
+                <label htmlFor="messageTitle">Subject</label>
                 <input
                   {...register("messageTitle", {required: true})}
-                  name="messageTitle"
-                  id="messageTitle"
                   placeholder="Title Of your message."
                   className=" h-8 pl-2"
                 />
               </div>
 
               <div className=" flex flex-col w-full gap-2">
-                <label for="message">Message</label>
+                <label htmlFor="message">Message</label>
                 <textarea
                 {...register("message", {required: true})}
-                  name="message"
-                  id="message"
                   cols="30"
                   rows="10"
                   placeholder="We are always here to help you..."
@@ -82,9 +74,9 @@ const BodyContactUs = () => {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1220.3736967561883!2d72.82403988792352!3d19.078028441021207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c975bbc3f319%3A0x844914cfbc6901f3!2sRam%20Mandir!5e0!3m2!1sen!2sin!4v1733676268496!5m2!1sen!2sin"
               width="500px"
               height="auto"
-              allowfullscreen=""
+              allowFullScreen
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer-when-downgrade"
               className=" border-0 w-full h-full"
             ></iframe>
           </div>

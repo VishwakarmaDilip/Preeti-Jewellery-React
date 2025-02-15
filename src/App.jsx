@@ -70,6 +70,19 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/user",
+    element: (
+      <div>
+        <header className="flex justify-center">
+          <Navbar />
+        </header>
+        <BodyAbout />
+        <Footer />
+      </div>
+    ),
+      
+  },
+  {
     path: "/products/:name",
     element: (
       <div>
