@@ -20,7 +20,7 @@ const BodyWishlist = () => {
     dispatch(removeItem(id));
   };
   const handleSend = () => {
-    dispatch(sendToWhatsapp());
+    dispatch(sendToWhatsapp(tax));
   };
 
   return (

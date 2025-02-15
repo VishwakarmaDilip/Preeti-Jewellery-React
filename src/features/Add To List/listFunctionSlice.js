@@ -36,12 +36,14 @@ export const listFunctionSlice = createSlice({
       toast.success("Item removed from your list!")
 
     },
-    sendToWhatsapp: (state) => {
+    sendToWhatsapp: (state, action) => {
       const meassageData = state.list
+      const tax = action.payload
       let totalPrice = state.list.reduce((accum, currProd) => {
         return accum + currProd.price;
       }, 0);
-      totalPrice = totalPrice.toLocaleString("hi-IN")
+      totalPrice = totalPrice + tax
+      totalPrice = totalPrice.toLocaleString("hi-IN")  
       const number = "919930974263"
       let meassage = "";
       let count = 0;
