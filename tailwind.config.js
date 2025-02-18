@@ -5,6 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      "xs": "500px",
+    },
     extend: {
       colors: {
         "theamColor": "#967203",
@@ -26,7 +29,8 @@ export default {
         "footerBag": "#ebd6b4"
       },
       boxShadow: {
-        "boxShadow": "0.5rem 0.4rem 1.2rem rgb(182, 180, 180)"
+        "boxShadow": "0.5rem 0.4rem 1.2rem rgb(182, 180, 180)",
+        "boxShadow2": "-2px 0 3px rgb(37, 36, 36)"
       }
     },
   },
