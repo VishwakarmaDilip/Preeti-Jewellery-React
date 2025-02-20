@@ -27,7 +27,7 @@ const BodyProducts = () => {
     // product main body
     <div className=" w-full h-fit mb-8 flex flex-col items-center gap-8">
       {/* search bar */}
-      <div className=" w-4/5 h-10 flex items-center gap-4 pl-7">
+      <div className=" w-4/5 h-10 flex items-center justify-center xs:justify-start xs:pl-7">
         <input
           type="text"
           placeholder="Search..."
@@ -37,7 +37,7 @@ const BodyProducts = () => {
       </div>
       {/* product container */}
       {/* <div className=" w-4/5 h-fit place-items-center grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-4 gap-y-6 "> */}
-      <div className=" w-[75%] h-fit flex flex-wrap gap-14 gap-y-6 ">
+      <div className=" w-[85%] xs:w-[75%] h-fit grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-7 xs:flex xs:flex-wrap xs:gap-14 ">
         {products && filteredProducts.length > 0 ? (
           filteredProducts.map((currProd) => {
             const { id, name, price, image } = currProd;
@@ -45,26 +45,26 @@ const BodyProducts = () => {
             return (
               // product card
               <div
-                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-[25rem] w-60"
+                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-72 xs:h-[25rem] w-40 xs:w-60"
                 key={id}
               >
-                <NavLink to={`/products/${name}`}>
+                <NavLink to={`/products/${name}`} className={"w-full h-full"}>
                 {/* image box */}
-                <div className=" w-full h-[60%] overflow-hidden">
+                <div className=" w-full h-[60%] flex justify-center">
                     <img
                       src={image}
                       alt={name}
                       loading="lazy"
-                      className=" w-full h-full"
+                      className="h-full"
                     />
                 </div>
 
                 {/* product detail */}
                 <div className=" h-1/2 flex flex-col justify-evenly">
-                  <h1 className=" text-[2.5rem]">{name}</h1>
-                  <div className=" flex gap-[1.3rem]">
-                    <p className=" text-2xl">₹{price}</p>
-                    <p className=" text-2xl font-light line-through">
+                  <h1 className=" text-[1.5rem] xs:text-[2.5rem]">{name}</h1>
+                  <div className=" flex items-center gap-[1.3rem]">
+                    <p className=" text-[1rem] xs:text-2xl">₹{price}</p>
+                    <p className=" text-[1rem] xs:text-2xl font-light line-through">
                       ₹{price * 3}
                     </p>
                   </div>

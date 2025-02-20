@@ -14,7 +14,7 @@ const Navbar = () => {
       <div className=" text-theamColor font-[800] text-[0.8rem] xs:text-[1rem]">Preeti Jewellery</div>
 
       {/* main nav */}
-      <ul className=" flex justify-between w-full xs:w-[25rem] uppercase z-[1000] fixed xs:relative bg-backgroundColor3 xs:bg-transparent left-0 bottom-0 h-16 xs:h-fit py-4 px-8 xs:p-0 text-[0.90rem] xs:text-base shadow-boxShadow2 xs:shadow-none items-center font-bold xs:font-normal">
+      <ul className=" flex justify-between w-full xs:w-[25rem] uppercase z-[1000] fixed xs:relative bg-backgroundColor3 xs:bg-transparent left-0 bottom-0 h-16 xs:h-fit py-4 px-8 xs:p-0 text-[0.74rem] xs:text-[1rem] shadow-boxShadow2 xs:shadow-none items-center font-bold xs:font-normal">
         <li className="group">
           <NavLink
             to="/"

@@ -12,15 +12,15 @@ const BodyContactUs = () => {
   }
 
   return (
-    <div className=" w-full h-screen flex justify-center mb-20">
+    <div className=" w-full h-fit xs:h-screen flex justify-center pb-4 xs:pb-0 mb-20">
       {/* Contact us container */}
-      <div className=" flex flex-col w-4/5 min-h-fit gap-8">
+      <div className=" flex flex-col w-4/5 min-h-full xs:min-h-fit gap-8">
         <div className=" font-bold text-[2rem]">
           <h1>Contact Us</h1>
         </div>
 
-        <div className=" w-full h-fit min-h-[70%] flex justify-between">
-          <form className=" w-[45%] flex items-center" onSubmit={handleSubmit(onSubmit)}>
+        <div className=" w-full h-fit min-h-[70%] flex-col xs:flex-row flex justify-between">
+          <form className=" w-full xs:w-[45%] flex items-center" onSubmit={handleSubmit(onSubmit)}>
 
             {/* message box */}
             <div className=" py-8 w-full h-full flex flex-col justify-around gap-4">
@@ -69,7 +69,7 @@ const BodyContactUs = () => {
           </form>
 
           {/* map box */}
-          <div className=" w-1/2">
+          <div className=" w-full h-80 xs:h-full xs:w-1/2">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1220.3736967561883!2d72.82403988792352!3d19.078028441021207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c975bbc3f319%3A0x844914cfbc6901f3!2sRam%20Mandir!5e0!3m2!1sen!2sin!4v1733676268496!5m2!1sen!2sin"
               width="500px"

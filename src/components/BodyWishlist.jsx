@@ -36,12 +36,13 @@ const BodyWishlist = () => {
                 <div key={id} className=" w-full ">
                   {/* Wish product container */}
                   <div className=" w-full my-4 flex justify-between items-center">
+                    {/* product detail */}
                     <NavLink
                       to={`/products/${name}`}
                       target="_blank"
-                      className=" flex items-center justify-between text-[2rem] w-[25rem]"
+                      className=" grid grid-cols-2 grid-rows-2 xs:flex items-center justify-between text-[2rem] w-[25rem]"
                     >
-                      <div className=" h-20">
+                      <div className=" h-20 row-[1/3] ">
                         <img
                           src={image}
                           loading="lazy"
@@ -49,11 +50,11 @@ const BodyWishlist = () => {
                           alt={name}
                         />
                       </div>
-                      <p>{name}</p>
-                      <p>₹{price}</p>
+                      <p className=" text-[1rem] xs:text-[2rem] self-end xs:self-center">{name}</p>
+                      <p className=" text-[0.8rem] xs:text-[2rem] self-start">₹{price}</p>
                     </NavLink>
                     <button
-                      className=" w-36 h-12 font-semibold bg-buttonColor text-textColor1 rounded-lg border border-black hover:shadow-boxShadow active:bg-clickColor"
+                      className=" w-36 h-8 xs:h-12 font-semibold bg-buttonColor text-textColor1 text-[0.7rem] xs:text-[1rem] rounded-lg border border-black hover:shadow-boxShadow active:bg-clickColor"
                       onClick={() => handleRemove(id)}
                     >
                       Remove
@@ -64,7 +65,7 @@ const BodyWishlist = () => {
             })}
           </div>
           <section className="w-4/5 flex justify-end my-4">
-            <div className="border-[0.5px] border-black bg-backgroundColor2 w-60 h-[17rem] p-4 flex flex-col justify-between">
+            <div className="border-[0.5px] border-black bg-backgroundColor2 w-full xs:w-60 h-[17rem] p-4 flex flex-col justify-between">
               <p className="text-center text-[2rem] font-normal">Summary</p>
               <div className="flex justify-between">
                 <p>Sub total:</p>
@@ -82,7 +83,7 @@ const BodyWishlist = () => {
                 </p>
               </div>
               <button
-                className=" cursor-pointer text-[1.1rem] font-extrabold h-[1.8rem] bg-buttonColor rounded-[0.4rem] border-2 border-black hover:shadow-boxShadow active:bg-clickColor"
+                className=" cursor-pointer text-[1.1rem] font-extrabold h-[1.8rem]  bg-buttonColor rounded-[0.4rem] border-2 border-black hover:shadow-boxShadow active:bg-clickColor"
                 onClick={() => handleSend()}
               >
                 Send List
@@ -92,7 +93,7 @@ const BodyWishlist = () => {
         </div>
       ) : (
         <div className="flex justify-center items-center">
-          <div className=" w-4/5 h-[80vh] bg-backgroundColor2 flex justify-center items-center mb-[7vh]">
+          <div className=" w-4/5 h-[68vh] xs:h-[80vh] bg-backgroundColor2 flex justify-center items-center mb-[7vh]">
             <p>No Items in List.</p>
           </div>
         </div>

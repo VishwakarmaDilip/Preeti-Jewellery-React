@@ -50,14 +50,14 @@ const Bodyhome = () => {
                     className="group-hover:scale-[1.2] transition-all h-36 xs:h-72 ease-linear duration-[0.3s]"
                   />
                   <button
-                    className=" absolute left-2 xs:left-4 top-40 xs:top-[18.5rem] z-10 transition-[top] ease-linear duration-[0.2s] h-8 xs:h-12 w-32 xs:w-44 text-base border-[0.01rem] border-black rounded-lg bg-buttonColor flex items-center justify-center gap-2 active:bg-clickColor group-hover:top-[6.8rem] xs:group-hover:top-56 group-hover:left-2"
+                    className=" absolute left-2 xs:left-4 top-40 xs:top-[18.5rem] z-10 transition-[top] ease-linear duration-[0.2s] h-8 xs:h-12 w-32 xs:w-44 text-base border-[0.01rem] border-black rounded-lg bg-buttonColor flex items-center justify-center gap-1 xs:gap-2 active:bg-clickColor group-hover:top-[6.8rem] xs:group-hover:top-56 group-hover:left-2"
                     onClick={() => handleAddToList(id, name, price,image)}
                   >
-                    <Heart />
+                    <Heart className=" h-[1.1rem] xs:h-[1.5rem] "/>
                     <p className=" text-[0.75rem] xs:text-base font-[550]">Add to Whishlist</p>
                   </button>
                 </div>
-                <div className=" px-2 xs:px-4 space-y-3 self-start">
+                <div className=" px-2 xs:px-4 xs:space-y-3 self-start">
                   <p className=" text-[1.8rem] xs:text-5xl">{name}</p>
                   <p className=" text-[1.3rem] xs:text-2xl">₹{price}</p>
                 </div>

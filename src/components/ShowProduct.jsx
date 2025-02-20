@@ -25,10 +25,10 @@ const ShowProduct = () => {
   }
 
   return (
-    <div className=" w-full h-screen flex items-center justify-center">
-      <div className=" w-4/5 h-full flex items-center justify-center gap-8">
+    <div className="mt-[5vh] xs:mt-0 mb-[8vh] xs:mb-0 w-full h-fit xs:h-screen flex items-center justify-center">
+      <div className=" w-[90%] xs:w-4/5 h-full flex flex-col xs:flex-row items-center justify-center gap-8">
         {/* image box */}
-        <div className=" w-[50%] h-[80%] bg-white p-4 rounded-2xl shadow-boxShadow">
+        <div className=" w-full xs:w-[50%] h-[80%] bg-white p-4 rounded-2xl shadow-boxShadow">
           <img
             src={image}
             alt={name}
@@ -36,7 +36,7 @@ const ShowProduct = () => {
           />
         </div>
         {/* product details */}
-        <div className=" w-[30%] h-[80%] flex flex-col gap-8 bg-white p-4 rounded-2xl shadow-boxShadow">
+        <div className=" w-full xs:w-[30%] h-[80%] flex flex-col gap-8 bg-white p-4 rounded-2xl shadow-boxShadow">
           <h1 className=" text-2xl text-gray-500 font-bold">{name}</h1>
           <div className=" space-y-1">
             <div className=" text-3xl relative w-fit pr">
