@@ -6,7 +6,7 @@ import {
 } from "../features/Add To List/listFunctionSlice";
 import { NavLink } from "react-router-dom";
 
-const BodyWishlist = () => {
+const Wishlist = () => {
   const allList = useSelector((state) => state.addToList.list);
   const dispatch = useDispatch();
 
@@ -24,16 +24,16 @@ const BodyWishlist = () => {
   };
 
   return (
-    <div>
+    <div className="mt-24 ">
       {allList.length > 0 ? (
         <div className=" min-h-screen flex flex-col items-center gap-8">
           {/* wish Container */}
-          <div className=" w-4/5 h-fit bg-backgroundColor2 p-6 flex justify-center items-center flex-col ">
+          <div className=" w-4/5 h-fit bg-backgroundColor2 flex justify-center items-center flex-col  ">
             {allList.map((currProd) => {
               const { id, name, price, image } = currProd;
 
               return (
-                <div key={id} className=" w-full ">
+                <div key={id} className=" w-full border-b-[0.5px] p-6">
                   {/* Wish product container */}
                   <div className=" w-full my-4 flex justify-between items-center">
                     {/* product detail */}
@@ -42,7 +42,7 @@ const BodyWishlist = () => {
                       target="_blank"
                       className=" grid grid-cols-2 grid-rows-2 xs:flex items-center justify-between text-[2rem] w-[25rem]"
                     >
-                      <div className=" h-20 row-[1/3] ">
+                      <div className=" h-20 row-[1/3] rounded-md overflow-hidden ">
                         <img
                           src={image}
                           loading="lazy"
@@ -102,4 +102,4 @@ const BodyWishlist = () => {
   );
 };
 
-export default BodyWishlist;
+export default Wishlist;

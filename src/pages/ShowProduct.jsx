@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import products from "../assets/api/product.json";
 import { Info } from "react-feather";
-import PriceDetail from "./PriceDetail";
+import PriceDetail from "../components/PriceDetail.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { addToList, removeItem } from "../features/Add To List/listFunctionSlice.js";
 

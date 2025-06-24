@@ -2,7 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { contactUsToWhatsapp } from "../features/Add To List/listFunctionSlice";
-const BodyContactUs = () => {
+
+const ContactUs = () => {
   const {register, handleSubmit} = useForm();
   const dispatch = useDispatch();
 
@@ -12,7 +13,7 @@ const BodyContactUs = () => {
   }
 
   return (
-    <div className=" w-full h-fit xs:h-screen flex justify-center pb-4 xs:pb-0 mb-20">
+    <div className=" w-full h-fit xs:h-screen flex justify-center pb-4 xs:pb-0 mb-20 mt-20">
       {/* Contact us container */}
       <div className=" flex flex-col w-4/5 min-h-full xs:min-h-fit gap-8">
         <div className=" font-bold text-[2rem]">
@@ -86,4 +87,4 @@ const BodyContactUs = () => {
   );
 };
 
-export default BodyContactUs;
+export default ContactUs;

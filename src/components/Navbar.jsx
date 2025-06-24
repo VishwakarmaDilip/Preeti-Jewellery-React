@@ -9,7 +9,7 @@ const Navbar = () => {
   const productsInList = allList.length;
 
   return (
-    <nav className=" bg-navBag2 xs:bg-navBag flex absolute h-[40px] w-4/5 items-center justify-between px-4 rounded-[2rem] top-5 xs:px-4">
+    <nav className=" bg-navBag2 xs:bg-navBag flex absolute h-[40px] w-4/5 items-center justify-between px-4 rounded-[2rem] top-5 xs:px-4 z-10">
       {/* logo */}
       <div className=" text-theamColor font-[800] text-[0.8rem] xs:text-[1rem]">Preeti Jewellery</div>
 

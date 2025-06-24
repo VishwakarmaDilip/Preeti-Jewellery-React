@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BodyAbout = () => {
+const About = () => {
     return (
         <div className=' w-full h-screen flex items-center justify-center'>
             {/* About us container */}
@@ -9,4 +9,4 @@ const BodyAbout = () => {
     );
 };
 
-export default BodyAbout;
+export default About;

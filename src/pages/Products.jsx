@@ -6,8 +6,9 @@ import {
   removeItem,
 } from "../features/Add To List/listFunctionSlice.js";
 import { NavLink } from "react-router-dom";
+import { Heart } from "react-feather";
 
-const BodyProducts = () => {
+const Products = () => {
   const allList = useSelector((state) => state.addToList.list);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const BodyProducts = () => {
 
   return (
     // product main body
-    <div className=" w-full h-fit mb-8 flex flex-col items-center gap-8">
+    <div className=" w-full h-fit mb-8 mt-20 flex flex-col items-center gap-8">
       {/* search bar */}
       <div className=" w-4/5 h-10 flex items-center justify-center xs:justify-start xs:pl-7">
         <input
@@ -45,37 +46,50 @@ const BodyProducts = () => {
             return (
               // product card
               <div
-                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-72 xs:h-[25rem] w-40 xs:w-60"
+                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-72 xs:h-[25rem] w-40 xs:w-60 relative"
                 key={id}
               >
-                <NavLink to={`/products/${name}`} className={"w-full h-full"}>
-                {/* image box */}
-                <div className=" w-full h-[60%] flex justify-center">
+                <Heart
+                  fill={
+                    !allList.some((currProd) => currProd.id === id)
+                      ? "none"
+                      : "red"
+                  }
+                  className=" absolute top-52 right-7 cursor-pointer"
+                  onClick={
+                    !allList.some((currProd) => currProd.id === id)
+                      ? () => handleAddToList(id, name, price, image)
+                      : () => handleRemove(id)
+                  }
+                />
+                <div className={"w-full h-full"}>
+                  {/* image box */}
+                  <NavLink to={`/products/${name}`} className=" w-full h-[60%] flex justify-center rounded-md overflow-hidden">
                     <img
                       src={image}
                       alt={name}
                       loading="lazy"
                       className="h-full"
                     />
-                </div>
+                  </NavLink>
 
-                {/* product detail */}
-                <div className=" h-1/2 flex flex-col justify-evenly">
-                  <h1 className=" text-[1.5rem] xs:text-[2.5rem]">{name}</h1>
-                  <div className=" flex items-center gap-[1.3rem]">
-                    <p className=" text-[1rem] xs:text-2xl">₹{price}</p>
-                    <p className=" text-[1rem] xs:text-2xl font-light line-through">
-                      ₹{price * 3}
-                    </p>
+                  {/* product detail */}
+                  <div className=" h-1/2 flex flex-col justify-evenly">
+                    <h1 className=" text-[1.5rem] xs:text-[2.5rem]">{name}</h1>
+                    <div className=" flex items-center gap-[1.3rem]">
+                      <p className=" text-[1rem] xs:text-2xl">₹{price}</p>
+                      <p className=" text-[1rem] xs:text-2xl font-light line-through">
+                        ₹{price * 3}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                </NavLink>
                 {!allList.some((currProd) => currProd.id === id) ? (
                   <button
                     className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
                     onClick={() => handleAddToList(id, name, price, image)}
                   >
-                    Add to wishlist
+                    Add to Cart
                   </button>
                 ) : (
                   <button
@@ -100,4 +114,4 @@ const BodyProducts = () => {
   );
 };
 
-export default BodyProducts;
+export default Products;
