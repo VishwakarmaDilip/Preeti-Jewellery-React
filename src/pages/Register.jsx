@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import Input from "./Input";
-import Button from "./Button";
+import Button from "../components/Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import FeatherIcon from "feather-icons-react";
+import * as Icon from "react-feather";
 import toast from "react-hot-toast";
 
 const Register = () => {
@@ -65,7 +64,7 @@ const Register = () => {
       setSubmitting(false);
     }
   };
-  
+
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="w-80 p-6 bg-white rounded-2xl shadow-lg">
@@ -73,7 +72,7 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Name</label>
-            <Input
+            <input
               type="text"
               {...register("fullName", { required: "Name is required" })}
               className="w-full"
@@ -85,7 +84,7 @@ const Register = () => {
 
           <div>
             <label className="block text-sm font-medium">Username</label>
-            <Input
+            <input
               type="text"
               {...register("username", { required: "Username is required" })}
               className="w-full"
@@ -97,7 +96,7 @@ const Register = () => {
 
           <div>
             <label className="block text-sm font-medium">Email</label>
-            <Input
+            <input
               type="email"
               {...register("email", { required: "Email is required" })}
               className="w-full"
@@ -110,7 +109,7 @@ const Register = () => {
           <div className="relative">
             <label className="block text-sm font-medium">Password</label>
             <div className="relative">
-              <Input
+              <input
                 type={showPassword ? "text" : "password"}
                 {...register("password", { required: "Password is required" })}
                 className="w-full pr-10"
@@ -120,10 +119,11 @@ const Register = () => {
                 onClick={togglePasswordVisibility}
                 className="absolute inset-y-0 right-3 flex items-center text-gray-500"
               >
-                <FeatherIcon
-                  icon={showPassword ? "eye" : "eye-off"}
-                  size={20}
-                />
+                {showPassword ? (
+                  <Icon.Eye size={20} />
+                ) : (
+                  <Icon.EyeOff size={20} />
+                )}
               </button>
             </div>
             {errors.password && (

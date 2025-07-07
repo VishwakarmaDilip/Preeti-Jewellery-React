@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Icon from "react-feather";
 import Button from "../components/Button";
+import Input from "../components/Input";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -14,6 +15,7 @@ const Login = () => {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -22,7 +24,8 @@ const Login = () => {
 
   const submit = async (data) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/owner/login`, {
+      setSubmitting(true);
+      const response = await fetch(`http://localhost:3000/api/v1/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,15 +34,18 @@ const Login = () => {
         body: JSON.stringify(data),
       });
 
-      if (response.status < 300){
+      if (response.status < 300) {
         reset();
-      toast.success("Logged In");
-      navigate("/");
+        toast.success("Logged In");
+        navigate("/");
       } else {
         toast.error("Invalid credentials or something went wrong");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      toast.error("Somthing Went wrong");
+    } finally {
+      setSubmitting(false);
     }
   };
   return (
@@ -53,12 +59,13 @@ const Login = () => {
         >
           <div className="flex flex-col gap-3">
             <label htmlFor="">Username or Email</label>
-            <input
+            <Input
               type="text"
               placeholder={"Enter your username or email"}
               {...register("identifier", {
                 required: "Username or Email is required",
               })}
+              bgColor={"white"}
               className="w-full bg-white h-11 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#967203] focus:border-transparent transition-all duration-200"
             />
             {errors.identifier && (
@@ -69,12 +76,13 @@ const Login = () => {
           </div>
           <div className="flex flex-col gap-3 relative">
             <label htmlFor="">Password</label>
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder={"Enter your password"}
               {...register("password", {
                 required: "Password is required",
               })}
+              bgColor={"white"}
               className="w-full bg-white h-11 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#967203] focus:border-transparent transition-all duration-200"
             />
             {errors.password && (
@@ -96,10 +104,23 @@ const Login = () => {
             </button>
           </div>
 
-          <Button className="bg-[#967203] text-white hover:bg-[#a88f03] active:bg-[#b89c04] transition-all duration-200 mt-2">
-            Login
+          <Button
+            disabled={submitting}
+            className={`${
+              submitting
+                ? "bg-buttonColor"
+                : "bg-buttonColor2 hover:bg-hoverColor active:bg-clickColor2"
+            } text-white  transition-all duration-200 mt-2`}
+          >
+            {submitting ? "Logging In" : "Login"}
           </Button>
         </form>
+        <p className=" ">
+          Don't have an account?{" "}
+          <NavLink to="/signUp" className="text-blue-600 hover:underline">
+            Sign Up
+          </NavLink>
+        </p>
       </div>
     </div>
   );

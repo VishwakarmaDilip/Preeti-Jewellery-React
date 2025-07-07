@@ -12,6 +12,8 @@ import PrivateRoute from "./components/PrivateRoute";
 
 const router = createBrowserRouter([
   // Open Routes
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
   {
     path: "/",
     element: <Layout />,
@@ -21,8 +23,6 @@ const router = createBrowserRouter([
       { path: "/products/:productId", element: <ShowProduct /> },
       { path: "/aboutUs", element: <About /> },
       { path: "/contactUs", element: <ContactUs /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
     ],
   },
 

@@ -25,7 +25,12 @@ export default {
         "navBag2": "#ffffffb8",
       
         "buttonColor": "#ddbd5d",
+        "buttonColor2": "#967203",
+
         "clickColor": "#d1aa37",
+        "clickColor2":"#b89c04",
+
+        "hoverColor": "#a88f03",
         "footerBag": "#ebd6b4"
       },
       boxShadow: {
