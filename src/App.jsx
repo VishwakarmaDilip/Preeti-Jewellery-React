@@ -5,10 +5,10 @@ import Products from "./pages/Products";
 import ShowProduct from "./pages/ShowProduct";
 import About from "./pages/About";
 import ContactUs from "./pages/ContactUs";
-import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./components/PrivateRoute";
+import Cart from "./pages/Cart";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -35,8 +35,8 @@ const router = createBrowserRouter([
         path: "/",
         element: <Layout />,
         children: [
-          { path: "/cart", element: "" },
-          { path: "/wishList", element: <Wishlist /> },
+          { path: "/cart", element: <Cart /> },
+          { path: "/wishList", element: "" },
         ],
       },
     ],

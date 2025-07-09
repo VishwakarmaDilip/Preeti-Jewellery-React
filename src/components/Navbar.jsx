@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingCart, User } from "react-feather";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const allList = useSelector((state) => state.addToList.list);
-  const [cart, setCart] = useState(null);
+  const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
+  const [productsInCart, setProductsInCart] = useState(0)
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -18,13 +20,14 @@ const Navbar = () => {
         );
 
         const responseData = await response.json();
-        // console.log(responseData);
+        const fetchedCart = responseData.data[0]
+        setProductsInCart(fetchedCart?.products?.length)
       } catch (error) {
         console.log(error);
       }
     };
 
-    // fetchCart()
+    fetchCart()
   });
 
   const productsInList = allList.length;
@@ -89,11 +92,11 @@ const Navbar = () => {
       </ul>
 
       {/* User part */}
-      {false ? (
+      {token ? (
         <ul className="flex justify-between items-center w-16 xs:w-20">
           <li className="group">
             <NavLink
-              to="/wishList"
+              to="/cart"
               className={({ isActive }) =>
                 isActive
                   ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
@@ -102,7 +105,7 @@ const Navbar = () => {
             >
               <ShoppingCart className=" h-[1.2rem] xs:h-[1.5rem] " />
               <sup className=" absolute top-0 -right-[4px] xs:-right-[10px] font-extrabold text-[0.5rem] xs:text-[0.8rem]">
-                {productsInList}
+                {productsInCart}
               </sup>
               {/* whish count */}
             </NavLink>

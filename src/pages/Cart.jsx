@@ -1,0 +1,117 @@
+import React, { useEffect, useState } from "react";
+
+const Cart = () => {
+  const dummyCart = []
+  const [myCart, setMyCart] = useState([])
+  const [productsInCart, setProductsInCart] = useState([])
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/v1/user/cart/getCart`,
+          {
+            credentials: "include",
+          }
+        );
+
+        const responseData = await response.json();
+        const fetchedCart = responseData.data[0]
+        setMyCart(fetchedCart)
+        setProductsInCart(fetchedCart?.products)
+        
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCart()    
+  },[]);
+   
+  return (
+    <div className="h-fit w-full mt-8 p-10 flex flex-col items-center gap-6">
+      {/* page heading */}
+      <h1 className="font-bold text-3xl self-start" >My Cart</h1>
+
+      {/* main body */}
+      <div className="flex w-full gap-5">
+        {/* cart body */}
+        <div className=" bg-white rounded-lg w-9/12">
+          {/* heading box */}
+          <div>
+            <ul className="grid grid-cols-7 p-2 pl-5 border-b border-gray-200 font-semibold">
+              <li>Item</li>
+              <li className="col-start-4 text-center">Price</li>
+              <li className="text-center">Quantity</li>
+              <li className="text-center">Total</li>
+            </ul>
+          </div>
+
+          {/* product list */}
+          <div>
+            {productsInCart.length > 0 ?
+              productsInCart.map((item, index) => (
+                <ul className="grid grid-cols-7 p-2 pl-5 border-b border-gray-200 items-center text-lg min-h-[145px]" key={index}>
+                    <li className=" flex gap-3 col-start-1 col-end-4 items-center ">
+                        <div className="w-28 overflow-hidden rounded-md">
+                            <img src={item?.image[0]} alt="" />
+                        </div>
+                        <div>
+                            <p className="font-bold text-2xl">{item?.productName}</p>
+                            <p className="text-gray-400 text-sm">In stock</p>
+                        </div>
+                    </li>
+                    <li className="col-start-4 text-center">₹{item.price}</li>
+                    <li className="flex justify-center h-fit items-center">
+                        <div className="flex border border-black justify-between items-center px-2 w-24 text-gray-400">
+                            <button>-</button>
+                            <p className="text-black">{item.quantity}</p>
+                            <button>+</button>
+                        </div>
+                    </li>
+                    <li className="text-center">
+                        <p>₹{item.totalAmount}</p>
+                    </li>
+                    <li className="text-center text-red-600">
+                        <button>Remove</button>
+                    </li>
+                  </ul>
+              ))
+              :(
+                <div className="flex justify-center items-center w-full h-[204.8px]">
+                    <p>Cart is Empty...!</p>
+                </div>
+              )}
+          </div>
+        </div>
+
+        {/* Cart summary */}
+        <div className="bg-white w-3/12 h-fit p-3">
+              <h2 className="text-2xl font-bold mb-2">Cart Summary</h2>
+              <div className="w-full flex flex-col gap-1">
+                <div className="flex justify-between">
+                    <p>Subtotal</p>
+                    <p>₹{Number(myCart?.cartValue).toLocaleString("hi-IN")}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p>Delevery Charges</p>
+                    <p>₹50</p>
+                </div>
+                <div className="flex justify-between">
+                    <p>Tax</p>
+                    <p>₹300</p>
+                </div>
+                <hr />
+                <div className="flex justify-between">
+                    <p>Grand Total</p>
+                    <p>₹{Number((myCart?.cartValue)+(50+300)).toLocaleString("hi-IN")}</p>
+                </div>
+              </div>
+              <button className="mt-5 bg-buttonColor w-full font-semibold rounded-lg h-8">Proceed To Checkout</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Cart;
