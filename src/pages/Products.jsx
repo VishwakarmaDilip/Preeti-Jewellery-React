@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Heart } from "react-feather";
 import { useForm } from "react-hook-form";
 import * as Icon from "react-feather";
+import toast from "react-hot-toast";
+import { toggleCartChanged } from "../features/Usfull reducers/cart";
+import {
+  cartApiCall,
+  handleRemoveFromCart,
+} from "../features/Usfull reducers/cartApicall";
+import Cookies from "js-cookie";
 
 const Products = () => {
-  const allList = useSelector((state) => state.addToList.list);
+  const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
   const dispatch = useDispatch();
+  const productsInCart = useSelector((state) => state.cart.productsInCart);
+  const cartState = useSelector((state) => state.cart.cartChanged);
   const { register, handleSubmit, reset } = useForm();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -21,6 +30,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const navigate = useNavigate()
 
   useEffect(() => {
     let page;
@@ -85,6 +95,12 @@ const Products = () => {
     fetchCategories();
   }, []);
 
+  useEffect(()=> {
+    if (token){
+      dispatch(cartApiCall())
+    }
+  },[token,dispatch,cartState])
+
   const onSubmit = (data) => {
     if (data.category !== "") {
       setCategoryId(data.category);
@@ -101,6 +117,41 @@ const Products = () => {
       setSortType("");
     }
   };
+
+  const handleAddToCart = async (productId) => {
+    if (token) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/v1/user/cart/addToCart`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ productId }),
+          }
+        );
+
+        if (response.status < 300) {
+          toast.success("Product Added To Cart");
+        } else {
+          toast.error("Something went wrong");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        dispatch(toggleCartChanged());
+      }
+    } else{
+      navigate("/login")
+    }
+  };
+
+  const handleRemove = async (productId) => {
+    dispatch(handleRemoveFromCart(productId));
+  };
+
   return (
     // product main body
     <div className=" w-full h-fit mb-8 mt-20 flex flex-col items-center gap-8">
@@ -157,7 +208,11 @@ const Products = () => {
             <button
               type="submit"
               disabled={loading}
-              className={loading ? "bg-gray-300 w-40 rounded-md " : "bg-theamColor2 font-semibold w-40 rounded-md hover:shadow-boxShadow active:bg-clickColor transition-all ease-in-out"}
+              className={
+                loading
+                  ? "bg-gray-300 w-40 rounded-md "
+                  : "bg-theamColor2 font-semibold w-40 rounded-md hover:shadow-boxShadow active:bg-clickColor transition-all ease-in-out"
+              }
             >
               Apply
             </button>
@@ -235,31 +290,23 @@ const Products = () => {
                     </div>
                   </div>
                 </div>
-                {
-                  // !allList.some((currProd) => currProd._id === _id)
-                  true ? (
-                    <button
-                      className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
-                      onClick={() =>
-                        handleAddToList(
-                          currProd?._id,
-                          name,
-                          currProd?.price,
-                          image
-                        )
-                      }
-                    >
-                      Add to Cart
-                    </button>
-                  ) : (
-                    <button
-                      className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
-                      onClick={() => handleRemove(_id)}
-                    >
-                      Remove
-                    </button>
-                  )
-                }
+                {!productsInCart.some(
+                  (currItem) => currItem?._id === currProd._id
+                ) ? (
+                  <button
+                    className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                    onClick={() => handleAddToCart(currProd?._id)}
+                  >
+                    Add to Cart
+                  </button>
+                ) : (
+                  <button
+                    className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                    onClick={() => handleRemove(currProd?._id)}
+                  >
+                    Remove
+                  </button>
+                )}
               </div>
             );
           })

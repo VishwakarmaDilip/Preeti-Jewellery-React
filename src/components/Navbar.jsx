@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingCart, User } from "react-feather";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import UserActionBox from "./UserActionBox";
 
 const Navbar = () => {
   const allList = useSelector((state) => state.addToList.list);
+  const cartState = useSelector((state) => state.cart.cartChanged);
   const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
-  const [productsInCart, setProductsInCart] = useState(0)
+  const [productsInCart, setProductsInCart] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+  const menuRef = useRef();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -20,15 +25,39 @@ const Navbar = () => {
         );
 
         const responseData = await response.json();
-        const fetchedCart = responseData.data[0]
-        setProductsInCart(fetchedCart?.products?.length)
+        const fetchedCart = responseData.data[0];
+        setProductsInCart(fetchedCart?.products?.length || 0);
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchCart()
-  });
+    if (token) {
+      fetchCart();
+    }
+  }, [cartState]);
+
+  const toggleMenu = () => {
+    if (isMenuOpen) {
+      setIsAnimatingOut(true);
+      setTimeout(() => {
+        setIsMenuOpen(false);
+      }, 250); // must match animation duration
+    } else {
+      setIsMenuOpen(true);
+    }
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const productsInList = allList.length;
 
@@ -111,8 +140,8 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li className="group">
-            <NavLink
-              to="/user"
+            <button
+              onClick={toggleMenu}
               className={({ isActive }) =>
                 isActive
                   ? " text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
@@ -120,25 +149,38 @@ const Navbar = () => {
               }
             >
               <User className=" h-[1.3rem] xs:h-[1.5rem]" />
-            </NavLink>
+            </button>
           </li>
+          {(isMenuOpen || isAnimatingOut) && (
+            <div
+              ref={menuRef}
+              // onAnimationEnd={()=> setIsAnimatingOut(false)}
+              className={`absolute right-1 -top-2 mt-2 ${
+                isMenuOpen ? "animate-fade-in-scale" : "animate-fade-out-scale"
+              } `}
+            >
+              <UserActionBox onClose={toggleMenu} />
+            </div>
+          )}
         </ul>
       ) : (
         <ul className="flex justify-between items-center w-16 xs:w-32">
           <li className="group">
             <NavLink
-            to="/login"
-            className={"text-textColor1 font-semibold hover:text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
-            }
-          >
-            Log In
-          </NavLink>
+              to="/login"
+              className={
+                "text-textColor1 font-semibold hover:text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
+              }
+            >
+              Log In
+            </NavLink>
           </li>
           <span className="font-extrabold">/</span>
           <li className="group">
             <NavLink
               to="/user"
-              className={"text-textColor1 font-semibold hover:text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
+              className={
+                "text-textColor1 font-semibold hover:text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
               }
             >
               Register

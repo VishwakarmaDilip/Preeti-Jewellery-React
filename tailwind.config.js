@@ -12,23 +12,23 @@ export default {
       colors: {
         "theamColor": "#967203",
         "theamColor2": "#ddbd5d",
-      
+
         "backgroundColor": "#fff0d8",
         "backgroundColor2": "white",
         "backgroundColor3": "#e5c07f",
-      
+
         "textColor1": "black",
         "textColor2": "white",
         "textColor3": "grey",
-      
+
         "navBag": "#ffffff6e",
         "navBag2": "#ffffffb8",
-      
+
         "buttonColor": "#ddbd5d",
         "buttonColor2": "#967203",
 
         "clickColor": "#d1aa37",
-        "clickColor2":"#b89c04",
+        "clickColor2": "#b89c04",
 
         "hoverColor": "#a88f03",
         "footerBag": "#ebd6b4"
@@ -36,7 +36,21 @@ export default {
       boxShadow: {
         "boxShadow": "0.5rem 0.4rem 1.2rem rgb(182, 180, 180)",
         "boxShadow2": "-2px 0 3px rgb(37, 36, 36)"
-      }
+      },
+      keyframes: {
+        'fade-in-scale': {
+          '0%': { opacity: 0, transform: 'scale(0.95)' },
+          '100%': { opacity: 1, transform: 'scale(1)' },
+        },
+        'fade-out-scale': {
+          '0%': { opacity: 1, transform: 'scale(1)' },
+          '100%': { opacity: 0, transform: 'scale(0.95)' },
+        },
+      },
+      animation: {
+        'fade-in-scale': 'fade-in-scale 0.2s ease-out forwards',
+        'fade-out-scale': 'fade-out-scale 0.2s ease-out forwards',
+      },
     },
   },
   plugins: [],
