@@ -41,8 +41,9 @@ const Navbar = () => {
     if (isMenuOpen) {
       setIsAnimatingOut(true);
       setTimeout(() => {
+        setIsAnimatingOut(false);
         setIsMenuOpen(false);
-      }, 250); // must match animation duration
+      }, 200); // must match animation duration
     } else {
       setIsMenuOpen(true);
     }
@@ -52,7 +53,12 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsMenuOpen(false);
+        // setIsMenuOpen(false);
+        setIsAnimatingOut(true);
+        setTimeout(() => {
+          setIsAnimatingOut(false);
+          setIsMenuOpen(false);
+        }, 200);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -142,21 +148,21 @@ const Navbar = () => {
           <li className="group">
             <button
               onClick={toggleMenu}
-              className={({ isActive }) =>
-                isActive
-                  ? " text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
-                  : "text-textColor1 hover:text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
+              className={
+                "text-textColor1 hover:text-theamColor2 relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor2 after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full"
               }
             >
               <User className=" h-[1.3rem] xs:h-[1.5rem]" />
             </button>
           </li>
-          {(isMenuOpen || isAnimatingOut) && (
+          {isMenuOpen && (
             <div
               ref={menuRef}
               // onAnimationEnd={()=> setIsAnimatingOut(false)}
               className={`absolute right-1 -top-2 mt-2 ${
-                isMenuOpen ? "animate-fade-in-scale" : "animate-fade-out-scale"
+                !isAnimatingOut
+                  ? "animate-fade-in-scale"
+                  : "animate-fade-out-scale"
               } `}
             >
               <UserActionBox onClose={toggleMenu} />

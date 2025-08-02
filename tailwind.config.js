@@ -9,30 +9,32 @@ export default {
       "xs": "500px",
     },
     extend: {
-      colors: {
-        "theamColor": "#967203",
-        "theamColor2": "#ddbd5d",
+colors: {
+  "theamColor": "#8C6A5D",       // Dusty rose-brown (primary)
+  "theamColor2": "#B89B72",      // Muted gold (secondary accent)
 
-        "backgroundColor": "#fff0d8",
-        "backgroundColor2": "white",
-        "backgroundColor3": "#e5c07f",
+  "backgroundColor": "#F8F6F4",  // Light beige/cream
+  "backgroundColor2": "#FFFFFF", // Clean white
+  "backgroundColor3": "#EDE9E4", // Muted bone/ivory
 
-        "textColor1": "black",
-        "textColor2": "white",
-        "textColor3": "grey",
+  "textColor1": "#2E2E2E",       // Deep charcoal (primary text)
+  "textColor2": "#FFFFFF",       // White (for contrast buttons)
+  "textColor3": "#7A7A7A",       // Soft grey (for secondary info)
 
-        "navBag": "#ffffff6e",
-        "navBag2": "#ffffffb8",
+  "navBag": "#FFFFFFCC",         // Semi-transparent white (navigation bg)
+  "navBag2": "#FFFFFFF2",        // Less transparent nav bg
 
-        "buttonColor": "#ddbd5d",
-        "buttonColor2": "#967203",
+  "buttonColor": "#B89B72",      // Button primary (muted gold)
+  "buttonColor2": "#8C6A5D",     // Button alt (dusty rose-brown)
 
-        "clickColor": "#d1aa37",
-        "clickColor2": "#b89c04",
+  "clickColor": "#D5BDAF",       // Click highlight (soft rose beige)
+  "clickColor2": "#B89B72",      // Secondary click color
 
-        "hoverColor": "#a88f03",
-        "footerBag": "#ebd6b4"
-      },
+  "hoverColor": "#9E7F69",       // Darker rose-brown on hover
+  "footerBag": "#EFE6DC",        // Light beige for footer
+
+  "inputBG": "#F4F1EE"           // Soft cream for input backgrounds
+},
       boxShadow: {
         "boxShadow": "0.5rem 0.4rem 1.2rem rgb(182, 180, 180)",
         "boxShadow2": "-2px 0 3px rgb(37, 36, 36)"

@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
+import toast from "react-hot-toast";
+import { useNavigate,NavLink } from "react-router-dom";
+import { getUser } from "../features/Usfull reducers/ApiCalls";
+import { useDispatch, useSelector } from "react-redux";
 
-const UserActionBox = ({onClose}) => {
+const UserActionBox = ({ onClose }) => {
+  const user = useSelector((state) => state.user.user)
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    onClose();
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/user/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.status < 300)
+        navigate("/"), toast.success("Logged Out Successfully");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  useEffect(() => {
+      dispatch(getUser())
+    
+  }, []);
+  
   return (
     <div className=" absolute z-10 bg-white flex flex-col top-0 -right-36 p-2 w-72 border shadow-md rounded-md">
       {/* top Bar or user Name and close section */}
@@ -11,14 +38,11 @@ const UserActionBox = ({onClose}) => {
             {/* <img src="" alt="" /> */}
             <Icon.User />
           </div>
-          <h1 className="font-bold">User</h1>
+          <h1 className="font-bold">{user?.fullName}</h1>
         </div>
 
         <div>
-          <button
-            className="p-1 hover:bg-gray-100"
-            onClick={onClose}
-          >
+          <button className="p-1 hover:bg-gray-100" onClick={onClose}>
             <Icon.X />
           </button>
         </div>
@@ -27,15 +51,15 @@ const UserActionBox = ({onClose}) => {
       {/* User Action Buttons */}
       <div className="flex flex-col my-5">
         <button className="flex justify-between p-2 hover:bg-gray-100">
-          <div className="flex items-center gap-3">
+          <NavLink to={"/userProfile"} className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
               <Icon.User />
             </div>
             <p>Edit Profile</p>
-          </div>
+          </NavLink>
           <Icon.ChevronRight />
         </button>
-        <button className="flex justify-between p-2 hover:bg-gray-100">
+        <NavLink to={"/wishList"} className="flex justify-between p-2 hover:bg-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
               <Icon.Heart />
@@ -43,7 +67,7 @@ const UserActionBox = ({onClose}) => {
             <p>Wish List</p>
           </div>
           <Icon.ChevronRight />
-        </button>
+        </NavLink>
         <button className="flex justify-between p-2 hover:bg-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
@@ -66,7 +90,10 @@ const UserActionBox = ({onClose}) => {
 
       {/* Log Out */}
       <div className="flex flex-col pt-2 border-t-2">
-        <button className="flex justify-between p-2 hover:bg-gray-100">
+        <button
+          onClick={() => handleLogout()}
+          className="flex justify-between p-2 hover:bg-gray-100"
+        >
           <div className="flex items-center gap-3">
             <Icon.LogOut />
             <p className="font-semibold">Logout</p>

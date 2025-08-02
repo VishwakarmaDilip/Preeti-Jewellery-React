@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import Cart from "./pages/Cart";
+import WishList from "./pages/WishList";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -36,7 +38,8 @@ const router = createBrowserRouter([
         element: <Layout />,
         children: [
           { path: "/cart", element: <Cart /> },
-          { path: "/wishList", element: "" },
+          { path: "/wishList", element: <WishList /> },
+          { path: "/userProfile", element: <UserProfile /> },
         ],
       },
     ],

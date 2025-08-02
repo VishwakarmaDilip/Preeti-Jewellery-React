@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cartApiCall, handleRemoveFromCart } from "../features/Usfull reducers/cartApicall";
+import { cartApiCall, handleRemoveFromCart } from "../features/Usfull reducers/ApiCalls";
 
 const Cart = () => {
   const myCart = useSelector((state)=> state.cart.myCart)
   const productsInCart = useSelector((state)=> state.cart.productsInCart)
   const cartState = useSelector((state)=> state.cart.cartChanged)
-  const dispatch = useDispatch()
-
-  console.log(productsInCart);
-  
+  const dispatch = useDispatch()  
 
   useEffect(() => {
     dispatch(cartApiCall())

@@ -8,8 +8,11 @@ import toast from "react-hot-toast";
 import { toggleCartChanged } from "../features/Usfull reducers/cart";
 import {
   cartApiCall,
+  getWishList,
+  handleAddToWishList,
   handleRemoveFromCart,
-} from "../features/Usfull reducers/cartApicall";
+  handleRemoveFromWishList,
+} from "../features/Usfull reducers/ApiCalls";
 import Cookies from "js-cookie";
 
 const Products = () => {
@@ -17,6 +20,9 @@ const Products = () => {
   const dispatch = useDispatch();
   const productsInCart = useSelector((state) => state.cart.productsInCart);
   const cartState = useSelector((state) => state.cart.cartChanged);
+  const wishList = useSelector((state) => state.wishList.wishList);
+  const listState = useSelector((state) => state.wishList.iswishListChanged);
+
   const { register, handleSubmit, reset } = useForm();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -30,8 +36,9 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
+  // Fetch products based on search term, pagination, sorting, and category
   useEffect(() => {
     let page;
     if (searchTerm === "") {
@@ -95,11 +102,17 @@ const Products = () => {
     fetchCategories();
   }, []);
 
-  useEffect(()=> {
-    if (token){
-      dispatch(cartApiCall())
+  // Fetch Cart
+  useEffect(() => {
+    if (token) {
+      dispatch(cartApiCall());
     }
-  },[token,dispatch,cartState])
+  }, [token, cartState]);
+
+  // Fetch Wish List
+  useEffect(() => {
+    dispatch(getWishList());
+  }, [listState]);
 
   const onSubmit = (data) => {
     if (data.category !== "") {
@@ -143,13 +156,21 @@ const Products = () => {
       } finally {
         dispatch(toggleCartChanged());
       }
-    } else{
-      navigate("/login")
+    } else {
+      navigate("/login");
     }
   };
 
   const handleRemove = async (productId) => {
     dispatch(handleRemoveFromCart(productId));
+  };
+
+  const handleAddToList = async (productId) => {
+    dispatch(handleAddToWishList(productId));
+  };
+
+  const handleRemoveFromList = async (productId) => {
+    dispatch(handleRemoveFromWishList(productId));
   };
 
   return (
@@ -239,45 +260,43 @@ const Products = () => {
             return (
               // product card
               <div
-                className=" bg-white p-4 rounded-2xl shadow-boxShadow flex flex-col gap-6 h-72 xs:h-[25rem] w-40 xs:w-60 relative"
+                className=" bg-white rounded-2xl shadow-boxShadow flex flex-col h-72 xs:h-[25rem] w-40 xs:w-60 relative"
                 key={currProd?._id}
               >
                 <Heart
                   fill={
-                    // !allList.some((currProd) => currProd._id === _id)
-                    true ? "white" : "red"
+                    !wishList?.some(
+                      (currItem) => currItem._id === currProd?._id
+                    )
+                      ? "white"
+                      : "red"
                   }
-                  className=" absolute right-7 cursor-pointer"
+                  className=" absolute right-1 top-1 cursor-pointer"
                   onClick={
-                    // !allList.some((currProd) => currProd?._id === _id)
-                    true
-                      ? () =>
-                          handleAddToList(
-                            currProd?._id,
-                            currProd?.productName,
-                            currProd?.price,
-                            currProd?.image[0]
-                          )
-                      : () => handleRemove(currProd?._id)
+                    !wishList?.some(
+                      (currItem) => currItem?._id === currProd?._id
+                    )
+                      ? () => handleAddToList(currProd?._id)
+                      : () => handleRemoveFromList(currProd?._id)
                   }
                 />
-                <div className={"w-full h-full"}>
+                <div className={"w-full h-4/5"}>
                   {/* image box */}
                   <NavLink
                     to={`/products/${currProd?._id}`}
-                    className=" w-full h-[60%] flex justify-center rounded-md overflow-hidden"
+                    className=" w-full h-3/5 flex justify-center rounded-md overflow-hidden"
                   >
                     <img
                       src={currProd?.image[0]}
                       alt={currProd?.productName}
                       loading="lazy"
-                      className="h-full"
+                      className="w-full"
                     />
                   </NavLink>
 
                   {/* product detail */}
-                  <div className=" h-1/2 flex flex-col justify-evenly">
-                    <h1 className=" text-[1.5rem] xs:text-[2.2rem]">
+                  <div className=" h-2/5 flex flex-col justify-between p-2">
+                    <h1 className=" text-[1.5rem]">
                       {currProd?.productName}
                     </h1>
                     <div className=" flex items-center gap-[1.3rem]">
@@ -290,23 +309,25 @@ const Products = () => {
                     </div>
                   </div>
                 </div>
-                {!productsInCart.some(
-                  (currItem) => currItem?._id === currProd._id
-                ) ? (
-                  <button
-                    className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
-                    onClick={() => handleAddToCart(currProd?._id)}
-                  >
-                    Add to Cart
-                  </button>
-                ) : (
-                  <button
-                    className=" bg-buttonColor h-10 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
-                    onClick={() => handleRemove(currProd?._id)}
-                  >
-                    Remove
-                  </button>
-                )}
+                <div className="w-full h-1/5 flex justify-center items-center">
+                  {!productsInCart.some(
+                    (currItem) => currItem?._id === currProd._id
+                  ) ? (
+                    <button
+                      className=" bg-buttonColor h-3/6 w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                      onClick={() => handleAddToCart(currProd?._id)}
+                    >
+                      Add to Cart
+                    </button>
+                  ) : (
+                    <button
+                      className=" bg-buttonColor h-3/6 w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                      onClick={() => handleRemove(currProd?._id)}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
               </div>
             );
           })
