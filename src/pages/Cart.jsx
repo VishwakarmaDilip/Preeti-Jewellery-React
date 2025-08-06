@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cartApiCall, handleRemoveFromCart } from "../features/Usfull reducers/ApiCalls";
+import {
+  cartApiCall,
+  handleRemoveFromCart,
+  handleUpdateCartProduct,
+} from "../features/Usfull reducers/ApiCalls";
 
 const Cart = () => {
-  const myCart = useSelector((state)=> state.cart.myCart)
-  const productsInCart = useSelector((state)=> state.cart.productsInCart)
-  const cartState = useSelector((state)=> state.cart.cartChanged)
-  const dispatch = useDispatch()  
+  const myCart = useSelector((state) => state.cart.myCart);
+  const productsInCart = useSelector((state) => state.cart.productsInCart);
+  const cartState = useSelector((state) => state.cart.cartChanged);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(cartApiCall())
+    dispatch(cartApiCall());
   }, [cartState]);
-  
 
   const handleRemove = async (productId) => {
-    dispatch(handleRemoveFromCart(productId))
+    dispatch(handleRemoveFromCart(productId));
   };
+
+  const handleQuantityOfProduct = (productId, quantity) => {
+    dispatch(handleUpdateCartProduct({ productId, quantity }));
+  };
+
+  // console.log("productsInCart", productsInCart);
 
   return (
     <div className="h-fit w-full mt-8 p-10 flex flex-col items-center gap-6">
@@ -56,9 +65,15 @@ const Cart = () => {
                   <li className="col-start-4 text-center">₹{item.price}</li>
                   <li className="flex justify-center h-fit items-center">
                     <div className="flex border border-black justify-between items-center px-2 w-24 text-gray-400">
-                      <button>-</button>
+                      <button onClick={()=> handleQuantityOfProduct(item._id, (item.quantity - 1))}>-</button>
                       <p className="text-black">{item.quantity}</p>
-                      <button>+</button>
+                      <button
+                        onClick={() =>
+                          handleQuantityOfProduct(item._id, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </button>
                     </div>
                   </li>
                   <li className="text-center">
@@ -89,7 +104,12 @@ const Cart = () => {
                 {productsInCart.length > 0 ? productsInCart.length : 0} Item
                 {productsInCart.length > 1 ? "s" : ""})
               </p>
-              <p>₹{productsInCart.length > 0 ? Number(myCart?.cartValue).toLocaleString("hi-IN"): 0}</p>
+              <p>
+                ₹
+                {productsInCart.length > 0
+                  ? Number(myCart?.cartValue).toLocaleString("hi-IN")
+                  : 0}
+              </p>
             </div>
 
             <hr />

@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import products from "../assets/api/product.json";
-import { Info } from "react-feather";
+import { Heart, Info } from "react-feather";
 import PriceDetail from "../components/PriceDetail.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToList,
   removeItem,
 } from "../features/Add To List/listFunctionSlice.js";
+import ProductDetail from "../components/ProductDetail.jsx";
+import {
+  cartApiCall,
+  getWishList,
+  handleAddToWishList,
+  handleRemoveFromCart,
+  handleRemoveFromWishList,
+} from "../features/Usfull reducers/ApiCalls.js";
+import toast from "react-hot-toast";
+import { toggleCartChanged } from "../features/Usfull reducers/cart.js";
 
 const ShowProduct = () => {
-  const allList = useSelector((state) => state.addToList.list);
-  const param = useParams();
-  const allProducts = products;
-  const dispatch = useDispatch();
   const { productId } = useParams();
+  const dispatch = useDispatch();
+  const wishList = useSelector((state) => state.wishList.wishList);
+  const listState = useSelector((state) => state.wishList.iswishListChanged);
+  const productsInCart = useSelector((state) => state.cart.productsInCart);
+  const cartState = useSelector((state) => state.cart.cartChanged);
+
   const [product, setProduct] = useState({});
   const [viewImage, setViewImage] = useState("");
   const [moreImages, setMoreImages] = useState([]);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [AddProductPage, setAddProductPage] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [productDetail, setProductDetail] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -50,17 +60,56 @@ const ShowProduct = () => {
     fetchProduct();
   }, [productId, refresh]);
 
-  const handleWishlist = (id, name, price, image) => {
-    dispatch(addToList({ id, name, price, image }));
+  // Fetch Wish List
+  useEffect(() => {
+    dispatch(getWishList());
+  }, [listState]);
+
+  useEffect(() => {
+    dispatch(cartApiCall());
+  }, [cartState]);
+
+  const handleAddToList = async (productId) => {
+    dispatch(handleAddToWishList(productId));
   };
-  const removeFromWL = (id) => {
-    dispatch(removeItem(id));
+
+  const handleRemoveFromList = async (productId) => {
+    dispatch(handleRemoveFromWishList(productId));
+  };
+
+  const handleAddToCart = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/user/cart/addToCart`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ productId }),
+        }
+      );
+
+      if (response.status < 300) {
+        toast.success("Product Added To Cart");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(toggleCartChanged());
+    }
+  };
+
+  const handleRemove = async (productId) => {
+    dispatch(handleRemoveFromCart(productId));
   };
 
   return (
-    <div className="mt-[5vh] xs:mt-0 mb-[8vh] xs:mb-0 w-full h-fit xs:h-screen flex items-center justify-center">
+    <div className="mt-[5vh] mb-[8vh] xs:mb-0 w-full h-fit xs:h-screen flex items-center justify-center">
       <div className=" w-[90%] xs:w-4/5 h-full flex flex-col xs:flex-row items-center justify-center gap-8">
-        
         {/*Product image */}
         <div className="w-1/2 flex flex-col gap-10 py-10">
           {/* image */}
@@ -91,27 +140,60 @@ const ShowProduct = () => {
         </div>
 
         {/* product details */}
-        <div className=" w-full xs:w-[30%] h-[80%] flex flex-col gap-8 bg-white p-4 rounded-2xl shadow-boxShadow">
-          <h1 className=" text-2xl text-gray-500 font-bold">{product?.productName}</h1>
-          <div className=" space-y-1">
-            <div className=" text-3xl relative w-fit pr">
-              ₹{product?.price}
-              <Info className=" absolute top-2 -right-6 h-4 cursor-pointer peer" />
-              <PriceDetail price={product?.price} />
+        <div className=" w-full xs:w-[30%] h-[80%] flex flex-col justify-between bg-white p-4 rounded-2xl shadow-boxShadow relative">
+          <ProductDetail
+            setProductDetail={setProductDetail}
+            productDetail={productDetail}
+          />
+          <div className=" space-y-4">
+            <div className="flex justify-between items-center">
+              <h1 className=" text-2xl text-gray-500 font-bold">
+                {product?.productName}
+              </h1>
+
+              <Heart
+                fill={
+                  !wishList?.some((currItem) => currItem._id === productId)
+                    ? "white"
+                    : "red"
+                }
+                className="cursor-pointer"
+                onClick={
+                  !wishList?.some((currItem) => currItem?._id === productId)
+                    ? () => handleAddToList(productId)
+                    : () => handleRemoveFromList(productId)
+                }
+              />
             </div>
-            <p className=" bg-[#F8F8FF] w-fit text-xs p-1 px-2 rounded-2xl">
-              Free Delivery
-            </p>
+
+            <div className=" space-y-1">
+              <div className=" text-3xl relative w-fit pr">
+                ₹{product?.price}
+                <Info className=" absolute top-2 -right-6 h-4 cursor-pointer peer" />
+                <PriceDetail price={product?.price} />
+              </div>
+              <p className=" bg-[#F8F8FF] w-fit text-xs p-1 px-2 rounded-2xl">
+                Free Delivery
+              </p>
+            </div>
           </div>
 
           {/* size */}
           <div className=" space-y-2">
             <p className=" text-xl font-bold">Size</p>
-            <div className=" flex gap-4">
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg">S</button>
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg">M</button>
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg">L</button>
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg">XL</button>
+            <div className=" flex gap-4 text-gray-300 ">
+              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                S
+              </button>
+              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                M
+              </button>
+              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                L
+              </button>
+              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                XL
+              </button>
             </div>
           </div>
 
@@ -122,33 +204,35 @@ const ShowProduct = () => {
               <p>Product Name: {product?.productName}</p>
               <p>Net Quantity: {product?.quantity}</p>
               <p>PID: {product?.productId}</p>
+              <p
+                className="text-blue-500 cursor-pointer w-fit"
+                onClick={() => setProductDetail(true)}
+              >
+                More..
+              </p>
             </div>
           </div>
 
           {/* action button */}
-          <div className=" flex flex-wrap justify-center gap-4 w-full">
+          <div className=" flex flex-wrap justify-center gap-4 w-full ">
             <button className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold">
               Buy Now
             </button>
-            <button className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold">
-              Add to Cart
-            </button>
-            {
-            // !allList.find((currProd) => currProd.id === id) 
-            false
-            ? (
+            {!productsInCart.some(
+              (currItem) => currItem?._id === productId
+            ) ? (
               <button
                 className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold"
-                onClick={() => handleWishlist(id, name, price, image)}
+                onClick={() => handleAddToCart(productId)}
               >
-                Add to wishlist
+                Add to Cart
               </button>
             ) : (
               <button
-                className=" w-44 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold"
-                onClick={() => removeFromWL(id)}
+                className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold"
+                onClick={() => handleRemove(productId)}
               >
-                Remove from wishlist
+                Remove
               </button>
             )}
           </div>

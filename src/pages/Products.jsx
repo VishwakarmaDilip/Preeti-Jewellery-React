@@ -284,7 +284,7 @@ const Products = () => {
                   {/* image box */}
                   <NavLink
                     to={`/products/${currProd?._id}`}
-                    className=" w-full h-3/5 flex justify-center rounded-md overflow-hidden"
+                    className=" w-full h-3/5 flex justify-center rounded-t-md overflow-hidden"
                   >
                     <img
                       src={currProd?.image[0]}
@@ -304,7 +304,7 @@ const Products = () => {
                         ₹{currProd?.price}
                       </p>
                       <p className=" text-[1rem] xs:text-2xl font-light line-through">
-                        ₹{currProd?.price * 3}
+                        ₹{currProd?.price * 1.5}
                       </p>
                     </div>
                   </div>

@@ -113,6 +113,7 @@ export const getUser = createAsyncThunk(
 )
 
 
+// wishlist related api calls
 export const handleAddToWishList = createAsyncThunk(
     "wishList/handleAddToWishList",
     async (productId, thunkAPI) => {
@@ -187,6 +188,34 @@ export const handleRemoveFromWishList = createAsyncThunk(
         } catch (error) {
             console.error("Failed to remove from wishlist:", error);
             return thunkAPI.rejectWithValue("Failed to remove from wishlist");
+        }
+    }
+)
+
+// cart related api calls
+export const handleUpdateCartProduct = createAsyncThunk(
+    "cart/handleUpdateCartProduct",
+    async({productId, quantity}, thunkAPI) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/v1/user/cart/updateProduct`,{
+                method: "PATCH",
+                headers: {
+                    "content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({productId,quantity})
+            })
+
+            if(response.status <300) {
+                thunkAPI.dispatch(toggleCartChanged())
+            } else {
+                toast.error("Failed to Update Quantity")
+                return thunkAPI.rejectWithValue("Failed to update cart product")
+            }
+        } catch (error) {
+            console.error("Failed to update cart product:", error);
+            return thunkAPI.rejectWithValue("Failed to update cart product");
+            
         }
     }
 )
