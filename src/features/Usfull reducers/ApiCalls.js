@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { setMyCart, setProductInCart, toggleCartChanged } from './cart';
+import { setLoading, setMyCart, setProductInCart, toggleCartChanged } from './cart';
 import toast from 'react-hot-toast';
 import { setUser } from './user';
 import { setWishList, toggleWishListChanged } from './wishList';
@@ -7,6 +7,7 @@ import { setWishList, toggleWishListChanged } from './wishList';
 export const cartApiCall = createAsyncThunk(
     "cart/cartApiCall",
     async (_, thunkAPI) => {
+        thunkAPI.dispatch(setLoading(true))
         try {
             const response = await fetch(
                 `http://localhost:3000/api/v1/user/cart/getCart`,
@@ -26,6 +27,8 @@ export const cartApiCall = createAsyncThunk(
         } catch (error) {
             console.log(error);
             return thunkAPI.rejectWithValue("Failed to fetch cart data")
+        } finally {
+            thunkAPI.dispatch(setLoading(false))
         }
     }
 )

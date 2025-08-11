@@ -5,11 +5,13 @@ import {
   handleRemoveFromCart,
   handleUpdateCartProduct,
 } from "../features/Usfull reducers/ApiCalls";
+import { NavLink } from "react-router-dom";
 
 const Cart = () => {
   const myCart = useSelector((state) => state.cart.myCart);
   const productsInCart = useSelector((state) => state.cart.productsInCart);
   const cartState = useSelector((state) => state.cart.cartChanged);
+  const loading = useSelector((state) => state.cart.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,9 +56,12 @@ const Cart = () => {
                   key={index}
                 >
                   <li className=" flex gap-3 col-start-1 col-end-4 items-center ">
-                    <div className="w-28 overflow-hidden rounded-md">
+                    <NavLink
+                      to={`/products/${item?._id}`}
+                      className="w-28 overflow-hidden rounded-md"
+                    >
                       <img src={item?.image[0]} alt="" />
-                    </div>
+                    </NavLink>
                     <div>
                       <p className="font-bold text-2xl">{item?.productName}</p>
                       <p className="text-gray-400 text-sm">In stock</p>
@@ -64,13 +69,29 @@ const Cart = () => {
                   </li>
                   <li className="col-start-4 text-center">₹{item.price}</li>
                   <li className="flex justify-center h-fit items-center">
-                    <div className="flex border border-black justify-between items-center px-2 w-24 text-gray-400">
-                      <button onClick={()=> handleQuantityOfProduct(item._id, (item.quantity - 1))}>-</button>
+                    <div
+                      className={`flex border border-black justify-between items-center px-2 w-24 text-gray-400`}
+                    >
+                      <button
+                        onClick={() =>
+                          handleQuantityOfProduct(item._id, item.quantity - 1)
+                        }
+                        disabled={loading}
+                        className={`${
+                          loading ? " cursor-not-allowed" : "cursor-pointer"
+                        }`}
+                      >
+                        -
+                      </button>
                       <p className="text-black">{item.quantity}</p>
                       <button
                         onClick={() =>
                           handleQuantityOfProduct(item._id, item.quantity + 1)
                         }
+                        disabled={loading}
+                        className={`${
+                          loading ? " cursor-not-allowed" : "cursor-pointer"
+                        }`}
                       >
                         +
                       </button>

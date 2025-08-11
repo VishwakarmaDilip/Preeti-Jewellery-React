@@ -1,16 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import ShowProduct from "./pages/ShowProduct";
-import About from "./pages/About";
-import ContactUs from "./pages/ContactUs";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Home from "./pages/Home.page";
+import Products from "./pages/Products.page";
+import ShowProduct from "./pages/ShowProduct.page";
+import About from "./pages/About.page";
+import ContactUs from "./pages/ContactUs.page";
+import Login from "./pages/Login.page";
+import Register from "./pages/Register.page";
 import PrivateRoute from "./components/PrivateRoute";
-import Cart from "./pages/Cart";
-import WishList from "./pages/WishList";
-import UserProfile from "./pages/UserProfile";
+import Cart from "./pages/Cart.page";
+import WishList from "./pages/WishList.page";
+import UserProfile from "./pages/UserProfile.page";
 
 const router = createBrowserRouter([
   // Open Routes

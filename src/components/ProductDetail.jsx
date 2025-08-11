@@ -1,10 +1,10 @@
 import React from "react";
 import * as Icon from "react-feather";
 
-const ProductDetail = ({ setProductDetail, productDetail }) => {
+const ProductDetail = ({ setProductDetail, productDetail, product }) => {
   return (
     <div
-      className={`h-1/2 w-full bg-white flex flex-col justify-between p-4 z-10 rounded-2xl shadow-boxShadow top-72 left-0 ${
+      className={`h-fit w-full bg-white flex flex-col gap-6 p-4 z-10 rounded-2xl shadow-boxShadow top-72 left-0 ${
         productDetail ? "absolute" : "hidden"
       } `}
     >
@@ -18,19 +18,18 @@ const ProductDetail = ({ setProductDetail, productDetail }) => {
       <div className="space-y-2">
         <p>
           <span className="font-semibold">Product Name</span> :{" "}
-          <span>Khopa</span>
+          <span>{product.productName}</span>
         </p>
         <p>
-          <span className="font-semibold">Net Quantity</span> : <span>50</span>
+          <span className="font-semibold">Net Quantity</span> : <span>{product.quantity}</span>
         </p>
         <p>
-          <span className="font-semibold">PID</span> : <span>000040</span>{" "}
+          <span className="font-semibold">PID</span> : <span>{product.productId}</span>{" "}
         </p>
         <p>
           <span className="font-semibold">Product Description</span> :{" "}
           <span>
-            Elegant handcrafted Khopa, perfect for traditional occasions. Made
-            with premium materials for lasting shine and durability.
+            {product.description}
           </span>
         </p>
       </div>

@@ -4,6 +4,7 @@ const initialState = {
   cartChanged: false,
   myCart: [],
   productsInCart: [],
+  loading : false
 }
 
 export const cartSlice = createSlice({
@@ -18,10 +19,13 @@ export const cartSlice = createSlice({
     },
     setProductInCart: (state, action)=> {
       state.productsInCart = action.payload
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload
     }
   }
 })
 
-export const { toggleCartChanged, setMyCart, setProductInCart } = cartSlice.actions
+export const { toggleCartChanged, setMyCart, setProductInCart, setLoading } = cartSlice.actions
 
 export default cartSlice.reducer

@@ -18,6 +18,7 @@ import {
 } from "../features/Usfull reducers/ApiCalls.js";
 import toast from "react-hot-toast";
 import { toggleCartChanged } from "../features/Usfull reducers/cart.js";
+import { set } from "react-hook-form";
 
 const ShowProduct = () => {
   const { productId } = useParams();
@@ -32,6 +33,7 @@ const ShowProduct = () => {
   const [moreImages, setMoreImages] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [productDetail, setProductDetail] = useState(false);
+  const [productQuantity, setProductQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -77,7 +79,7 @@ const ShowProduct = () => {
     dispatch(handleRemoveFromWishList(productId));
   };
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId, quantity) => {
     try {
       const response = await fetch(
         `http://localhost:3000/api/v1/user/cart/addToCart`,
@@ -87,7 +89,7 @@ const ShowProduct = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ productId }),
+          body: JSON.stringify({ productId, quantity }),
         }
       );
 
@@ -144,6 +146,7 @@ const ShowProduct = () => {
           <ProductDetail
             setProductDetail={setProductDetail}
             productDetail={productDetail}
+            product={product}
           />
           <div className=" space-y-4">
             <div className="flex justify-between items-center">
@@ -178,22 +181,38 @@ const ShowProduct = () => {
             </div>
           </div>
 
-          {/* size */}
-          <div className=" space-y-2">
-            <p className=" text-xl font-bold">Size</p>
-            <div className=" flex gap-4 text-gray-300 ">
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
-                S
-              </button>
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
-                M
-              </button>
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
-                L
-              </button>
-              <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
-                XL
-              </button>
+          {/* size & quantity*/}
+          <div className=" space-y-6">
+            <p className=" text-xl font-bold">Size & Quantity</p>
+            <div className="space-y-4">
+              <div className=" flex gap-4 text-gray-300 ">
+                <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                  S
+                </button>
+                <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                  M
+                </button>
+                <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                  L
+                </button>
+                <button className=" w-10 h-10 bg-[#F8F8FF] rounded-lg cursor-not-allowed">
+                  XL
+                </button>
+              </div>
+
+              <div className="flex border border-gray-400 justify-between items-center px-2 w-24 text-gray-400">
+                <button
+                  onClick={() =>
+                    setProductQuantity((prev) => Math.max(prev - 1, 1))
+                  }
+                >
+                  -
+                </button>
+                <p className="text-black">{productQuantity}</p>
+                <button onClick={() => setProductQuantity((prev) => prev + 1)}>
+                  +
+                </button>
+              </div>
             </div>
           </div>
 
@@ -218,12 +237,10 @@ const ShowProduct = () => {
             <button className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold">
               Buy Now
             </button>
-            {!productsInCart.some(
-              (currItem) => currItem?._id === productId
-            ) ? (
+            {!productsInCart.some((currItem) => currItem?._id === productId) ? (
               <button
                 className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold"
-                onClick={() => handleAddToCart(productId)}
+                onClick={() => handleAddToCart(productId, productQuantity)}
               >
                 Add to Cart
               </button>
