@@ -11,6 +11,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import Cart from "./pages/Cart.page";
 import WishList from "./pages/WishList.page";
 import UserProfile from "./pages/UserProfile.page";
+import Checkout from "./pages/Checkout.page";
+import Checkout_Payment from "./pages/Checkout_Payment.page";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
           { path: "/userProfile", element: <UserProfile /> },
         ],
       },
+      {
+        path: "/checkout",
+        element: <Checkout/>
+      },
+      {
+        path:"/checkout/payment/:checoutData",
+        element: <Checkout_Payment/>
+      }
     ],
   },
 ]);

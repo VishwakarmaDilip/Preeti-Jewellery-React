@@ -135,9 +135,11 @@ const Cart = () => {
 
             <hr />
           </div>
-          <button className="mt-5 bg-buttonColor w-full font-semibold rounded-lg h-8">
-            Proceed To Checkout
-          </button>
+          <NavLink to={"/checkout"}>
+            <button className="mt-5 bg-buttonColor w-full font-semibold rounded-lg h-8 hover:shadow-boxShadow active:bg-clickColor">
+              Proceed To Checkout
+            </button>
+          </NavLink>
         </div>
       </div>
     </div>

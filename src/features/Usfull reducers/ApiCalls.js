@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { setUser } from './user';
 import { setWishList, toggleWishListChanged } from './wishList';
 
+
+// cart related api calls
 export const cartApiCall = createAsyncThunk(
     "cart/cartApiCall",
     async (_, thunkAPI) => {
@@ -88,6 +90,32 @@ export const addToCart = createAsyncThunk(
             } finally {
                 thunkAPI.dispatch(toggleCartChanged());
             }
+    }
+)
+export const handleUpdateCartProduct = createAsyncThunk(
+    "cart/handleUpdateCartProduct",
+    async({productId, quantity}, thunkAPI) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/v1/user/cart/updateProduct`,{
+                method: "PATCH",
+                headers: {
+                    "content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({productId,quantity})
+            })
+
+            if(response.status <300) {
+                thunkAPI.dispatch(toggleCartChanged())
+            } else {
+                toast.error("Failed to Update Quantity")
+                return thunkAPI.rejectWithValue("Failed to update cart product")
+            }
+        } catch (error) {
+            console.error("Failed to update cart product:", error);
+            return thunkAPI.rejectWithValue("Failed to update cart product");
+            
+        }
     }
 )
 
@@ -195,30 +223,32 @@ export const handleRemoveFromWishList = createAsyncThunk(
     }
 )
 
-// cart related api calls
-export const handleUpdateCartProduct = createAsyncThunk(
-    "cart/handleUpdateCartProduct",
-    async({productId, quantity}, thunkAPI) => {
+// address related api calls
+export const createaddress = createAsyncThunk(
+    "user/createAddress",
+    async (addressData, thunkAPI) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/user/cart/updateProduct`,{
-                method: "PATCH",
-                headers: {
-                    "content-Type": "application/json"
-                },
-                credentials: "include",
-                body: JSON.stringify({productId,quantity})
-            })
+            const response = await fetch(
+                `http://localhost:3000/api/v1/user/address/createAddress`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(addressData),
+                }
+            )
 
-            if(response.status <300) {
-                thunkAPI.dispatch(toggleCartChanged())
+            if (response.status < 300) {
+                toast.success("Address Created Successfully")
             } else {
-                toast.error("Failed to Update Quantity")
-                return thunkAPI.rejectWithValue("Failed to update cart product")
+                toast.error("Failed to create address");
+                return thunkAPI.rejectWithValue("Failed to create address");
             }
         } catch (error) {
-            console.error("Failed to update cart product:", error);
-            return thunkAPI.rejectWithValue("Failed to update cart product");
-            
+            console.error("Failed to create address:", error);
+            return thunkAPI.rejectWithValue("Failed to create address");
         }
     }
 )
