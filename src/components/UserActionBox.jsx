@@ -86,15 +86,15 @@ const UserActionBox = ({ onClose }) => {
           </div>
           <Icon.ChevronRight />
         </button>
-        <button className="flex justify-between p-2 hover:bg-gray-100">
+        <NavLink to={"/orders"} className="flex justify-between p-2 hover:bg-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-              <Icon.Box />
+              <Icon.Package />
             </div>
             <p>Orders</p>
           </div>
           <Icon.ChevronRight />
-        </button>
+        </NavLink>
       </div>
 
       {/* Log Out */}

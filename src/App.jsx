@@ -13,6 +13,7 @@ import WishList from "./pages/WishList.page";
 import UserProfile from "./pages/UserProfile.page";
 import Checkout from "./pages/Checkout.page";
 import Checkout_Payment from "./pages/Checkout_Payment.page";
+import Order from "./pages/Order.page";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -42,16 +43,17 @@ const router = createBrowserRouter([
           { path: "/cart", element: <Cart /> },
           { path: "/wishList", element: <WishList /> },
           { path: "/userProfile", element: <UserProfile /> },
+          { path: "/orders", element: <Order /> },
         ],
       },
       {
         path: "/checkout",
-        element: <Checkout/>
+        element: <Checkout />,
       },
       {
-        path:"/checkout/payment/:addressId",
-        element: <Checkout_Payment/>
-      }
+        path: "/checkout/payment/:addressId",
+        element: <Checkout_Payment />,
+      },
     ],
   },
 ]);
