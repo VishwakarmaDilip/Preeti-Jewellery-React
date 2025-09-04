@@ -12,7 +12,6 @@ const Input = ({
   autoComplete,
   ...props
 }) => {
-  // console.log(onChange);
 
   return (
     <input

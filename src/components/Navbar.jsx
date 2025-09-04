@@ -29,11 +29,15 @@ const Navbar = () => {
         setProductsInCart(fetchedCart?.products?.length || 0);
       } catch (error) {
         console.log(error);
+        
       }
     };
 
     if (token) {
       fetchCart();
+
+      console.log("ye bhi chala");
+      
     }
   }, [cartState]);
 

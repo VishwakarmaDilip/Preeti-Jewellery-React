@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToList } from "../features/Add To List/listFunctionSlice";
 
 const Home = () => {
-  const allList = useSelector((state) => state.addToList.list);
   const dispatch = useDispatch();
 
   const handleAddToList = (id, name, price, image) => {

@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         element: <Checkout/>
       },
       {
-        path:"/checkout/payment/:checoutData",
+        path:"/checkout/payment/:addressId",
         element: <Checkout_Payment/>
       }
     ],

@@ -1,30 +1,65 @@
-import React from "react";
-import { NavLink, useLocation, useParams } from "react-router-dom";
-import * as Icons from "react-feather";
-import Input from "../components/Input";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Button from "../components/Button";
 import SavedAddress from "../components/SavedAddress";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cartApiCall,
+  createOrder,
+  getAddress,
+} from "../features/Usfull reducers/ApiCalls";
+import { toggleCartChanged } from "../features/Usfull reducers/cart";
 
 const Checkout_Payment = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, watch } = useForm();
+  const navigate = useNavigate()
 
   const [showSavedAddress, setShowSavedAddress] = React.useState(false);
   const location = useLocation();
-  const deliveryData = location.state;
+  const addressId = useParams();
+  const deliveryData =
+    location.state || useSelector((state) => state.user.address);
+  const dispatch = useDispatch();
+  const myCart = useSelector((state) => state.cart.myCart);
+  const productsInCart = useSelector((state) => state.cart.productsInCart);
+  const deleveryCharge = 99;
 
-  const cart = [1, 2, 3];
+  useEffect(() => {
+    dispatch(cartApiCall());
+  }, []);
 
-  if (showSavedAddress) {
-    document.body.style.overflow = "hidden";
-  }
+  useEffect(() => {
+    if (addressId.addressId !== "98654512") {
+      dispatch(getAddress(addressId.addressId));
+    }
+  }, [addressId]);
 
-  const selectedPamentMethod = watch("payment");
+  useEffect(() => {
+    if (showSavedAddress) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showSavedAddress]);
+
+  const selectedPamentMethod = watch("payment") || null;
+
+
+  const placeOrder = (
+    deliveryData,
+    cartId,
+    paymentType = "POD"
+  ) => {
+    dispatch(createOrder({ deliveryData, cartId, addressId, paymentType }));
+    navigate("/")
+    window.location.reload()
+  };
+  
 
   return (
     <div className="my-4 space-y-8 relative">
@@ -53,16 +88,22 @@ const Checkout_Payment = () => {
           <div className="bg-white p-3 rounded-md">
             <div className=" space-y-2">
               <h2 className="font-semibold text-lg">
-                Delivering to {deliveryData?.name} {deliveryData?.lastName}
+                Delivering to{" "}
+                <span>
+                  {deliveryData?.firstName} {deliveryData?.lastName}
+                </span>
               </h2>
               <p>
                 {deliveryData?.address}, {deliveryData?.city} -{" "}
                 {deliveryData?.pinCode}, {deliveryData?.state}
               </p>
-              <p>{deliveryData.mobile}</p>
+              <p>{deliveryData?.mobile}</p>
             </div>
 
-            <div className="text-blue-500 font-semibold flex flex-row-reverse">
+            <div
+              className="text-blue-500 font-semibold flex flex-row-reverse cursor-pointer"
+              onClick={() => setShowSavedAddress(true)}
+            >
               <span>Change</span>
             </div>
           </div>
@@ -97,12 +138,33 @@ const Checkout_Payment = () => {
             </form>
 
             <div className="flex flex-row-reverse">
-              {selectedPamentMethod === undefined ? (
-                <Button className={"bg-buttonColor"}>Choose Method</Button>
+              {selectedPamentMethod === null ? (
+                <Button
+                  textColor={true}
+                  disabled={true}
+                  className={"bg-buttonColor font-semibold"}
+                >
+                  Choose Method
+                </Button>
               ) : selectedPamentMethod === "pod" ? (
-                <Button className={"bg-buttonColor"}>Place Order</Button>
+                <Button
+                  onClick={() => placeOrder(deliveryData, myCart._id)}
+                  textColor={true}
+                  className={
+                    "bg-buttonColor font-semibold hover:shadow-boxShadow active:bg-clickColor "
+                  }
+                >
+                  Place Order
+                </Button>
               ) : (
-                <Button className={"bg-buttonColor"}>Proceed To Pay</Button>
+                <Button
+                  textColor={true}
+                  className={
+                    "bg-buttonColor font-semibold hover:shadow-boxShadow active:bg-clickColor "
+                  }
+                >
+                  Proceed To Pay
+                </Button>
               )}
             </div>
           </div>
@@ -112,24 +174,24 @@ const Checkout_Payment = () => {
         <div className="bg-white w-[30%] h-fit p-3 rounded-md">
           <h2 className="text-2xl font-bold mb-3">Order Summary</h2>
           <div className="flex flex-col gap-4 px-3">
-            {cart.map((item, index) => {
+            {productsInCart?.map((item, index) => {
               return (
                 <div
                   key={index}
                   className="flex justify-between items-center  font-semibold"
                 >
                   <div className="flex gap-4 items-center">
-                    <div className="w-28 h-28 rounded-md overflow-hidden">
-                      <img src="../../public/Image/bracelet.jpeg" alt="" />
+                    <div className="w-28 h-fit rounded-md overflow-hidden">
+                      <img src={item?.image[0]} alt="" />
                     </div>
                     <div>
-                      <p>Item One</p>
+                      <p>{item?.productName}</p>
                       <p>
-                        Qty : <span>4</span>
+                        Qty : <span>{item.quantity}</span>
                       </p>
                     </div>
                   </div>
-                  <div>$499.00</div>
+                  <div>₹{item.price}</div>
                 </div>
               );
             })}
@@ -138,18 +200,25 @@ const Checkout_Payment = () => {
           <div className="flex flex-col gap-1 mt-4 pt-1 px-2 border-t-2  font-semibold">
             <div className="flex justify-between">
               <p>Subtotal : </p>
-              <p>$1,497.00</p>
+              <p>
+                ₹
+                {productsInCart.length > 0
+                  ? (myCart?.cartValue).toLocaleString("hi-IN")
+                  : 0}
+              </p>
             </div>
             <div className="flex justify-between">
               <p>Delivery Fee :</p>
-              <p>$99.00</p>
+              <p>₹{deleveryCharge}</p>
             </div>
           </div>
 
           <div className="flex flex-col mt-2 pt-2 px-2 border-t-2  font-semibold">
             <div className="flex justify-between">
               <p>Total to pay : </p>
-              <p>$1696.00</p>
+              <p>
+                ₹{(myCart?.cartValue + deleveryCharge).toLocaleString("hi-IN")}
+              </p>
             </div>
           </div>
         </div>
