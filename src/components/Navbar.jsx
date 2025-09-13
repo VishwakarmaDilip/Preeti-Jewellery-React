@@ -34,10 +34,7 @@ const Navbar = () => {
     };
 
     if (token) {
-      fetchCart();
-
-      console.log("ye bhi chala");
-      
+      fetchCart();      
     }
   }, [cartState]);
 

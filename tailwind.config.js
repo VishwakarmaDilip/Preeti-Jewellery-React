@@ -7,6 +7,9 @@ export default {
   theme: {
     screens: {
       "xs": "500px",
+      "sm":"640px",
+      "md": "768px",
+      "lg": "1024px"
     },
     extend: {
 colors: {
@@ -37,7 +40,8 @@ colors: {
 },
       boxShadow: {
         "boxShadow": "0.5rem 0.4rem 1.2rem rgb(182, 180, 180)",
-        "boxShadow2": "-2px 0 3px rgb(37, 36, 36)"
+        "boxShadow2": "-2px 0 3px rgb(37, 36, 36)",
+        "boxShadowBorder":"0px 1px 4px rgba(0, 0, 0, 0.16)"
       },
       keyframes: {
         'fade-in-scale': {
