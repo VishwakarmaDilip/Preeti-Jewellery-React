@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 const initialState = {
     user: null,
     address: null,
     allAddresses: [],
     pinCodeService: [],
-    allAddressesPinCheck: {}
+    allAddressesPinCheck: {},
+    TAT: ""
 }
 
 export const userSlice = createSlice({
@@ -26,11 +28,21 @@ export const userSlice = createSlice({
         },
         setAllAddressesPinCheck: (state, action) => {
             state.allAddressesPinCheck = action.payload
+        },
+        setTAT: (state, action) => {
+            state.TAT = action.payload
+        },
+        operatePlaceOrder: (state, payload) => {
+            const order_Id = payload.payload 
+            setTimeout(() => {
+                window.location.replace(`http://localhost:5173/orders/${order_Id}`)                
+            }, 800);     
+            toast.success("Order Placed")
         }
 
     }
 })
 
-export const { setUser, setAllAddresses, setAddress, setPinCodeService, setAllAddressesPinCheck } = userSlice.actions
+export const { setUser, setAllAddresses, setAddress, setPinCodeService, setAllAddressesPinCheck, setTAT, operatePlaceOrder } = userSlice.actions
 
 export default userSlice.reducer

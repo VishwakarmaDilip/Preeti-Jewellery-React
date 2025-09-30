@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Icon from "react-feather";
 import Button from "../components/Button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllOrders } from "../features/Usfull reducers/ApiCalls";
 
 const Orders = () => {
   const { register, handleSubmit, reset } = useForm();
   const [select, setSelect] = useState(0.7);
+  const dispatch = useDispatch();
+  const allorders = useSelector((state) => state.order.allOrders);
+  const [orderStatus, setOrderStatus] = useState("")
 
-  const testArray = [1, 2];
-  const testArray2 = [1, 2, 3];
+  // console.log(orderStatus);
+  
+
+
+  let startDate, endDate;
+
+  useEffect(() => {
+    
+    dispatch(fetchAllOrders({startDate,endDate,orderStatus}));
+  }, [orderStatus]);
+
   return (
     <div className="h-fit w-full mt-8 p-10 flex flex-col items-center gap-6">
       <h1 className="self-start text-3xl font-bold">My Orders</h1>
@@ -22,19 +36,28 @@ const Orders = () => {
           <div className="flex w-[40rem] justify-between items-center bg-gray-300 relative px-11 h-[3rem] rounded-3xl cursor-pointer">
             <p
               className={`z-20 ${select === 0.7 ? "font-semibold" : ""}`}
-              onClick={() => setSelect(0.7)}
+              onClick={() => {
+                setSelect(0.7)
+                setOrderStatus("")
+              }}
             >
               All orders
             </p>
             <p
-              className={`z-20 ${select === 10.5 ? "font-semibold" : ""}`}
-              onClick={() => setSelect(15.5)}
+              className={`z-20 ${select === 15.5 ? "font-semibold" : ""}`}
+              onClick={() => {
+                setSelect(15.5)
+                setOrderStatus("Shipping")
+              }}
             >
               Arriving
             </p>
             <p
-              className={`z-20 ${select === 20.5 ? "font-semibold" : ""}`}
-              onClick={() => setSelect(30.5)}
+              className={`z-20 ${select === 30.5 ? "font-semibold" : ""}`}
+              onClick={() => {
+                setSelect(30.5) 
+                setOrderStatus("Cancelled")
+              }}
             >
               Cancelled
             </p>
@@ -77,37 +100,52 @@ const Orders = () => {
 
         {/* orders */}
         <div className="grid grid-cols-[repeat(auto-fit,minmax(40rem,1fr))] gap-5 mt-5">
-          {testArray.map((data, index) => (
-            <div>
-              <div key={index} className="bg-white p-3 rounded-t-lg">
+          {allorders?.map((order) => (
+            <div key={order._id}>
+              <div className="bg-white p-3 rounded-t-lg">
                 {/* card head */}
                 <div className="flex justify-between">
                   <div>
                     <p className="text-gray-400 text-sm">Order Id</p>
-                    <p className="text-xl font-bold">123456</p>
+                    <p className="text-xl font-bold">{order?.orderId}</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <div
                       className="shadow-boxShadowBorder rounded-full
                    px-3"
                     >
-                      Estimated Arrival : 06 September 2025
+                      Estimated Arrival : {order?.delivery}
                     </div>
-                    <div className="text-green-400 font-bold bg-green-100 px-4 rounded-full">
-                      Shipping
-                    </div>
+                    {order?.status != "Cancelled" ? (
+                      <div className="text-green-400 font-bold bg-green-100 px-4 rounded-full">
+                        {order?.status}
+                      </div>
+                    ) : (
+                      <div className="text-red-400 font-bold bg-red-100 px-4 rounded-full">
+                        {order?.status}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* card body */}
                 <div className="shadow-boxShadowBorder rounded-lg p-3 flex justify-between flex-wrap gap-5 h-40 overflow-auto mt-2">
-                  {testArray2.map((data, index) => (
-                    <div key={index} className="flex w-52 gap-2 items-center">
-                      <div className="bg-gray-400 w-24 h-24 rounded-lg"></div>
+                  {order?.products?.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex w-52 gap-2 items-center"
+                    >
+                      <div className="bg-gray-400 w-24 h-24 rounded-lg">
+                        <img
+                          className="overflow-hidden h-full w-full"
+                          src={item?.product?.image[0]}
+                          alt="productImg"
+                        />
+                      </div>
                       <div className="flex flex-col h-full justify-evenly">
-                        <p>Product Name</p>
-                        <p>$499</p>
-                        <p>Qty : 2</p>
+                        <p>{item?.product?.productName}</p>
+                        <p>₹{item?.product?.price}</p>
+                        <p>Qty : {item?.quantity}</p>
                       </div>
                     </div>
                   ))}
@@ -116,11 +154,11 @@ const Orders = () => {
               {/* card footer */}
               <div className="bg-gray-200 rounded-b-lg flex justify-between items-center px-4 py-2">
                 <div className="flex gap-1">
-                  <p className="font-semibold">$998</p>
-                  <p>(2 Items)</p>
+                  <p className="font-semibold">₹{order?.netAmount}</p>
+                  <p>({order?.products?.length} Items)</p>
                 </div>
                 <NavLink
-                  to={`/orders/${1234}`}
+                  to={`/orders/${order?._id}`}
                   className="bg-black text-white flex justify-center items-center p-2 rounded-full w-20 text-sm"
                 >
                   Details

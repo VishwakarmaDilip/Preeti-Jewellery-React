@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Button from "../components/Button";
 import SavedAddress from "../components/SavedAddress";
@@ -8,12 +8,13 @@ import {
   cartApiCall,
   createOrder,
   getAddress,
+  getTAT,
 } from "../features/Usfull reducers/ApiCalls";
 import { toggleCartChanged } from "../features/Usfull reducers/cart";
 
 const Checkout_Payment = () => {
   const { register, watch } = useForm();
-  const navigate = useNavigate()
+  
 
   const [showSavedAddress, setShowSavedAddress] = React.useState(false);
   const location = useLocation();
@@ -23,7 +24,9 @@ const Checkout_Payment = () => {
   const dispatch = useDispatch();
   const myCart = useSelector((state) => state.cart.myCart);
   const productsInCart = useSelector((state) => state.cart.productsInCart);
+  const estimatedDelivery = useSelector((state)=> state.user.TAT)
   const deleveryCharge = 99;
+
 
   useEffect(() => {
     dispatch(cartApiCall());
@@ -33,7 +36,14 @@ const Checkout_Payment = () => {
     if (addressId.addressId !== "98654512") {
       dispatch(getAddress(addressId.addressId));
     }
+    
   }, [addressId]);
+
+  useEffect(() => {
+    if (deliveryData) {
+      dispatch(getTAT(deliveryData?.pinCode));
+    }
+  }, [deliveryData]);
 
   useEffect(() => {
     if (showSavedAddress) {
@@ -49,17 +59,9 @@ const Checkout_Payment = () => {
 
   const selectedPamentMethod = watch("payment") || null;
 
-
-  const placeOrder = (
-    deliveryData,
-    cartId,
-    paymentType = "POD"
-  ) => {
-    dispatch(createOrder({ deliveryData, cartId, addressId, paymentType }));
-    navigate("/")
-    window.location.reload()
+  const placeOrder = (deliveryData, cartId, paymentType = "POD", delivery = estimatedDelivery ) => {
+    dispatch(createOrder({ deliveryData, cartId, addressId, paymentType, delivery }));  
   };
-  
 
   return (
     <div className="my-4 space-y-8 relative">
@@ -87,12 +89,17 @@ const Checkout_Payment = () => {
         <div className="w-[68%] h-fit p-3 flex flex-col gap-6">
           <div className="bg-white p-3 rounded-md">
             <div className=" space-y-2">
-              <h2 className="font-semibold text-lg">
-                Delivering to{" "}
-                <span>
-                  {deliveryData?.firstName} {deliveryData?.lastName}
-                </span>
-              </h2>
+              <div className="flex justify-between">
+                <h2 className="font-semibold text-lg">
+                  Delivering to{" "}
+                  <span>
+                    {deliveryData?.firstName} {deliveryData?.lastName}
+                  </span>
+                </h2>
+                <p className="text-green-500 font-semibold">
+                  Estimated Delevery : {estimatedDelivery}
+                </p>
+              </div>
               <p>
                 {deliveryData?.address}, {deliveryData?.city} -{" "}
                 {deliveryData?.pinCode}, {deliveryData?.state}

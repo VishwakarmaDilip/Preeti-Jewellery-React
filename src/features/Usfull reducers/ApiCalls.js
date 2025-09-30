@@ -1,8 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setLoading, setMyCart, setProductInCart, toggleCartChanged } from './cart';
 import toast from 'react-hot-toast';
-import { setAddress, setAllAddresses, setAllAddressesPinCheck, setPinCodeService, setUser } from './user';
+import { operatePlaceOrder, setAddress, setAllAddresses, setAllAddressesPinCheck, setPinCodeService, setTAT, setUser } from './user';
 import { setWishList, toggleWishListChanged } from './wishList';
+import { setAllOrders, setOrder } from './orders';
+
 
 
 // cart related api calls
@@ -350,13 +352,50 @@ export const pinCodeServiceCheckAllAddress = createAsyncThunk(
     }
 )
 
+export const getTAT = createAsyncThunk(
+    "user/getTAT",
+    async (destinationPin, thunkAPI) => {
+
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/v1/user/address/delivery/getExpectedTAT?desinationPin=${destinationPin}`,
+                {
+                    credentials: "include"
+                }
+            )
+            const responseData = await response.json()
+            const fetchedTAT = responseData.data.TATtime
+            // console.log(fetchedTAT);
+
+
+            const today = Date.now()
+            const TATinDays = fetchedTAT * 24 * 60 * 60 * 1000
+            const estDate = today + TATinDays
+
+            const option = {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            };
+
+            const estimatedDate = new Intl.DateTimeFormat("en-IN", option).format(estDate)
+
+            thunkAPI.dispatch(setTAT(estimatedDate))
+
+        } catch (error) {
+            console.error("Failed to fetch TAT:", error);
+            return thunkAPI.rejectWithValue("Failed to fetch TAT");
+        }
+    }
+)
+
 
 // order related api calls
 export const createOrder = createAsyncThunk(
     "user/createOrder",
     async (orderData, thunkAPI) => {
         try {
-            fetch(
+            const response = await fetch(
                 `http://localhost:3000/api/v1/order/createOrder`,
                 {
                     method: "POST",
@@ -368,9 +407,67 @@ export const createOrder = createAsyncThunk(
                 }
             )
 
+            const responseData = await response.json()
+            const order_Id = responseData?.data?._id
+
+            console.log("chala");
+
+            if (responseData.statusCode < 300) {
+                thunkAPI.dispatch(operatePlaceOrder(order_Id))
+            } else {
+                toast.error("Something went wrong")
+            }
+
+
         } catch (error) {
             console.error("Failed to create Order", error);
             return thunkAPI.rejectWithValue("Failed to create order");
+        }
+    }
+)
+
+export const fetchAllOrders = createAsyncThunk(
+    "order/fetchAllOrders",
+    async ({ startDate = "", endDate = "", orderStatus }, thunkAPI) => {
+        try {
+
+            const response = await fetch(
+                `http://localhost:3000/api/v1/order/fetchAllOrdersUser?startDate=${startDate}&endDate=${endDate}&orderStatus=${orderStatus}`,
+                {
+                    credentials: "include"
+                }
+            )
+
+            const responseData = await response.json()
+            const fetchedOrders = responseData.data.fetchedOrders
+            thunkAPI.dispatch(setAllOrders(fetchedOrders))
+
+        } catch (error) {
+            console.error("Failed to fetch orders", error);
+            return thunkAPI.rejectWithValue("Failed to fetch orders");
+        }
+    }
+)
+
+export const getOrder = createAsyncThunk(
+    "order/getOrder",
+    async (order_Id, thunkAPI) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/v1/order/getOrder/${order_Id}`,
+                {
+                    credentials: "include"
+                }
+            )
+
+            const responseData = await response.json()
+
+            const fetchedOrder = responseData.data[0]
+            thunkAPI.dispatch(setOrder(fetchedOrder))
+
+        } catch (error) {
+            console.error("Failed to fetch orders", error);
+            return thunkAPI.rejectWithValue("Failed to fetch orders");
         }
     }
 )

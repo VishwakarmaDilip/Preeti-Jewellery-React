@@ -18,6 +18,7 @@ const Cart = () => {
     dispatch(cartApiCall());
   }, [cartState]);
 
+
   const handleRemove = async (productId) => {
     dispatch(handleRemoveFromCart(productId));
   };
