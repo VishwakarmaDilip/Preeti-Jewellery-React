@@ -410,8 +410,6 @@ export const createOrder = createAsyncThunk(
             const responseData = await response.json()
             const order_Id = responseData?.data?._id
 
-            console.log("chala");
-
             if (responseData.statusCode < 300) {
                 thunkAPI.dispatch(operatePlaceOrder(order_Id))
             } else {

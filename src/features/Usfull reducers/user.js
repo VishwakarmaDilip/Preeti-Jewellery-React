@@ -35,7 +35,7 @@ export const userSlice = createSlice({
         operatePlaceOrder: (state, payload) => {
             const order_Id = payload.payload 
             setTimeout(() => {
-                window.location.replace(`http://localhost:5173/orders/${order_Id}`)                
+                window.location.replace(`http://localhost:5174/orders/${order_Id}`)                
             }, 800);     
             toast.success("Order Placed")
         }

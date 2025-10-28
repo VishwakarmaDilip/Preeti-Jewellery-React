@@ -59,7 +59,7 @@ const Checkout_Payment = () => {
 
   const selectedPamentMethod = watch("payment") || null;
 
-  const placeOrder = (deliveryData, cartId, paymentType = "POD", delivery = estimatedDelivery ) => {
+  const placeOrder = (deliveryData, cartId, paymentType = "COD", delivery = estimatedDelivery ) => {
     dispatch(createOrder({ deliveryData, cartId, addressId, paymentType, delivery }));  
   };
 
@@ -122,11 +122,11 @@ const Checkout_Payment = () => {
                 <input
                   type="radio"
                   className="mt-1 cursor-pointer"
-                  id="pod"
-                  value={"pod"}
+                  id="cod"
+                  value={"cod"}
                   {...register("payment")}
                 />
-                <label htmlFor="pod" className="cursor-pointer">
+                <label htmlFor="cod" className="cursor-pointer">
                   Pay On Delivery
                 </label>
               </div>
@@ -153,7 +153,7 @@ const Checkout_Payment = () => {
                 >
                   Choose Method
                 </Button>
-              ) : selectedPamentMethod === "pod" ? (
+              ) : selectedPamentMethod === "cod" ? (
                 <Button
                   onClick={() => placeOrder(deliveryData, myCart._id)}
                   textColor={true}

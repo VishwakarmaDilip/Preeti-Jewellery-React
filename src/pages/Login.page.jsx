@@ -117,7 +117,7 @@ const Login = () => {
         </form>
         <p className=" ">
           Don't have an account?{" "}
-          <NavLink to="/signUp" className="text-blue-600 hover:underline">
+          <NavLink to="/register" className="text-blue-600 hover:underline">
             Sign Up
           </NavLink>
         </p>
