@@ -7,7 +7,8 @@ const initialState = {
     allAddresses: [],
     pinCodeService: [],
     allAddressesPinCheck: {},
-    TAT: ""
+    TAT: "",
+    refresh: false,
 }
 
 export const userSlice = createSlice({
@@ -32,6 +33,9 @@ export const userSlice = createSlice({
         setTAT: (state, action) => {
             state.TAT = action.payload
         },
+        setRefresh: (state) => {
+            state.refresh = !state.refresh
+        },
         operatePlaceOrder: (state, payload) => {
             const order_Id = payload.payload 
             setTimeout(() => {
@@ -43,6 +47,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const { setUser, setAllAddresses, setAddress, setPinCodeService, setAllAddressesPinCheck, setTAT, operatePlaceOrder } = userSlice.actions
+export const { setUser, setAllAddresses, setAddress, setPinCodeService, setAllAddressesPinCheck, setTAT, operatePlaceOrder, setRefresh } = userSlice.actions
 
 export default userSlice.reducer

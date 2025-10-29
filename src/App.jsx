@@ -16,6 +16,7 @@ import Checkout_Payment from "./pages/Checkout_Payment.page";
 import Order from "./pages/Orders.page";
 import ShowOrder from "./pages/ShowOrder.page";
 import SavedAddress from "./pages/SavedAddress.page";
+import ShowAddress from "./pages/ShowAddress.page";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
           { path: "/orders", element: <Order /> },
           { path: "/orders/:orderId", element: <ShowOrder /> },
           { path: "/savedAddress", element: <SavedAddress/>},
+          { path: "/address", element: <ShowAddress/>},
         ],
       },
       {
