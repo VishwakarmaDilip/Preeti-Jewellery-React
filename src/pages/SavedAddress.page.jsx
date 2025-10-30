@@ -2,18 +2,33 @@ import React, { useEffect } from "react";
 import Button from "../components/Button";
 import * as Icon from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllAddress } from "../features/Usfull reducers/ApiCalls";
+import {
+  deleteAddress,
+  getAllAddress,
+} from "../features/Usfull reducers/ApiCalls";
 import { NavLink } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SavedAddress = () => {
   const addresses = useSelector((state) => state.user.allAddresses);
-  const refresh = useSelector((state) => state.user.refresh)
+  const refresh = useSelector((state) => state.user.refresh);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllAddress());
-    console.log("chala");
   }, [refresh]);
+
+  const handleDelete = (address_id) => {
+    const isDeletionAllowed = confirm(
+      "Are you sure want to delete this Address..?"
+    );
+
+    if (isDeletionAllowed) {
+      dispatch(deleteAddress(address_id));
+    } else {
+      toast.error("Address Deletion Aborted");
+    }
+  };
 
   return (
     <div className="h-fit w-full mt-10 p-10 ">
@@ -51,7 +66,9 @@ const SavedAddress = () => {
                 <p>
                   <span>{data.address}</span>
                   {", "}
-                  <span>{data.city}</span> <span>{data.pinCode}</span>{" "}
+                  {data.landmark && <span>{data.landmark}, </span>}
+                  <span>{data.city}</span> <span>{data.pinCode}</span>
+                  {", "}
                   <span>{data.state}</span>
                 </p>
                 <p>
@@ -65,10 +82,14 @@ const SavedAddress = () => {
                   className={
                     "bg-red-500 w-1/2 hover:shadow-boxShadow active:bg-red-700 "
                   }
+                  onClick={() => handleDelete(data._id)}
                 >
                   Delete
                 </Button>
-                <NavLink to={`/address?address_id=${data._id}`} className={"w-1/2"}>
+                <NavLink
+                  to={`/address?address_id=${data._id}`}
+                  className={"w-1/2"}
+                >
                   <Button
                     className={
                       "bg-blue-500 w-full hover:shadow-boxShadow active:bg-blue-700"

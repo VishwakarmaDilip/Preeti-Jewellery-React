@@ -7,6 +7,7 @@ import {
   createAddress,
   getAddress,
   pinCodeServiceCheck,
+  updateAddress,
 } from "../features/Usfull reducers/ApiCalls";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { setRefresh } from "../features/Usfull reducers/user";
@@ -17,7 +18,7 @@ const ShowAddress = () => {
   const [searchParams, setSearchParams] = useSearchParams("");
   const address_id = searchParams.get("address_id");
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -85,9 +86,14 @@ const ShowAddress = () => {
   }, [pincodeServiceData, setValue]);
 
   const submit = (data) => {
-    dispatch(createAddress(data));
-    dispatch(setRefresh())
-    navigate("/savedAddress");
+    if (address_id) {
+      const updateData = {data,address_id}
+      dispatch(updateAddress(updateData));
+      navigate("/savedAddress");
+    } else {
+      dispatch(createAddress(data));
+      navigate("/savedAddress");
+    }
   };
 
   return (
@@ -99,7 +105,11 @@ const ShowAddress = () => {
 
       {/* Main Body */}
       <div className="bg-white p-5 mx-28 mt-5">
-        <form action="" className="grid grid-cols-2 gap-6 " onSubmit={handleSubmit(submit)}>
+        <form
+          action=""
+          className="grid grid-cols-2 gap-6 "
+          onSubmit={handleSubmit(submit)}
+        >
           <div>
             <Input
               placeholder={"First Name"}
@@ -108,7 +118,9 @@ const ShowAddress = () => {
               {...register("firstName", { required: "First Name is Required" })}
             />
             {errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.firstName.message}
+              </p>
             )}
           </div>
 
@@ -231,9 +243,21 @@ const ShowAddress = () => {
 
           <div className="flex justify-end">
             {address_id ? (
-              <Button className={"bg-theamColor2 hover:shadow-boxShadow active:bg-theamColor"}>Update Address</Button>
+              <Button
+                className={
+                  "bg-theamColor2 hover:shadow-boxShadow active:bg-theamColor"
+                }
+              >
+                Update Address
+              </Button>
             ) : (
-              <Button className={"bg-theamColor2 hover:shadow-boxShadow active:bg-theamColor"}>Add Address</Button>
+              <Button
+                className={
+                  "bg-theamColor2 hover:shadow-boxShadow active:bg-theamColor"
+                }
+              >
+                Add Address
+              </Button>
             )}
           </div>
         </form>

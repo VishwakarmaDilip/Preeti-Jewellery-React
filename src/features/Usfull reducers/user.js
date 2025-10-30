@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
+import { createAddress, deleteAddress, updateAddress } from "./ApiCalls";
 
 const initialState = {
     user: null,
@@ -43,7 +44,19 @@ export const userSlice = createSlice({
             }, 800);     
             toast.success("Order Placed")
         }
+    },
 
+    extraReducers: (builder) => {
+        builder
+            .addCase(createAddress.fulfilled,(state) => {
+                state.refresh = !state.refresh
+            })
+            .addCase(deleteAddress.fulfilled,(state) => {
+                state.refresh = !state.refresh
+            })
+            .addCase(updateAddress.fulfilled,(state) => {
+                state.refresh = !state.refresh
+            })
     }
 })
 

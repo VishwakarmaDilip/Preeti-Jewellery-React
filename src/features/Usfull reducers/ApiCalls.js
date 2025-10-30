@@ -303,6 +303,65 @@ export const getAddress = createAsyncThunk(
     }
 )
 
+export const deleteAddress = createAsyncThunk(
+    "user/deleteAddress",
+    async (addressId, thunkAPI) => {       
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/v1/user/address/delete/${addressId}`,
+                {
+                    method:"DELETE",
+                    credentials:"include"
+                }
+            )
+
+            if (response.status < 300) {
+                toast.success("Address Deleted Successfully")
+            } else {
+                toast.error("Something went wrong..!")
+            }
+        } catch (error) {
+            console.error("Failed to Delete the address", error);
+            return thunkAPI.rejectWithValue("Failed to Delete the address")
+            
+        }
+    }
+)
+
+
+export const updateAddress = createAsyncThunk(
+    "user/updateAddress",
+    async (addressData, thunkAPI) => {
+        console.log({addressData});
+        
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/v1/user/address/update/${addressData.address_id}`,
+                {
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials:"include",
+                    body: JSON.stringify(addressData.data)
+                }
+            )
+
+            if (response.status < 300) {
+                toast.success("Address updates Successfully")
+            } else {
+                toast.error("Something went wrong..!")
+            }
+        } catch (error) {
+            console.error("Failed to Update the address", error);
+            return thunkAPI.rejectWithValue("Failed to Update the address")
+            
+        }
+    }
+)
+
+
+
 
 // Delhivery related api calls
 export const pinCodeServiceCheck = createAsyncThunk(
@@ -388,6 +447,7 @@ export const getTAT = createAsyncThunk(
         }
     }
 )
+
 
 
 // order related api calls
