@@ -486,11 +486,13 @@ export const createOrder = createAsyncThunk(
 
 export const fetchAllOrders = createAsyncThunk(
     "order/fetchAllOrders",
-    async ({ startDate = "", endDate = "", orderStatus }, thunkAPI) => {
+    async (query, thunkAPI) => {
         try {
 
+
+            const {startDate,endDate,orderStatus, page} = query
             const response = await fetch(
-                `http://localhost:3000/api/v1/order/fetchAllOrdersUser?startDate=${startDate}&endDate=${endDate}&orderStatus=${orderStatus}`,
+                `http://localhost:3000/api/v1/order/fetchAllOrdersUser?startDate=${startDate}&endDate=${endDate}&orderStatus=${orderStatus}&page=${page}`,
                 {
                     credentials: "include"
                 }
@@ -498,7 +500,11 @@ export const fetchAllOrders = createAsyncThunk(
 
             const responseData = await response.json()
             const fetchedOrders = responseData.data.fetchedOrders
+            const pageInfo = responseData.data.pageInfo
+
             thunkAPI.dispatch(setAllOrders(fetchedOrders))
+
+            return pageInfo
 
         } catch (error) {
             console.error("Failed to fetch orders", error);

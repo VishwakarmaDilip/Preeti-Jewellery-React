@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchAllOrders } from "./ApiCalls";
 
 const initialState = {
     allOrders : [],
     order : [],
+    pageInfo : {},
+
 }
 
 export const orderSlice = createSlice({
@@ -15,6 +18,13 @@ export const orderSlice = createSlice({
         setOrder: (state, action) => {
             state.order = action.payload
         }
+    },
+
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAllOrders.fulfilled, (state, action) => {
+                state.pageInfo = action.payload
+            })
     }
 })
 
