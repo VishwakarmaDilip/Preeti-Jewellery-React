@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Icon from "react-feather";
 import Button from "../components/Button";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllOrders } from "../features/Usfull reducers/ApiCalls";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import moment from "moment";
 
 const Orders = () => {
   const allorders = useSelector((state) => state.order.allOrders);
@@ -15,17 +18,72 @@ const Orders = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [customDates, setCustomDates] = useState([]);
 
   const dispatch = useDispatch();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
 
   useEffect(() => {
     const page = pageNumber;
-
     const query = { startDate, endDate, orderStatus, page };
 
     dispatch(fetchAllOrders(query));
-  }, [orderStatus, pageNumber]);
+  }, [orderStatus, pageNumber, startDate, endDate]);
+
+  useEffect(() => {
+    let [start = "", end = ""] = customDates;
+
+    if (start != "" && end != "") {
+      const dateOne = new Date(start);
+      const dateTwo = new Date(end);
+
+      dateOne.setHours(0, 0, 0, 0);
+      dateTwo.setHours(23, 59, 0, 0);
+
+      setStartDate(dateOne.getTime());
+      setEndDate(dateTwo.getTime());
+    }
+  }, [customDates]);
+
+  const disabledDate = (current) => {
+    // Can not select days after today and today
+    return current && current > dayjs().endOf("day");
+  };
+
+  const quickDate = (timeSpan) => {
+
+    switch (timeSpan) {
+      case "thisMonth":
+        const year = new Date().getFullYear();
+        const month = new Date().getMonth();
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+
+        setStartDate(firstDay.getTime());
+        setEndDate(lastDay.getTime());
+
+        break;
+
+      case "lastMonth":
+        const Year = new Date().getFullYear();
+        const Month = new Date().getMonth();
+
+        const dayFirst = new Date(Year, Month - 1, 1);
+        const dayLast = new Date(Year, Month, 0);
+
+        console.log();
+        ({ dayFirst, dayLast });
+
+        setStartDate(dayFirst.getTime());
+        setEndDate(dayLast.getTime());
+
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="h-fit w-full mt-8 p-10 flex flex-col items-center gap-6">
@@ -38,7 +96,7 @@ const Orders = () => {
           {/* order type */}
           <div className="flex w-[40rem] justify-between items-center bg-gray-300 relative px-11 h-[3rem] rounded-3xl cursor-pointer">
             <p
-              className={`z-20 ${select === 0.7 ? "font-semibold" : ""}`}
+              className={`z-10 ${select === 0.7 ? "font-semibold" : ""}`}
               onClick={() => {
                 setSelect(0.7);
                 setOrderStatus("");
@@ -47,7 +105,7 @@ const Orders = () => {
               All orders
             </p>
             <p
-              className={`z-20 ${select === 15.5 ? "font-semibold" : ""}`}
+              className={`z-10 ${select === 15.5 ? "font-semibold" : ""}`}
               onClick={() => {
                 setSelect(15.5);
                 setOrderStatus("Shipping");
@@ -56,7 +114,7 @@ const Orders = () => {
               Arriving
             </p>
             <p
-              className={`z-20 ${select === 30.5 ? "font-semibold" : ""}`}
+              className={`z-10 ${select === 30.5 ? "font-semibold" : ""}`}
               onClick={() => {
                 setSelect(30.5);
                 setOrderStatus("Cancelled");
@@ -65,38 +123,57 @@ const Orders = () => {
               Cancelled
             </p>
             <div
-              className={`absolute bg-white w-[9rem] h-[2rem] z-10 rounded-3xl transition-all`}
+              className={`absolute bg-white w-[9rem] h-[2rem] rounded-3xl transition-all`}
               style={{ left: `${select}rem` }}
             ></div>
           </div>
 
           {/* date filter */}
           <form className="bg-white w-[40rem] h-[3rem] flex rounded-3xl px-3 justify-between">
-            <div className="relative flex items-center">
-              <select className="appearance-none bg-gray-300 rounded-3xl w-64 pl-3 h-[2rem]">
+            <div className="flex items-center pl-5">
+              <h3 className="text-xl font-semibold">Filter</h3>
+            </div>
+            <div className="relative flex items-center gap-2">
+              {watch("selectDate") == "custom" && (
+                <DatePicker.RangePicker
+                  disabledDate={disabledDate}
+                  onChange={(dates) => {
+                    if (!dates) {
+                      setCustomDates([]); // reset if cleared
+                      return;
+                    }
+
+                    const formatted = dates.map((d) => (d ? d.toDate() : null));
+
+                    setCustomDates(formatted);
+                  }}
+                />
+              )}
+              <select
+                className="appearance-none bg-gray-300 rounded-3xl w-56 pl-3 h-[2rem] relative z-0"
+                {...register("selectDate", {
+                  onChange: (e) => quickDate(e.target.value),
+                })}
+              >
                 <option value="" className="bg-white">
                   Select Date
                 </option>
                 <option value="thisMonth" className="bg-white">
                   This Month
                 </option>
-                <option value="LastMonth" className="bg-white">
+                <option value="lastMonth" className="bg-white">
                   Last Month
                 </option>
+                <option value="custom" className="bg-white">
+                  Custom
+                </option>
               </select>
+
               <Icon.Triangle
                 fill=""
                 size={12}
                 className="rotate-180 absolute right-3 pointer-events-none"
               />
-            </div>
-            <div className="flex items-center gap-5">
-              <Button className="bg-green-500 h-[2rem] w-28 flex items-center justify-center">
-                Apply
-              </Button>
-              <Button className="bg-red-500 h-[2rem] w-28 flex items-center justify-center">
-                Reset
-              </Button>
             </div>
           </form>
         </div>

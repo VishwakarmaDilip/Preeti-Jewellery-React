@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <>
-      <div className=" relative flex justify-center h-full xs:h-screen w-screen xs:w-full">
+      <div className="hidden relative xs:flex justify-center h-full xs:h-screen w-screen xs:w-full">
         <div className=" h-full w-full overflow-hidden">
           {" "}
           {/*hero section*/}

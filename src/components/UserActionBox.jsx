@@ -30,7 +30,7 @@ const UserActionBox = ({ onClose }) => {
   }, []);
   
   return (
-    <div className=" absolute z-10 bg-white flex flex-col top-0 -right-36 p-2 w-72 border shadow-md rounded-md">
+    <div className=" absolute z-30 bg-white flex flex-col top-0 -right-36 p-2 w-72 border shadow-md rounded-md">
       {/* top Bar or user Name and close section */}
       <div className="flex justify-between border-b-2 p-2 pb-3">
         <div className="flex items-center gap-2">

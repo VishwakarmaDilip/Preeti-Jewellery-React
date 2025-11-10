@@ -26,15 +26,19 @@ const Register = () => {
     try {
       setSubmitting(true);
       const response = await fetch(
-        `https://paste-app-backend-production.up.railway.app/api/v1/users/register`,
+        `http://localhost:3000/api/v1/user/register`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          credentials:"include",
           body: JSON.stringify(data),
         }
       );
+
+      console.log("chala");
+      
 
       if (response.status < 299) {
         toast.success("User Registered Succsessfully");
@@ -67,52 +71,59 @@ const Register = () => {
 
   return (
     <div className="h-screen flex justify-center items-center">
-      <div className="w-80 p-6 bg-white rounded-2xl shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
+      <div className="">
+        <h1 className="font-bold text-4xl text-[#967203]">Preety Jewellery</h1>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-5 w-full flex flex-col gap-6"
+        >
+          <div className="space-y-3">
             <label className="block text-sm font-medium">Name</label>
             <input
               type="text"
               {...register("fullName", { required: "Name is required" })}
-              className="w-full"
+              placeholder="Enter Your Name..."
+              className="w-full bg-white h-11 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#967203] focus:border-transparent transition-all duration-200"
             />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            {errors.fullName && (
+              <p className="text-red-500 text-sm">{errors.fullName.message}</p>
             )}
           </div>
 
-          <div>
+          <div className="space-y-3">
             <label className="block text-sm font-medium">Username</label>
             <input
               type="text"
+              placeholder="Enter Your Username"
               {...register("username", { required: "Username is required" })}
-              className="w-full"
+              className="w-full bg-white h-11 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#967203] focus:border-transparent transition-all duration-200"
             />
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
           </div>
 
-          <div>
+          <div className="space-y-3">
             <label className="block text-sm font-medium">Email</label>
             <input
               type="email"
+              placeholder="Enter Your Email Address"
               {...register("email", { required: "Email is required" })}
-              className="w-full"
+              className="w-full bg-white h-11 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#967203] focus:border-transparent transition-all duration-200"
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
 
-          <div className="relative">
+          <div className="relative space-y-3">
             <label className="block text-sm font-medium">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
+                placeholder="Enter Your Password"
                 {...register("password", { required: "Password is required" })}
-                className="w-full pr-10"
+                className="w-full bg-white h-11 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#967203] focus:border-transparent transition-all duration-200"
               />
               <button
                 type="button"
@@ -131,7 +142,15 @@ const Register = () => {
             )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={submitting}>
+          <Button
+            type="submit"
+            className={`${
+              submitting
+                ? "bg-buttonColor"
+                : "bg-buttonColor2 hover:bg-hoverColor active:bg-clickColor2"
+            } text-white  transition-all duration-200 mt-2`}
+            disabled={submitting}
+          >
             {submitting ? "Signing Up..." : "Sign Up"}
           </Button>
         </form>
