@@ -25,14 +25,17 @@ const Login = () => {
   const submit = async (data) => {
     try {
       setSubmitting(true);
-      const response = await fetch(`http://localhost:3000/api/v1/user/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/v1/user/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.status < 300) {
         reset();

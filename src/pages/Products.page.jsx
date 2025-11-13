@@ -14,6 +14,7 @@ import {
   handleRemoveFromWishList,
 } from "../features/Usfull reducers/ApiCalls";
 import Cookies from "js-cookie";
+import UserBarMBL from "../components/UserBarMBL";
 
 const Products = () => {
   const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
@@ -36,6 +37,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [filter, setFilter] = useState(96);
   const navigate = useNavigate();
 
   // Fetch products based on search term, pagination, sorting, and category
@@ -129,6 +131,10 @@ const Products = () => {
       setSortBy("createdAt");
       setSortType("");
     }
+
+    if (screen.width < 500) {
+      setFilter(96);
+    }
   };
 
   const handleAddToCart = async (productId) => {
@@ -173,30 +179,47 @@ const Products = () => {
     dispatch(handleRemoveFromWishList(productId));
   };
 
+  const toggleFilterBox = () => {
+    if (filter === 44) {
+      setFilter(96);
+    } else {
+      setFilter(44);
+    }
+  };
+
   return (
     // product main body
-    <div className=" w-full h-fit mb-8 mt-20 flex flex-col items-center gap-8">
+    <div className=" w-full h-fit mb-8 mt-5 xs:mt-20 flex flex-col items-center gap-8">
       <div className="w-full flex justify-center items-center gap-20">
         {/* search bar */}
         <div className="h-10 flex items-center justify-center xs:justify-start xs:pr-">
           <input
             type="text"
             placeholder="Search..."
-            className=" w-72 h-10 border border-black rounded-lg px-4"
+            className="w-80 xs:w-72 h-10 border border-black rounded-lg px-4"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         {/* filter form */}
-        <form className="flex gap-6 pr-4" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex gap-6">
+        <form
+          className={`fixed bottom-16 xs:bottom-0 left-${filter} xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {screen.width < 500 && (
+            <div className="flex justify-between">
+              <h3 className="font-semibold">Filter</h3>
+              <Icon.X size={20} onClick={() => toggleFilterBox()} />
+            </div>
+          )}
+          <div className="flex flex-col xs:flex-row gap-6">
             <div className="relative">
               <select
-                className={`appearance-none focus:outline-none px-2 focus:ring-2 bg-white p-2 rounded-lg w-40 transition-all ease-in-out`}
+                className={`appearance-none focus:outline-none px-2 focus:ring-2 bg-white p-2 rounded-lg w-44 transition-all ease-in-out`}
                 {...register("category")}
               >
-                <option value="">Category</option>
+                <option value="" className="text-sm">Category</option>
                 {category?.map((cat) => (
-                  <option key={cat?._id} value={cat?._id}>
+                  <option key={cat?._id} value={cat?._id} className="text-sm">
                     {cat?.categoryName}
                   </option>
                 ))}
@@ -213,9 +236,15 @@ const Products = () => {
                 className="appearance-none focus:outline-none px-2 focus:ring-2 bg-white p-2 rounded-lg w-44"
                 {...register("sortBy")}
               >
-                <option value="createdAt">Short</option>
-                <option value="price ascending">Price : Low to High</option>
-                <option value="price descending">Price : High to Low</option>
+                <option value="createdAt" className="text-sm">
+                  Short
+                </option>
+                <option value="price ascending" className="text-sm">
+                  Price : Low to High
+                </option>
+                <option value="price descending" className="text-sm">
+                  Price : High to Low
+                </option>
               </select>
               <Icon.Triangle
                 fill=""
@@ -225,7 +254,7 @@ const Products = () => {
             </div>
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex flex-col xs:flex-row gap-2 xs:gap-6">
             <button
               type="submit"
               disabled={loading}
@@ -244,6 +273,9 @@ const Products = () => {
                   category: "",
                   sortBy: "createdAt",
                 });
+                if (screen.width < 500) {
+                  setFilter(96);
+                }
               }}
               className=" bg-[#dda337] w-40 rounded-md hover:shadow-boxShadow active:bg-[#ce9643] transition-all ease-in-out font-semibold"
             >
@@ -251,10 +283,18 @@ const Products = () => {
             </button>
           </div>
         </form>
+        {screen.width < 500 && (
+          <div
+            className="fixed bg-white p-2 shadow-boxShadowBorder2 rounded-full bottom-20 right-5 z-10"
+            onClick={() => toggleFilterBox()}
+          >
+            <Icon.Filter />
+          </div>
+        )}
       </div>
       {/* product container */}
       {/* <div className=" w-4/5 h-fit place-items-center grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-4 gap-y-6 "> */}
-      <div className=" w-[85%] xs:w-[75%] h-fit grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-7 xs:flex xs:flex-wrap xs:gap-14">
+      <div className=" w-[90%] xs:w-[75%] h-fit grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-7 xs:flex xs:flex-wrap xs:gap-14">
         {products && products?.length > 0 ? (
           products.map((currProd) => {
             return (
@@ -296,9 +336,7 @@ const Products = () => {
 
                   {/* product detail */}
                   <div className=" h-2/5 flex flex-col justify-between p-2">
-                    <h1 className=" text-[1.5rem]">
-                      {currProd?.productName}
-                    </h1>
+                    <h1 className=" text-[1.5rem]">{currProd?.productName}</h1>
                     <div className=" flex items-center gap-[1.3rem]">
                       <p className=" text-[1rem] xs:text-2xl">
                         ₹{currProd?.price}
@@ -314,14 +352,14 @@ const Products = () => {
                     (currItem) => currItem?._id === currProd._id
                   ) ? (
                     <button
-                      className=" bg-buttonColor h-3/6 w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                      className=" bg-buttonColor h-3/6 w-36 xs:w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
                       onClick={() => handleAddToCart(currProd?._id)}
                     >
                       Add to Cart
                     </button>
                   ) : (
                     <button
-                      className=" bg-buttonColor h-3/6 w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                      className=" bg-buttonColor h-3/6 w-36 xs:w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
                       onClick={() => handleRemove(currProd?._id)}
                     >
                       Remove

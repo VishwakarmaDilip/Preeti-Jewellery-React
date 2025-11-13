@@ -51,7 +51,6 @@ const Orders = () => {
   };
 
   const quickDate = (timeSpan) => {
-
     switch (timeSpan) {
       case "thisMonth":
         const year = new Date().getFullYear();
@@ -86,15 +85,15 @@ const Orders = () => {
   };
 
   return (
-    <div className="h-fit w-full mt-8 p-10 flex flex-col items-center gap-6">
-      <h1 className="self-start text-3xl font-bold">My Orders</h1>
+    <div className="min-h-screen w-full mt-8 px-4 sm:px-8 flex flex-col items-center gap-6 overflow-x-hidden">
+      <h1 className="self-start text-xl xs:text-3xl font-bold">My Orders</h1>
 
       {/* main body */}
-      <div>
+      <div className="flex flex-col justify-center items-center xs:w-[70rem]">
         {/* filter box */}
-        <div className="lg:flex gap-6">
+        <div className="flex flex-col md:flex-row gap-6 w-full max-w-6xl justify-center">
           {/* order type */}
-          <div className="flex w-[40rem] justify-between items-center bg-gray-300 relative px-11 h-[3rem] rounded-3xl cursor-pointer">
+          <div className="flex w-full max-w-md md:max-w-xl justify-between items-center bg-gray-300 relative px-5 xs:px-11 h-[3rem] rounded-3xl cursor-pointer">
             <p
               className={`z-10 ${select === 0.7 ? "font-semibold" : ""}`}
               onClick={() => {
@@ -105,31 +104,40 @@ const Orders = () => {
               All orders
             </p>
             <p
-              className={`z-10 ${select === 15.5 ? "font-semibold" : ""}`}
+              className={`z-10 ${select === 13 ? "font-semibold" : ""}`}
               onClick={() => {
-                setSelect(15.5);
+                if (screen.width < 500) {
+                  setSelect(7);
+                } else {
+                  setSelect(13);
+                }
+
                 setOrderStatus("Shipping");
               }}
             >
               Arriving
             </p>
             <p
-              className={`z-10 ${select === 30.5 ? "font-semibold" : ""}`}
+              className={`z-10 ${select === 25.5 ? "font-semibold" : ""}`}
               onClick={() => {
-                setSelect(30.5);
+                if (screen.width < 500) {
+                  setSelect(16);
+                } else {
+                  setSelect(25.5);
+                }
                 setOrderStatus("Cancelled");
               }}
             >
               Cancelled
             </p>
             <div
-              className={`absolute bg-white w-[9rem] h-[2rem] rounded-3xl transition-all`}
+              className={`absolute bg-white w-[6rem] xs:w-[9rem] h-[2rem] rounded-3xl transition-all`}
               style={{ left: `${select}rem` }}
             ></div>
           </div>
 
           {/* date filter */}
-          <form className="bg-white w-[40rem] h-[3rem] flex rounded-3xl px-3 justify-between">
+          <form className="bg-white w-full max-w-md md:max-w-xl h-[3rem] flex rounded-3xl px-3 justify-between">
             <div className="flex items-center pl-5">
               <h3 className="text-xl font-semibold">Filter</h3>
             </div>
@@ -179,11 +187,11 @@ const Orders = () => {
         </div>
 
         {/* orders */}
-        <div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(40rem,1fr))] gap-5 mt-5">
+        <div className="xs:w-full">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] xs:grid-cols-[repeat(auto-fit,minmax(30rem,1fr))] gap-5 mt-5">
             {allorders?.map((order) => (
               <div key={order._id}>
-                <div className="bg-white p-3 rounded-t-lg">
+                <div className="bg-white p-3 rounded-t-lg ">
                   {/* card head */}
                   <div className="flex justify-between">
                     <div>
@@ -233,7 +241,7 @@ const Orders = () => {
                   </div>
                 </div>
                 {/* card footer */}
-                <div className="bg-gray-200 rounded-b-lg flex justify-between items-center px-4 py-2">
+                <div className="bg-gray-200 rounded-b-lg flex justify-between items-center px-4 py-2 ">
                   <div className="flex gap-1">
                     <p className="font-semibold">₹{order?.netAmount}</p>
                     <p>({order?.products?.length} Items)</p>

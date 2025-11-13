@@ -128,6 +128,7 @@ export const getUser = createAsyncThunk(
         try {
             const response = await fetch(
                 `http://localhost:3000/api/v1/user/getUser`,
+
                 {
                     credentials: "include",
                 }

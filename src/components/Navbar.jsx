@@ -69,24 +69,24 @@ const Navbar = () => {
   const productsInList = allList.length;
 
   return (
-    <nav className=" bg-navBag2 xs:bg-navBag flex absolute h-[40px] w-4/5 items-center justify-between px-4 rounded-[2rem] top-5 xs:px-4 z-20">
+    <nav className=" bg-navBag2 xs:bg-navBag flex absolute h-[40px] w-4/5 items-center justify-between px-4 rounded-[2rem] -top-full xs:top-5 xs:px-4 z-20 ">
       {/* logo */}
       <div className=" text-theamColor font-[800] text-[0.8rem] xs:text-[1rem]">
         Preeti Jewellery
       </div>
 
       {/* main nav */}
-      <ul className="flex justify-between w-full xs:w-[25rem] uppercase z-[1000] fixed xs:relative bg-backgroundColor3 xs:bg-transparent left-0 bottom-0 h-16 xs:h-fit py-4 px-8 xs:p-0 text-[0.65rem] xs:text-[1rem] shadow-boxShadow2 xs:shadow-none items-center font-bold xs:font-normal">
+      <ul className="flex justify-between w-full xs:w-[25rem] uppercase z-[1000] fixed xs:relative bg-backgroundColor3 xs:bg-transparent left-0 bottom-1 h-16 xs:h-fit py-4 px-8 xs:p-0 text-[0.65rem] xs:text-[1rem] shadow-boxShadow2 xs:shadow-none items-center font-bold xs:font-normal">
         <li className="group">
           <NavLink
             to="/"
             className={({ isActive }) =>
               isActive
-                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
-                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
+                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-125 xs:scale-100"
+                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-95 xs:scale-100"
             }
           >
-            <Icon.Home/>
+            {screen.width < 500 && <Icon.Home />}
             Home
           </NavLink>
         </li>
@@ -95,11 +95,11 @@ const Navbar = () => {
             to="/products"
             className={({ isActive }) =>
               isActive
-                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
-                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
+                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-125 xs:scale-100"
+                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-95 xs:scale-100"
             }
           >
-            <Icon.Home />
+            {screen.width < 500 && <Icon.Diamond />}
             Products
           </NavLink>
         </li>
@@ -108,11 +108,11 @@ const Navbar = () => {
             to="/aboutUs"
             className={({ isActive }) =>
               isActive
-                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
-                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
+                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-125 xs:scale-100"
+                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-95 xs:scale-100"
             }
           >
-            <Icon.Home />
+            {screen.width < 500 && <Icon.Info />}
             About Us
           </NavLink>
         </li>
@@ -121,26 +121,29 @@ const Navbar = () => {
             to="/contactUs"
             className={({ isActive }) =>
               isActive
-                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
-                : " text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
+                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-125 xs:scale-100"
+                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-95 xs:scale-100"
             }
-          ><Icon.Home/>
+          >
+            {screen.width < 500 && <Icon.Phone />}
             Contact Us
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/contactUs"
-            className={({ isActive }) =>
-              isActive
-                ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
-                : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center"
-            }
-          >
-            <Icon.Home />
-            Orders
-          </NavLink>
-        </li>
+        {(token && screen.width < 500) && (
+          <li>
+            <NavLink
+              to="/orders"
+              className={({ isActive }) =>
+                isActive
+                  ? " text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-125 xs:scale-100"
+                  : "text-textColor1 hover:text-theamColor relative after:absolute after:bottom-[-0.2rem] after:left-0 after:w-0 after:border-b-[0.1rem] after:border-theamColor after:transition-all after:duration-[0.3s] after:ease-linear after:group-hover:w-full flex flex-col items-center scale-95 xs:scale-100"
+              }
+            >
+              {screen.width < 500 && <Icon.Package />}
+              Orders
+            </NavLink>
+          </li>
+        )}
       </ul>
 
       {/* User part */}
