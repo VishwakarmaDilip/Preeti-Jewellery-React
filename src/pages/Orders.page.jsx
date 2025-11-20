@@ -85,7 +85,7 @@ const Orders = () => {
   };
 
   return (
-    <div className="min-h-screen w-full mt-8 px-4 sm:px-8 flex flex-col items-center gap-6 overflow-x-hidden">
+    <div className="min-h-screen w-full mt-4 xs:mt-20 px-4 sm:px-8 flex flex-col items-center gap-6 overflow-x-hidden">
       <h1 className="self-start text-xl xs:text-3xl font-bold">My Orders</h1>
 
       {/* main body */}
@@ -260,7 +260,7 @@ const Orders = () => {
           {allorders?.length > 0 && (
             <div className="bg-gray-200 mt-5 px-6 py-3 flex items-center justify-between text-sm font-medium">
               {/* Left: Showing results info */}
-              <p className="text-gray-700">
+              <p className="text-gray-700 text-xs xs:text-base">
                 Showing page{" "}
                 <span className="text-gray-900">{pageInfo?.page}</span> of{" "}
                 <span className="text-gray-900">{pageInfo?.totalPages}</span>{" "}

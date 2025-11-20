@@ -37,7 +37,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [filter, setFilter] = useState(96);
+  const [filter, setFilter] = useState(26);
   const navigate = useNavigate();
 
   // Fetch products based on search term, pagination, sorting, and category
@@ -180,10 +180,10 @@ const Products = () => {
   };
 
   const toggleFilterBox = () => {
-    if (filter === 44) {
-      setFilter(96);
+    if (filter === 13) {
+      setFilter(26);
     } else {
-      setFilter(44);
+      setFilter(13);
     }
   };
 
@@ -202,7 +202,7 @@ const Products = () => {
         </div>
         {/* filter form */}
         <form
-          className={`fixed bottom-16 xs:bottom-0 left-${filter} xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
+          className={`fixed bottom-16 xs:bottom-0 left-[${filter}rem] xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
           onSubmit={handleSubmit(onSubmit)}
         >
           {screen.width < 500 && (
