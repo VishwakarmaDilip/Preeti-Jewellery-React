@@ -49,7 +49,7 @@ const UserProfile = () => {
     try {
       setSubmitting(true);
       const response = await fetch(
-        `http://localhost:8000/api/v1/users/updateAccount`,
+        `http://localhost:3000:8000/api/v1/users/updateAccount`,
         {
           method: "PATCH",
           credentials: "include",

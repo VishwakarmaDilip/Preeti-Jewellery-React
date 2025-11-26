@@ -1,19 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingCart, User } from "react-feather";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import UserActionBox from "./UserActionBox";
 import * as Icon from "lucide-react";
+import { checkUserAuth } from "../features/Usfull reducers/ApiCalls";
 
 const Navbar = () => {
   const allList = useSelector((state) => state.addToList.list);
   const cartState = useSelector((state) => state.cart.cartChanged);
-  const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
+  const token = useSelector((state) => state.user.loggedIn)
   const [productsInCart, setProductsInCart] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const menuRef = useRef();
+  const dispatch = useDispatch()
+
+  
+  useEffect(() => {
+    dispatch(checkUserAuth())
+  },[])
+  
+  // console.log(token);
 
   useEffect(() => {
     const fetchCart = async () => {

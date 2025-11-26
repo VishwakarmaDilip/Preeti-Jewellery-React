@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import toast from "react-hot-toast";
 import { useNavigate,NavLink } from "react-router-dom";
-import { getUser } from "../features/Usfull reducers/ApiCalls";
+import { checkUserAuth, getUser } from "../features/Usfull reducers/ApiCalls";
 import { useDispatch, useSelector } from "react-redux";
 
 const UserActionBox = ({ onClose }) => {
@@ -19,6 +19,7 @@ const UserActionBox = ({ onClose }) => {
 
       if (response.status < 300)
         navigate("/"), toast.success("Logged Out Successfully");
+      dispatch(checkUserAuth())
     } catch (error) {
       console.error("Logout failed:", error);
     }

@@ -146,6 +146,29 @@ export const getUser = createAsyncThunk(
     }
 )
 
+export const checkUserAuth = createAsyncThunk(
+    "user/checkUserAuth",
+    async (_, thunkAPI) => {
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/v1/user/me`,
+                {
+                    credentials: "include",
+                }
+            )
+            if (response.status < 300) {
+                return true
+            } else {
+                return false
+            }
+
+        } catch (error) {
+            console.error("Failed to check user auth:", error);
+            return thunkAPI.rejectWithValue("Failed to check user auth");
+        }
+    }
+)
+
 
 // wishlist related api calls
 export const handleAddToWishList = createAsyncThunk(

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-import { createAddress, deleteAddress, updateAddress } from "./ApiCalls";
+import { checkUserAuth, createAddress, deleteAddress, updateAddress } from "./ApiCalls";
 
 const initialState = {
     user: null,
@@ -10,6 +10,7 @@ const initialState = {
     allAddressesPinCheck: {},
     TAT: "",
     refresh: false,
+    loggedIn: false,
 }
 
 export const userSlice = createSlice({
@@ -40,7 +41,7 @@ export const userSlice = createSlice({
         operatePlaceOrder: (state, payload) => {
             const order_Id = payload.payload 
             setTimeout(() => {
-                window.location.replace(`http://localhost:5174/orders/${order_Id}`)                
+                window.location.replace(`http://localhost:3000:5174/orders/${order_Id}`)                
             }, 800);     
             toast.success("Order Placed")
         }
@@ -56,6 +57,9 @@ export const userSlice = createSlice({
             })
             .addCase(updateAddress.fulfilled,(state) => {
                 state.refresh = !state.refresh
+            })
+            .addCase(checkUserAuth.fulfilled,(state, action)=> {
+                state.loggedIn = action.payload
             })
     }
 })
