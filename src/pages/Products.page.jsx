@@ -17,7 +17,7 @@ import Cookies from "js-cookie";
 import UserBarMBL from "../components/UserBarMBL";
 
 const Products = () => {
-  const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
+  const token = useSelector(state => state.user.loggedIn);
   const dispatch = useDispatch();
   const productsInCart = useSelector((state) => state.cart.productsInCart);
   const cartState = useSelector((state) => state.cart.cartChanged);
@@ -37,7 +37,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortType, setSortType] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [filter, setFilter] = useState(26);
+  const [filter, setFilter] = useState(false);
   const navigate = useNavigate();
 
   // Fetch products based on search term, pagination, sorting, and category
@@ -54,7 +54,7 @@ const Products = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `http://localhost:3000/api/v1/user/getProducts?query=${searchTerm}&page=${page}&sortBy=${sortBy}&sortType=${sortType}&category=${categoryId}`,
+            `https://api.devbydilip.cloud/api/v1/user/getProducts?query=${searchTerm}&page=${page}&sortBy=${sortBy}&sortType=${sortType}&category=${categoryId}`,
             {
               method: "GET",
               credentials: "include",
@@ -86,7 +86,7 @@ const Products = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/user/category/getCategories`,
+          `https://api.devbydilip.cloud/api/v1/user/category/getCategories`,
           {
             credentials: "include",
           }
@@ -133,7 +133,7 @@ const Products = () => {
     }
 
     if (screen.width < 500) {
-      setFilter(96);
+      setFilter(pre => !pre);
     }
   };
 
@@ -141,7 +141,7 @@ const Products = () => {
     if (token) {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/user/cart/addToCart`,
+          `https://api.devbydilip.cloud/api/v1/user/cart/addToCart`,
           {
             method: "POST",
             headers: {
@@ -180,11 +180,7 @@ const Products = () => {
   };
 
   const toggleFilterBox = () => {
-    if (filter === 13) {
-      setFilter(26);
-    } else {
-      setFilter(13);
-    }
+    setFilter(pre=> !pre)
   };
 
   return (
@@ -202,7 +198,7 @@ const Products = () => {
         </div>
         {/* filter form */}
         <form
-          className={`fixed bottom-16 xs:bottom-0 left-[${filter}rem] xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
+          className={`fixed bottom-16 xs:bottom-0 ${filter ? "left-[11rem]": "left-[25rem]"} xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
           onSubmit={handleSubmit(onSubmit)}
         >
           {screen.width < 500 && (

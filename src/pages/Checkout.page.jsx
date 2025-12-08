@@ -41,6 +41,9 @@ const Checkout = () => {
     dispatch(cartApiCall());
   }, []);
 
+  console.log(window.opener);
+  
+
   useEffect(() => {
     if (pinCode.length === 6) {
       const timeout = setTimeout(() => {
@@ -85,7 +88,7 @@ const Checkout = () => {
       >
         <SavedAddress setShowSavedAddress={setShowSavedAddress} />
       </div>
-      <div className="w-[50rem] p-2 rounded-md bg-white h-fit m-auto">
+      <div className=" hidden xs:block w-[50rem] p-2 rounded-md bg-white xs:h-fit m-auto">
         {/* checkout progress bar */}
         <div className="flex items-center justify-center w-full">
           <div className="h-8 w-8 rounded-full bg-yellow-300"></div>
@@ -98,9 +101,9 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="px-14 flex w-full justify-between">
-        <div className="w-[68%] h-fit bg-white p-3">
-          <h1 className="font-bold text-3xl self-start">Shipping Address</h1>
+      <div className="px-5 xs:px-14 flex flex-col-reverse xs:flex-row w-full justify-between gap-5 xs:gap-0">
+        <div className="xs:w-[68%] h-fit bg-white p-3">
+          <h1 className="font-bold text-2xl xs:text-3xl self-start">Shipping Address</h1>
 
           <div className="py-5 px-8 space-y-4">
             <div
@@ -164,7 +167,7 @@ const Checkout = () => {
                 <Input
                   placeholder={"Landmark (Optional)"}
                   bgColor={"White"}
-                  className={"border border-black w-full"}
+                  className={"border border-black w-full placeholder:text-xs"}
                   {...register("landmark")}
                 />
               </div>
@@ -288,7 +291,7 @@ const Checkout = () => {
         </div>
 
         {/* Order summary */}
-        <div className="bg-white w-[30%] h-fit p-3 rounded-md">
+        <div className="bg-white xs:w-[30%] h-fit p-3 rounded-md">
           <h2 className="text-2xl font-bold mb-3">Order Summary</h2>
           <div className="flex flex-col gap-4 px-3">
             {productsInCart?.map((item, index) => {

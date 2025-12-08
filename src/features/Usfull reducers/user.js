@@ -11,6 +11,7 @@ const initialState = {
     TAT: "",
     refresh: false,
     loggedIn: false,
+    loading: true
 }
 
 export const userSlice = createSlice({
@@ -41,7 +42,7 @@ export const userSlice = createSlice({
         operatePlaceOrder: (state, payload) => {
             const order_Id = payload.payload 
             setTimeout(() => {
-                window.location.replace(`http://localhost:3000:5174/orders/${order_Id}`)                
+                window.opener.location.href(`https://api.devbydilip.cloud:5174/orders/${order_Id}`)
             }, 800);     
             toast.success("Order Placed")
         }
@@ -58,9 +59,18 @@ export const userSlice = createSlice({
             .addCase(updateAddress.fulfilled,(state) => {
                 state.refresh = !state.refresh
             })
-            .addCase(checkUserAuth.fulfilled,(state, action)=> {
-                state.loggedIn = action.payload
+            .addCase(checkUserAuth.pending, (state) => {
+                state.loading = true
             })
+            .addCase(checkUserAuth.fulfilled,(state)=> {
+                state.loggedIn = true
+                state.loading = false
+            })
+            .addCase(checkUserAuth.rejected, (state) => {
+                state.loggedIn = false
+                state.loading = false
+            })
+
     }
 })
 

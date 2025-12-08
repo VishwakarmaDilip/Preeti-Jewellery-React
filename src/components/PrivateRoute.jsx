@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import {useSelector } from "react-redux";
 import { Navigate, Outlet} from "react-router-dom";
-import Cookies from "js-cookie";
 
 const PrivateRoute = () => {
-  const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
-  
+  const token = useSelector((state)=> state.user.loggedIn)
+  const loading = useSelector((state) => state.user.loading)
+
+  if (loading) return <div>Loading...</div>;
+ 
   return token ? <Outlet/> : <Navigate to="/login" />;
 };
 

@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ShoppingCart, User } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import UserActionBox from "./UserActionBox";
 import * as Icon from "lucide-react";
 import { checkUserAuth } from "../features/Usfull reducers/ApiCalls";
+import { toggleCartChanged } from "../features/Usfull reducers/cart";
 
 const Navbar = () => {
   const allList = useSelector((state) => state.addToList.list);
@@ -17,18 +17,12 @@ const Navbar = () => {
   const menuRef = useRef();
   const dispatch = useDispatch()
 
-  
-  useEffect(() => {
-    dispatch(checkUserAuth())
-  },[])
-  
-  // console.log(token);
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/user/cart/getCart`,
+          `https://api.devbydilip.cloud/api/v1/user/cart/getCart`,
           {
             credentials: "include",
           }
@@ -45,7 +39,7 @@ const Navbar = () => {
     if (token) {
       fetchCart();
     }
-  }, [cartState]);
+  }, [cartState,token]);
 
   const toggleMenu = () => {
     if (isMenuOpen) {

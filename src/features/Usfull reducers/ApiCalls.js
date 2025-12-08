@@ -14,7 +14,7 @@ export const cartApiCall = createAsyncThunk(
         thunkAPI.dispatch(setLoading(true))
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/cart/getCart`,
+                `https://api.devbydilip.cloud/api/v1/user/cart/getCart`,
                 {
                     credentials: "include",
                 }
@@ -41,7 +41,7 @@ export const handleRemoveFromCart = createAsyncThunk(
     async (productId, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/cart/updateProduct`,
+                `https://api.devbydilip.cloud/api/v1/user/cart/updateProduct`,
                 {
                     method: "PATCH",
                     headers: {
@@ -71,7 +71,7 @@ export const addToCart = createAsyncThunk(
     async (productId, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/cart/addToCart`,
+                `https://api.devbydilip.cloud/api/v1/user/cart/addToCart`,
                 {
                     method: "POST",
                     headers: {
@@ -98,7 +98,7 @@ export const handleUpdateCartProduct = createAsyncThunk(
     "cart/handleUpdateCartProduct",
     async ({ productId, quantity }, thunkAPI) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/user/cart/updateProduct`, {
+            const response = await fetch(`https://api.devbydilip.cloud/api/v1/user/cart/updateProduct`, {
                 method: "PATCH",
                 headers: {
                     "content-Type": "application/json"
@@ -127,7 +127,7 @@ export const getUser = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/getUser`,
+                `https://api.devbydilip.cloud/api/v1/user/getUser`,
 
                 {
                     credentials: "include",
@@ -151,16 +151,20 @@ export const checkUserAuth = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/me`,
+                `https://api.devbydilip.cloud/api/v1/user/me`,
                 {
                     credentials: "include",
                 }
             )
-            if (response.status < 300) {
-                return true
-            } else {
-                return false
+            if (!response.ok) {
+                thunkAPI.rejectWithValue("Unauthorized");
             }
+
+            const fetchedData = await response.json()
+
+            const data = fetchedData?.data || null
+
+            return data
 
         } catch (error) {
             console.error("Failed to check user auth:", error);
@@ -176,7 +180,7 @@ export const handleAddToWishList = createAsyncThunk(
     async (productId, thunkAPI) => {
         try {
             const response = fetch(
-                `http://localhost:3000/api/v1/user/wish/addToList`,
+                `https://api.devbydilip.cloud/api/v1/user/wish/addToList`,
                 {
                     method: "PATCH",
                     headers: {
@@ -203,7 +207,7 @@ export const getWishList = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/wish/getWishList`,
+                `https://api.devbydilip.cloud/api/v1/user/wish/getWishList`,
                 {
                     credentials: "include",
                 }
@@ -224,7 +228,7 @@ export const handleRemoveFromWishList = createAsyncThunk(
     async (productId, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/wish/upadteWishList`,
+                `https://api.devbydilip.cloud/api/v1/user/wish/upadteWishList`,
                 {
                     method: "PATCH",
                     headers: {
@@ -258,7 +262,7 @@ export const createAddress = createAsyncThunk(
     async (addressData, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/createAddress`,
+                `https://api.devbydilip.cloud/api/v1/user/address/createAddress`,
                 {
                     method: "POST",
                     headers: {
@@ -287,7 +291,7 @@ export const getAllAddress = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/getAllAddress`,
+                `https://api.devbydilip.cloud/api/v1/user/address/getAllAddress`,
                 {
                     credentials: "include"
                 }
@@ -310,7 +314,7 @@ export const getAddress = createAsyncThunk(
     async (addressId, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/${addressId}`,
+                `https://api.devbydilip.cloud/api/v1/user/address/${addressId}`,
                 {
                     credentials: "include",
                 }
@@ -332,7 +336,7 @@ export const deleteAddress = createAsyncThunk(
     async (addressId, thunkAPI) => {       
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/delete/${addressId}`,
+                `https://api.devbydilip.cloud/api/v1/user/address/delete/${addressId}`,
                 {
                     method:"DELETE",
                     credentials:"include"
@@ -360,7 +364,7 @@ export const updateAddress = createAsyncThunk(
         
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/update/${addressData.address_id}`,
+                `https://api.devbydilip.cloud/api/v1/user/address/update/${addressData.address_id}`,
                 {
                     method:"POST",
                     headers: {
@@ -393,7 +397,7 @@ export const pinCodeServiceCheck = createAsyncThunk(
     async (pinCode, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/delivery/${pinCode}`,
+                `https://api.devbydilip.cloud/api/v1/user/address/delivery/${pinCode}`,
                 {
                     credentials: "include",
                 }
@@ -415,7 +419,7 @@ export const pinCodeServiceCheckAllAddress = createAsyncThunk(
     async (pinCode, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/deliveryforAllPincode/${pinCode}`,
+                `https://api.devbydilip.cloud/api/v1/user/address/deliveryforAllPincode/${pinCode}`,
                 {
                     credentials: "include",
                 }
@@ -441,7 +445,7 @@ export const getTAT = createAsyncThunk(
 
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/user/address/delivery/getExpectedTAT?desinationPin=${destinationPin}`,
+                `https://api.devbydilip.cloud/api/v1/user/address/delivery/getExpectedTAT?desinationPin=${destinationPin}`,
                 {
                     credentials: "include"
                 }
@@ -480,7 +484,7 @@ export const createOrder = createAsyncThunk(
     async (orderData, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/order/createOrder`,
+                `https://api.devbydilip.cloud/api/v1/order/createOrder`,
                 {
                     method: "POST",
                     headers: {
@@ -495,11 +499,11 @@ export const createOrder = createAsyncThunk(
             const order_Id = responseData?.data?._id
 
             if (responseData.statusCode < 300) {
-                thunkAPI.dispatch(operatePlaceOrder(order_Id))
+                // thunkAPI.dispatch(operatePlaceOrder(order_Id))
+                return order_Id
             } else {
                 toast.error("Something went wrong")
             }
-
 
         } catch (error) {
             console.error("Failed to create Order", error);
@@ -516,7 +520,7 @@ export const fetchAllOrders = createAsyncThunk(
 
             const {startDate,endDate,orderStatus, page} = query
             const response = await fetch(
-                `http://localhost:3000/api/v1/order/fetchAllOrdersUser?startDate=${startDate}&endDate=${endDate}&orderStatus=${orderStatus}&page=${page}`,
+                `https://api.devbydilip.cloud/api/v1/order/fetchAllOrdersUser?startDate=${startDate}&endDate=${endDate}&orderStatus=${orderStatus}&page=${page}`,
                 {
                     credentials: "include"
                 }
@@ -542,7 +546,7 @@ export const getOrder = createAsyncThunk(
     async (order_Id, thunkAPI) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/api/v1/order/getOrder/${order_Id}`,
+                `https://api.devbydilip.cloud/api/v1/order/getOrder/${order_Id}`,
                 {
                     credentials: "include"
                 }

@@ -5,6 +5,8 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
+import { checkUserAuth } from "../features/Usfull reducers/ApiCalls";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const {
@@ -17,6 +19,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,7 +29,7 @@ const Login = () => {
     try {
       setSubmitting(true);
       const response = await fetch(
-        `http://localhost:3000/api/v1/user/login`,
+        `https://api.devbydilip.cloud/api/v1/user/login`,
         {
           method: "POST",
           headers: {
@@ -40,6 +43,7 @@ const Login = () => {
       if (response.status < 300) {
         reset();
         toast.success("Logged In");
+        dispatch(checkUserAuth())
         navigate("/");
       } else {
         toast.error("Invalid credentials or something went wrong");

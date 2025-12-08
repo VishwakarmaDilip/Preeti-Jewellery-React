@@ -39,7 +39,7 @@ const ShowProduct = () => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/user/getProduct/${productId}`,
+          `https://api.devbydilip.cloud/api/v1/user/getProduct/${productId}`,
           {
             method: "GET",
             credentials: "include",
@@ -82,7 +82,7 @@ const ShowProduct = () => {
   const handleAddToCart = async (productId, quantity) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/user/cart/addToCart`,
+        `https://api.devbydilip.cloud/api/v1/user/cart/addToCart`,
         {
           method: "POST",
           headers: {

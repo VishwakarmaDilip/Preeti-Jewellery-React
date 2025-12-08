@@ -11,10 +11,10 @@ import {
   getTAT,
 } from "../features/Usfull reducers/ApiCalls";
 import { toggleCartChanged } from "../features/Usfull reducers/cart";
+import toast from "react-hot-toast";
 
 const Checkout_Payment = () => {
   const { register, watch } = useForm();
-  
 
   const [showSavedAddress, setShowSavedAddress] = React.useState(false);
   const location = useLocation();
@@ -24,9 +24,8 @@ const Checkout_Payment = () => {
   const dispatch = useDispatch();
   const myCart = useSelector((state) => state.cart.myCart);
   const productsInCart = useSelector((state) => state.cart.productsInCart);
-  const estimatedDelivery = useSelector((state)=> state.user.TAT)
+  const estimatedDelivery = useSelector((state) => state.user.TAT);
   const deleveryCharge = 99;
-
 
   useEffect(() => {
     dispatch(cartApiCall());
@@ -36,7 +35,6 @@ const Checkout_Payment = () => {
     if (addressId.addressId !== "98654512") {
       dispatch(getAddress(addressId.addressId));
     }
-    
   }, [addressId]);
 
   useEffect(() => {
@@ -59,8 +57,28 @@ const Checkout_Payment = () => {
 
   const selectedPamentMethod = watch("payment") || null;
 
-  const placeOrder = (deliveryData, cartId, paymentType = "COD", delivery = estimatedDelivery ) => {
-    dispatch(createOrder({ deliveryData, cartId, addressId, paymentType, delivery }));  
+  const placeOrder = async (
+    deliveryData,
+    cartId,
+    paymentType = "COD",
+    delivery = estimatedDelivery
+  ) => {
+    try {
+      const result = await dispatch(
+        createOrder({ deliveryData, cartId, addressId, paymentType, delivery })
+      ).unwrap();
+
+      toast.success("Order Placed Successfully");
+
+      setTimeout(() => {
+        window.open(`http://192.168.0.112:5173/orders/${result}`,"_blank");
+        window.close();
+      },500)
+
+    } catch (error) {
+      console.log("Failed:", error);
+      toast.error("Failed to place order");
+    }
   };
 
   return (
@@ -72,7 +90,7 @@ const Checkout_Payment = () => {
       >
         <SavedAddress setShowSavedAddress={setShowSavedAddress} />
       </div>
-      <div className="w-[50rem] p-2 rounded-md bg-white h-fit m-auto">
+      <div className="hidden xs:block w-[50rem] p-2 rounded-md bg-white h-fit m-auto">
         {/* checkout progress bar */}
         <div className="flex items-center justify-center w-full">
           <div className="h-8 w-8 rounded-full bg-yellow-300"></div>
@@ -85,18 +103,18 @@ const Checkout_Payment = () => {
         </div>
       </div>
 
-      <div className="px-14 flex w-full justify-between">
-        <div className="w-[68%] h-fit p-3 flex flex-col gap-6">
+      <div className="px-5 xs:px-14 flex flex-col-reverse xs:flex-row w-full justify-between gap-10 xs:gap-0">
+        <div className="xs:w-[68%] h-fit xs:p-3 flex flex-col gap-6">
           <div className="bg-white p-3 rounded-md">
             <div className=" space-y-2">
-              <div className="flex justify-between">
+              <div className="flex flex-col-reverse xs:flex-row justify-between gap-5 xs:gap-0">
                 <h2 className="font-semibold text-lg">
                   Delivering to{" "}
                   <span>
                     {deliveryData?.firstName} {deliveryData?.lastName}
                   </span>
                 </h2>
-                <p className="text-green-500 font-semibold">
+                <p className="text-green-500 font-semibold text-sm xs:text-base">
                   Estimated Delevery : {estimatedDelivery}
                 </p>
               </div>
@@ -178,7 +196,7 @@ const Checkout_Payment = () => {
         </div>
 
         {/* Order summary */}
-        <div className="bg-white w-[30%] h-fit p-3 rounded-md">
+        <div className="bg-white xs:w-[30%] h-fit p-3 rounded-md">
           <h2 className="text-2xl font-bold mb-3">Order Summary</h2>
           <div className="flex flex-col gap-4 px-3">
             {productsInCart?.map((item, index) => {

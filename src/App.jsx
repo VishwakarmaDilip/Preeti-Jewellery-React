@@ -17,6 +17,9 @@ import Order from "./pages/Orders.page";
 import ShowOrder from "./pages/ShowOrder.page";
 import SavedAddress from "./pages/SavedAddress.page";
 import ShowAddress from "./pages/ShowAddress.page";
+import { useDispatch, useSelector } from "react-redux";
+import { checkUserAuth } from "./features/Usfull reducers/ApiCalls";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -31,27 +34,27 @@ const router = createBrowserRouter([
       { path: "/products/:productId", element: <ShowProduct /> },
       { path: "/aboutUs", element: <About /> },
       { path: "/contactUs", element: <ContactUs /> },
-    ],
-  },
 
-  // Private routes
-  {
-    path: "/",
-    element: <PrivateRoute />,
-    children: [
+      // private Routes
       {
-        path: "/",
-        element: <Layout />,
+        element: <PrivateRoute />,
         children: [
           { path: "/cart", element: <Cart /> },
           { path: "/wishList", element: <WishList /> },
           { path: "/userProfile", element: <UserProfile /> },
           { path: "/orders", element: <Order /> },
           { path: "/orders/:orderId", element: <ShowOrder /> },
-          { path: "/savedAddress", element: <SavedAddress/>},
-          { path: "/address", element: <ShowAddress/>},
+          { path: "/savedAddress", element: <SavedAddress /> },
+          { path: "/address", element: <ShowAddress /> },
         ],
       },
+    ],
+  },
+
+  // Private routes
+  {
+    element: <PrivateRoute />,
+    children: [
       {
         path: "/checkout",
         element: <Checkout />,
@@ -65,6 +68,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.user.loading);
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div>
       <RouterProvider router={router} />

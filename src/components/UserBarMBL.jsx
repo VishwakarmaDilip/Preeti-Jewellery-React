@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import * as Icon from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartApiCall, getUser } from "../features/Usfull reducers/ApiCalls";
-import Cookies from "js-cookie";
 import { NavLink } from "react-router-dom";
 
 const UserBarMBL = () => {
@@ -10,7 +9,7 @@ const UserBarMBL = () => {
   const cartState = useSelector((state) => state.cart.cartChanged);
   const productsInCart = useSelector((state) => state.cart.productsInCart);
 
-  const token = Cookies.get("refreshToken") || Cookies.get("accessToken");
+  const token = useSelector((state)=> state.user.loggedIn)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,10 +36,12 @@ const UserBarMBL = () => {
       <div>
         {token ? (
           <div className="relative pr-1">
+            <NavLink to={"/cart"} className={({isActive})=> isActive ? "text-theamColor2" : ""}>
             <Icon.ShoppingCart />
             <sup className=" absolute top-0 -right-[4px] xs:-right-[10px] font-extrabold text-[0.8rem] xs:text-[0.8rem]">
               {productsInCart?.length || 0}
             </sup>
+            </NavLink>
           </div>
         ) : (
           <ul className="flex justify-between items-center w-32">
