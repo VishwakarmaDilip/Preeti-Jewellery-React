@@ -2,6 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-*,::after,::before{
-    font-family: "K2D", "roboto";
+*,
+::after,
+::before {
+  font-family: "K2D", "roboto";
+}
+
+@media (max-width: 480px) {
+  .ant-picker-panels {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .ant-picker-panel {
+    width: 100% !important;
+  }
+
+  /* Make DatePicker popup fit screen width */
+  .ant-picker-dropdown {
+    width: 90vw !important;
+    height: 90vh !important;
+    max-width: 400px !important;
+  }
+
+  .ant-picker-date-panel {
+    width: 100% !important;
+  }
+
+  .ant-picker-content {
+    width: 100% !important;
+    table-layout: fixed;
+  }
+
+  .custom-calendar-popup {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
 }

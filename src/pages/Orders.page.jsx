@@ -19,6 +19,7 @@ const Orders = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [customDates, setCustomDates] = useState([]);
+  const [filter, setFilter] = useState(false)
 
   const dispatch = useDispatch();
   const { register, handleSubmit, reset, watch } = useForm();
@@ -84,12 +85,16 @@ const Orders = () => {
     }
   };
 
+  const toggleFilterBox = () => {
+    setFilter(pre => !pre)
+  }
+
   return (
     <div className="min-h-screen w-full mt-4 xs:mt-20 px-4 sm:px-8 flex flex-col items-center gap-6 overflow-x-hidden">
       <h1 className="self-start text-xl xs:text-3xl font-bold">My Orders</h1>
 
       {/* main body */}
-      <div className="flex flex-col justify-center items-center xs:w-[70rem]">
+      <div className="flex flex-col justify-center items-center w-full xs:w-[70rem]">
         {/* filter box */}
         <div className="flex flex-col md:flex-row gap-6 w-full max-w-6xl justify-center">
           {/* order type */}
@@ -107,7 +112,7 @@ const Orders = () => {
               className={`z-10 ${select === 13 ? "font-semibold" : ""}`}
               onClick={() => {
                 if (screen.width < 500) {
-                  setSelect(7);
+                  setSelect(8.2);
                 } else {
                   setSelect(13);
                 }
@@ -137,13 +142,19 @@ const Orders = () => {
           </div>
 
           {/* date filter */}
-          <form className="bg-white w-full max-w-md md:max-w-xl h-[3rem] flex rounded-3xl px-3 justify-between">
-            <div className="flex items-center pl-5">
-              <h3 className="text-xl font-semibold">Filter</h3>
+          <form className={`bg-white w-[21rem] xs:w-full max-w-md md:max-w-xl h-fit xs:h-[3rem] flex gap-6 xs:gap-0 rounded-3xl py-4 xs:py-0 px-3 xs:justify-between fixed xs:static bottom-20 flex-col xs:flex-row shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out z-20 ${filter ? "left-[3rem]" : "left-[25rem]"} `}>
+            <div className="flex justify-between items-center xs:pl-5">
+              <h3 className="text-xl font-semibold pr-2">Filter</h3>
+              {screen.width < 500 && (
+                <Icon.X size={20} onClick={() => toggleFilterBox()} />
+              )}
             </div>
-            <div className="relative flex items-center gap-2">
+            <div className="flex flex-col-reverse xs:flex-row xs:items-center gap-2">
               {watch("selectDate") == "custom" && (
                 <DatePicker.RangePicker
+                  className="h-4/6"
+                  placement="bottomRight"
+                  popupClassName="custom-calendar-popup"
                   disabledDate={disabledDate}
                   onChange={(dates) => {
                     if (!dates) {
@@ -157,33 +168,44 @@ const Orders = () => {
                   }}
                 />
               )}
-              <select
-                className="appearance-none bg-gray-300 rounded-3xl w-56 pl-3 h-[2rem] relative z-0"
-                {...register("selectDate", {
-                  onChange: (e) => quickDate(e.target.value),
-                })}
-              >
-                <option value="" className="bg-white">
-                  Select Date
-                </option>
-                <option value="thisMonth" className="bg-white">
-                  This Month
-                </option>
-                <option value="lastMonth" className="bg-white">
-                  Last Month
-                </option>
-                <option value="custom" className="bg-white">
-                  Custom
-                </option>
-              </select>
+              <div className="relative flex xs:flex-row xs:items-center gap-3 xs:gap-2 max-w-fit">
+                <select
+                  className="appearance-none bg-gray-300 rounded-3xl w-56 pl-3 h-[2rem] relative z-0"
+                  {...register("selectDate", {
+                    onChange: (e) => quickDate(e.target.value),
+                  })}
+                >
+                  <option value="" className="bg-white">
+                    Select Date
+                  </option>
+                  <option value="thisMonth" className="bg-white">
+                    This Month
+                  </option>
+                  <option value="lastMonth" className="bg-white">
+                    Last Month
+                  </option>
+                  <option value="custom" className="bg-white">
+                    Custom
+                  </option>
+                </select>
 
-              <Icon.Triangle
-                fill=""
-                size={12}
-                className="rotate-180 absolute right-3 pointer-events-none"
-              />
+                <Icon.Triangle
+                  fill=""
+                  size={12}
+                  className="rotate-180 absolute bottom-2 right-3 pointer-events-none"
+                />
+              </div>
             </div>
           </form>
+
+          {screen.width < 500 && (
+            <div
+              className="fixed bg-white p-2 shadow-boxShadowBorder2 rounded-full bottom-20 right-5 z-10"
+              onClick={() => toggleFilterBox()}
+            >
+              <Icon.Filter />
+            </div>
+          )}
         </div>
 
         {/* orders */}
