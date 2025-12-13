@@ -142,7 +142,7 @@ const Orders = () => {
           </div>
 
           {/* date filter */}
-          <form className={`bg-white w-[21rem] xs:w-full max-w-md md:max-w-xl h-fit xs:h-[3rem] flex gap-6 xs:gap-0 rounded-3xl py-4 xs:py-0 px-3 xs:justify-between fixed xs:static bottom-20 flex-col xs:flex-row shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out z-20 ${filter ? "left-[3rem]" : "left-[25rem]"} `}>
+          <form className={`bg-white w-[21rem] xs:w-full max-w-md md:max-w-xl h-fit xs:h-[3rem] flex gap-6 xs:gap-0 rounded-3xl py-4 xs:py-0 px-3 xs:justify-between fixed xs:static bottom-20 flex-col xs:flex-row shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out z-10 ${filter ? "left-[3rem]" : "left-[25rem]"} `}>
             <div className="flex justify-between items-center xs:pl-5">
               <h3 className="text-xl font-semibold pr-2">Filter</h3>
               {screen.width < 500 && (
@@ -223,7 +223,7 @@ const Orders = () => {
                     <div className="flex items-center gap-3">
                       <div
                         className="shadow-boxShadowBorder rounded-full
-                   px-3"
+                   px-3 hidden xs:block"
                       >
                         Estimated Arrival : {order?.delivery}
                       </div>

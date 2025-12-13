@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Icon from "lucide-react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrder } from "../features/Usfull reducers/ApiCalls";
+import Button from "../components/Button";
 
 const ShowOrder = () => {
+  const [helpBar, setHelpBar] = useState(false)
   const order_id = useParams();
   const dispatch = useDispatch();
   const fetchedOrder = useSelector((state) => state.order.order);
@@ -24,20 +26,23 @@ const ShowOrder = () => {
       )
     : "";
 
+  const toggleHelpBar = () => {
+    setHelpBar(pre => !pre)
+  }
 
   return (
-    <div className="mt-16 p-5 px-32">
+    <div className="xs:mt-16 p-5 xs:px-32">
       <div className="bg-white p-4 rounded-md">
         {/* page head */}
         <div className="">
           <div className="flex justify-between items-center">
             {/* ID */}
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-xl xs:text-3xl font-bold">
               Order ID :<span> {fetchedOrder?.orderId}</span>
             </h1>
 
             {/* invoice and trackOrder */}
-            <div className="flex gap-6">
+            <div className="hidden xs:flex gap-6">
               {/* Invoice */}
               <div className="flex items-center justify-center gap-2 shadow-boxShadowBorder2 rounded-lg w-28 h-10">
                 <Icon.FileText />
@@ -50,22 +55,37 @@ const ShowOrder = () => {
                 <Icon.LocateFixed />
               </div>
             </div>
+
+            {screen.width < 500 && (
+              <div>
+                <Button
+                  className={
+                    "bg-blue-600 h-8 w-14 text-sm rounded-lg flex items-center justify-center"
+                  }
+                  onClick={()=> toggleHelpBar()}
+                >
+                  <p>HELP</p>
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* order date and arrival estimation */}
-          <div className="flex px-3 py-2 border-b-2">
+          <div className="flex flex-col xs:flex-row xs:px-3 py-2 border-b-2">
             <div className="flex gap-2">
               <p className="text-gray-400 font-semibold">Order Date :</p>
-              <p className="border-r-2 border-black pr-2 mr-2">{orderDate}</p>
+              <p className="xs:border-r-2 border-black pr-2 mr-2">
+                {orderDate}
+              </p>
             </div>
             {fetchedOrder?.status != "Cancelled" ? (
-              <div className="flex gap-1 font-semibold text-green-500">
-                <Icon.Truck />
+              <div className="flex gap-1 text-sm xs:text-base font-semibold text-green-500">
+                <Icon.Truck className="size-5 xs:size-6" />
                 <p>Estimated Delivery :</p>
                 <p>{fetchedOrder?.delivery}</p>
               </div>
             ) : (
-              <div className="text-red-400 font-bold bg-red-100 px-4 rounded-full">
+              <div className="text-red-400 font-bold bg-red-100 px-4 flex justify-center rounded-full">
                 {fetchedOrder?.status}
               </div>
             )}
@@ -73,7 +93,7 @@ const ShowOrder = () => {
         </div>
 
         {/* page body : order detail*/}
-        <div className="py-4 px-10">
+        <div className="py-4 xs:px-10">
           {fetchedOrder?.products?.map((item) => (
             <div
               key={item?._id}
@@ -107,7 +127,7 @@ const ShowOrder = () => {
 
         {/* orders other details */}
         <div>
-          <div className="border-t-2 border-b-2 flex justify-between px-6 py-4">
+          <div className="border-t-2 border-b-2 flex-col xs:flex-row space-y-5 xs:space-y-0 xs:flex justify-between xs:px-6 py-4">
             {/* Payment Type */}
             <div>
               <h3 className="text-lg font-semibold">Payment</h3>
@@ -115,7 +135,7 @@ const ShowOrder = () => {
             </div>
 
             {/* Order Summary */}
-            <div className="w-52">
+            <div className="xs:w-52">
               <h3 className="font-semibold text-lg">Order Summary</h3>
               <div className="pl-2">
                 <div className="flex justify-between text-lg">
@@ -138,7 +158,7 @@ const ShowOrder = () => {
             </div>
           </div>
 
-          <div className="flex justify-between px-6 py-4">
+          <div className="flex justify-between xs:px-6 py-4">
             {/* Shipping Address */}
             <div>
               <h3 className="text-lg font-semibold">Delivery</h3>
@@ -149,13 +169,42 @@ const ShowOrder = () => {
                 {fetchedOrder?.address?.[0]?.state}
               </p>
             </div>
-            <div className="w-52">
+            <div className="w-52 hidden xs:block">
               <h3 className="text-lg font-semibold">Need Help?</h3>
               <p className="pl-2">Exchange And Return</p>
             </div>
           </div>
         </div>
       </div>
+
+      {screen.width < 500 && (
+        <div className={`bg-white shadow-boxShadowBorder2 fixed px-3 pt-3 w-full left-0 ${helpBar ? "bottom-[4.2rem]" : "-bottom-96"} transition-all ease-in-out`}>
+          <ul className="flex flex-col">
+            <li className="pb-6 flex justify-between items-center pr-2">
+              <p className="font-semibold">Need Help ?</p>
+              <Icon.X onClick={() => toggleHelpBar()}/>
+            </li>
+            <li className="border-b pb-3 pl-2">
+              <NavLink className={"flex gap-2"}>
+                <Icon.FileText />
+                <p>Print Invoice</p>
+              </NavLink>
+            </li>
+            <li className="border-b py-3 pl-2">
+              <NavLink className={"flex gap-2"}>
+                <Icon.LocateFixed />
+                <p>Track Your Order</p>
+              </NavLink>
+            </li>
+            <li className="border-b py-3 pl-2">
+              <NavLink className={"flex gap-2"}>
+                <Icon.ArrowLeftRight />
+                <p>Exchange Or Return</p>
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
