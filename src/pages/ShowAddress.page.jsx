@@ -97,14 +97,14 @@ const ShowAddress = () => {
   };
 
   return (
-    <div className="w-full h-fit mt-10 p-10">
+    <div className="w-full h-fit mt-5 xs:mt-10 xs:p-10 mb-5">
       {/* Page Name */}
-      <div className="text-3xl font-bold px-28">
+      <div className="text-xl xs:text-3xl font-bold px-5 xs:px-28">
         {address_id ? <h1>Edit Address</h1> : <h1>Add Address</h1>}
       </div>
 
       {/* Main Body */}
-      <div className="bg-white p-5 mx-28 mt-5">
+      <div className="bg-white p-2 xs:p-5 mx-5 xs:mx-28 mt-5">
         <form
           action=""
           className="grid grid-cols-2 gap-6 "

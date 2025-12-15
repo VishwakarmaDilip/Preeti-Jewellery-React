@@ -42,6 +42,9 @@ const Navbar = () => {
   }, [cartState,token]);
 
   const toggleMenu = () => {
+    console.log("hit hua");
+    
+    
     if (isMenuOpen) {
       setIsAnimatingOut(true);
       setTimeout(() => {
@@ -68,8 +71,6 @@ const Navbar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const productsInList = allList.length;
 
   return (
     <nav className=" bg-navBag2 xs:bg-navBag flex absolute h-[40px] w-4/5 items-center justify-between px-4 rounded-[2rem] -top-full xs:top-5 xs:px-4 z-20 ">

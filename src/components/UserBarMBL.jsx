@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as Icon from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartApiCall, getUser } from "../features/Usfull reducers/ApiCalls";
 import { NavLink } from "react-router-dom";
+import UserActionBox from "./UserActionBox";
 
 const UserBarMBL = () => {
   const user = useSelector((state) => state.user.user);
   const cartState = useSelector((state) => state.cart.cartChanged);
   const productsInCart = useSelector((state) => state.cart.productsInCart);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const token = useSelector((state)=> state.user.loggedIn)
+  const token = useSelector((state) => state.user.loggedIn);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,30 +19,45 @@ const UserBarMBL = () => {
   }, []);
   useEffect(() => {
     dispatch(cartApiCall());
-  },[cartState])
+  }, [cartState]);
+
+  const toggleMenu = () => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    } else {
+      setIsMenuOpen(true);
+    }
+  };
+
   return (
     <div className="bg-backgroundColor h-14 p-2 px-4 flex items-center justify-between shadow-boxShadowBorder2">
-      <div className="flex items-center gap-2">
-        {/* user Icon */}
-        <div className="border border-black flex justify-center items-center rounded-full h-8 w-8">
-          <Icon.User />
-        </div>
+      <div>
+        {token && (
+          <div onClick={toggleMenu} className="flex items-center gap-2">
+            {/* user Icon */}
+            <div className="border border-black flex justify-center items-center rounded-full h-8 w-8">
+              <Icon.User />
+            </div>
 
-        {/* User Name */}
-        <div className="font-bold">
-          <h2>{user?.fullName || "User"}</h2>
-        </div>
+            {/* User Name */}
+            <div className="font-bold">
+              <h2>{user?.fullName || "User"}</h2>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* left box */}
       <div>
         {token ? (
+          // left box
           <div className="relative pr-1">
-            <NavLink to={"/cart"} className={({isActive})=> isActive ? "text-theamColor2" : ""}>
-            <Icon.ShoppingCart />
-            <sup className=" absolute top-0 -right-[4px] xs:-right-[10px] font-extrabold text-[0.8rem] xs:text-[0.8rem]">
-              {productsInCart?.length || 0}
-            </sup>
+            <NavLink
+              to={"/cart"}
+              className={({ isActive }) => (isActive ? "text-theamColor2" : "")}
+            >
+              <Icon.ShoppingCart />
+              <sup className=" absolute top-0 -right-[4px] xs:-right-[10px] font-extrabold text-[0.8rem] xs:text-[0.8rem]">
+                {productsInCart?.length || 0}
+              </sup>
             </NavLink>
           </div>
         ) : (
@@ -69,6 +86,11 @@ const UserBarMBL = () => {
           </ul>
         )}
       </div>
+      {isMenuOpen && (
+        <div>
+          <UserActionBox onClose={toggleMenu} />
+        </div>
+      )}
     </div>
   );
 };

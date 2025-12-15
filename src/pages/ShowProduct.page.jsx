@@ -115,7 +115,7 @@ const ShowProduct = () => {
         {/*Product image */}
         <div className="w-1/2 flex flex-col gap-10 py-10">
           {/* image */}
-          <div className="h-96 flex items-center justify-center">
+          <div className="xs:h-96 flex items-center justify-center">
             {viewImage && <img src={viewImage} alt="" className="h-full" />}
           </div>
 

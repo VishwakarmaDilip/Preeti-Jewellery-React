@@ -31,10 +31,10 @@ const SavedAddress = () => {
   };
 
   return (
-    <div className="h-fit w-full mt-10 p-10 ">
-      <div className="flex justify-between px-28">
+    <div className="h-fit w-full mt-4 xs:mt-10 xs:p-10 ">
+      <div className="flex justify-between px-3 xs:px-28">
         {/* Page Name */}
-        <h1 className="text-3xl font-bold ">Saved Address</h1>
+        <h1 className=" text-xl xs:text-3xl font-bold ">Saved Address</h1>
 
         {/* Add new Button */}
         <NavLink to={"/address"}>
@@ -50,13 +50,13 @@ const SavedAddress = () => {
       </div>
 
       {/* Main Body */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(30rem,1fr))] gap-y-20 mt-10">
+      <div className="grid xs:grid-cols-[repeat(auto-fit,minmax(30rem,1fr))] gap-y-10 xs:gap-y-20 mt-10 px-5 xs:px-0 mb-2">
         {/* Address Card */}
         {addresses?.length > 0 ? (
           addresses.map((data) => (
             <div
               key={data._id}
-              className="bg-white w-96 h-64 shadow-boxShadowBorder rounded-lg p-5 place-self-center flex flex-col justify-between"
+              className="bg-white xs:w-96 h-64 shadow-boxShadowBorder rounded-lg p-5 place-self-center flex flex-col justify-between"
             >
               {/* address */}
               <div className="flex flex-col gap-4">
@@ -102,7 +102,7 @@ const SavedAddress = () => {
             </div>
           ))
         ) : (
-          <div className="h-96 w-[100rem] flex justify-center items-center borde">
+          <div className="h-96 w-[100rem] flex justify-center items-center border">
             <p>No Addresses are there</p>
           </div>
         )}
