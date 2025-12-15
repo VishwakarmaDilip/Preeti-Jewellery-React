@@ -32,7 +32,19 @@ const UserBarMBL = () => {
   return (
     <div className="bg-backgroundColor h-14 p-2 px-4 flex items-center justify-between shadow-boxShadowBorder2">
       <div>
-        {token && (
+        {token ? (
+          <div className="flex items-center gap-2">
+            {/* user Icon */}
+            <div className="border border-black flex justify-center items-center rounded-full h-8 w-8">
+              <Icon.User />
+            </div>
+
+            {/* User Name */}
+            <div className="font-bold">
+              <h2>User</h2>
+            </div>
+          </div>
+        ) : (
           <div onClick={toggleMenu} className="flex items-center gap-2">
             {/* user Icon */}
             <div className="border border-black flex justify-center items-center rounded-full h-8 w-8">
