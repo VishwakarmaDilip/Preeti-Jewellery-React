@@ -217,7 +217,7 @@ const ShowProduct = () => {
           </div>
 
           {/* Product detail */}
-          <div className=" space-y-2">
+          <div className=" space-y-2 my-5 xs:my-0">
             <h2 className=" text-2xl font-extrabold">Product Detail</h2>
             <div>
               <p>Product Name: {product?.productName}</p>

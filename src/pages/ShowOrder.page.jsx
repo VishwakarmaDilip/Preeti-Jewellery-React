@@ -34,7 +34,7 @@ const ShowOrder = () => {
     <div className="xs:mt-16 p-5 xs:px-32">
       <div className="bg-white p-4 rounded-md">
         {/* page head */}
-        <div className="">
+        <div >
           <div className="flex justify-between items-center">
             {/* ID */}
             <h1 className="text-xl xs:text-3xl font-bold">

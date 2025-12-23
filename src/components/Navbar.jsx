@@ -42,9 +42,6 @@ const Navbar = () => {
   }, [cartState,token]);
 
   const toggleMenu = () => {
-    console.log("hit hua");
-    
-    
     if (isMenuOpen) {
       setIsAnimatingOut(true);
       setTimeout(() => {
