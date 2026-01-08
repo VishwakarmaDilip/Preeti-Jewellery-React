@@ -29,7 +29,7 @@ const ShowOrder = () => {
   const toggleHelpBar = () => {
     setHelpBar(pre => !pre)
   }
-
+ 
   return (
     <div className="xs:mt-16 p-5 xs:px-32">
       <div className="bg-white p-4 rounded-md">
@@ -162,6 +162,10 @@ const ShowOrder = () => {
             {/* Shipping Address */}
             <div>
               <h3 className="text-lg font-semibold">Delivery</h3>
+              <p className="pl-2">
+                {fetchedOrder?.address?.[0]?.firstName}{" "}
+                {fetchedOrder?.address?.[0]?.lastName}
+              </p>
               <p className="pl-2">
                 {fetchedOrder?.address?.[0]?.address},{" "}
                 {fetchedOrder?.address?.[0]?.city} -{" "}
