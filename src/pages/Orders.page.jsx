@@ -13,13 +13,15 @@ const Orders = () => {
   const allorders = useSelector((state) => state.order.allOrders);
   const pageInfo = useSelector((state) => state.order.pageInfo);
 
+  console.log(typeof allorders);
+
   const [orderStatus, setOrderStatus] = useState("");
   const [select, setSelect] = useState(0.7);
   const [pageNumber, setPageNumber] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [customDates, setCustomDates] = useState([]);
-  const [filter, setFilter] = useState(false)
+  const [filter, setFilter] = useState(false);
 
   const dispatch = useDispatch();
   const { register, handleSubmit, reset, watch } = useForm();
@@ -86,8 +88,8 @@ const Orders = () => {
   };
 
   const toggleFilterBox = () => {
-    setFilter(pre => !pre)
-  }
+    setFilter((pre) => !pre);
+  };
 
   return (
     <div className="min-h-screen w-full mt-4 xs:mt-20 px-4 sm:px-8 flex flex-col items-center gap-6 overflow-x-hidden">
@@ -142,7 +144,11 @@ const Orders = () => {
           </div>
 
           {/* date filter */}
-          <form className={`bg-white w-[21rem] xs:w-full max-w-md md:max-w-xl h-fit xs:h-[3rem] flex gap-6 xs:gap-0 rounded-3xl py-4 xs:py-0 px-3 xs:justify-between fixed xs:static bottom-20 flex-col xs:flex-row shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out z-10 ${filter ? "left-[3rem]" : "left-[25rem]"} `}>
+          <form
+            className={`bg-white w-[21rem] xs:w-full max-w-md md:max-w-xl h-fit xs:h-[3rem] flex gap-6 xs:gap-0 rounded-3xl py-4 xs:py-0 px-3 xs:justify-between fixed xs:static bottom-20 flex-col xs:flex-row shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out z-10 ${
+              filter ? "left-[3rem]" : "left-[25rem]"
+            } `}
+          >
             <div className="flex justify-between items-center xs:pl-5">
               <h3 className="text-xl font-semibold pr-2">Filter</h3>
               {screen.width < 500 && (
@@ -249,7 +255,7 @@ const Orders = () => {
                         <div className="bg-gray-400 w-24 h-24 rounded-lg">
                           <img
                             className="overflow-hidden h-full w-full"
-                            src={item?.product?.image[0]}
+                            src={item?.product?.image?.[0]}
                             alt="productImg"
                           />
                         </div>
