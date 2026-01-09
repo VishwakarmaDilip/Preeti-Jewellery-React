@@ -18,6 +18,10 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
 
+  // useEffect(() => {
+  //   // dispatch(checkUserAuth())
+  // },[])
+
   useEffect(() => {
     const fetchCart = async () => {
       try {
