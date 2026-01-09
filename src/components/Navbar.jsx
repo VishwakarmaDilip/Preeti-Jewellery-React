@@ -17,11 +17,6 @@ const Navbar = () => {
   const menuRef = useRef();
   const dispatch = useDispatch()
 
-
-  // useEffect(() => {
-  //   // dispatch(checkUserAuth())
-  // },[])
-
   useEffect(() => {
     const fetchCart = async () => {
       try {
