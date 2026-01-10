@@ -13,7 +13,6 @@ const Home = () => {
     dispatch(addToList({ id, name, price, image }));
   };
   
-
   return (
     <>
       <div className="hidden relative xs:flex justify-center h-full xs:h-screen w-screen xs:w-full">
