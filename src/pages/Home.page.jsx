@@ -33,7 +33,7 @@ const Home = () => {
         <div className="my-4 space-y-4">
           {/* Category bar */}
           <div className="px-4 space-y-2">
-            <h2 className="font-semibold">Top Categoriya</h2>
+            <h2 className="font-semibold">Top Categoriyaa</h2>
             <div className="flex justify-between">
               <div className="bg-gray-300 h-16 w-16 rounded-full"></div>
               <div className="bg-gray-300 h-16 w-16 rounded-full"></div>
