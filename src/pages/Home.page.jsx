@@ -12,6 +12,7 @@ const Home = () => {
   const handleAddToList = (id, name, price, image) => {
     dispatch(addToList({ id, name, price, image }));
   };
+  
 
   return (
     <>
