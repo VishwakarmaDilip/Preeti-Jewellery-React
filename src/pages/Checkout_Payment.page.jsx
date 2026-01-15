@@ -71,7 +71,7 @@ const Checkout_Payment = () => {
       toast.success("Order Placed Successfully");
 
       setTimeout(() => {
-        window.open(`http://192.168.0.104:5173/orders/${result}`,"_blank");
+        window.open(`https://api.devbydilip.cloud/orders/${result}`,"_blank");
         window.close();
       },500)
 
