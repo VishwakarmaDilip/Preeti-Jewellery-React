@@ -26,7 +26,7 @@ const Register = () => {
     try {
       setSubmitting(true);
       const response = await fetch(
-        `https://api.devbydilip.cloud/api/v1/user/register`,
+        `http://localhost:3000/api/v1/user/register`,
         {
           method: "POST",
           headers: {

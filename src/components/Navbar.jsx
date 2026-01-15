@@ -21,7 +21,7 @@ const Navbar = () => {
     const fetchCart = async () => {
       try {
         const response = await fetch(
-          `https://api.devbydilip.cloud/api/v1/user/cart/getCart`,
+          `http://localhost:3000/api/v1/user/cart/getCart`,
           {
             credentials: "include",
           }

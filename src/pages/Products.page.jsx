@@ -54,7 +54,7 @@ const Products = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `https://api.devbydilip.cloud/api/v1/user/getProducts?query=${searchTerm}&page=${page}&sortBy=${sortBy}&sortType=${sortType}&category=${categoryId}`,
+            `http://localhost:3000/api/v1/user/getProducts?query=${searchTerm}&page=${page}&sortBy=${sortBy}&sortType=${sortType}&category=${categoryId}`,
             {
               method: "GET",
               credentials: "include",
@@ -86,7 +86,7 @@ const Products = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          `https://api.devbydilip.cloud/api/v1/user/category/getCategories`,
+          `http://localhost:3000/api/v1/user/category/getCategories`,
           {
             credentials: "include",
           }
@@ -141,7 +141,7 @@ const Products = () => {
     if (token) {
       try {
         const response = await fetch(
-          `https://api.devbydilip.cloud/api/v1/user/cart/addToCart`,
+          `http://localhost:3000/api/v1/user/cart/addToCart`,
           {
             method: "POST",
             headers: {

@@ -13,7 +13,7 @@ const UserActionBox = ({ onClose }) => {
     onClose();
     try {
       const response = await fetch(
-        `https://api.devbydilip.cloud/api/v1/user/logout`,
+        `http://localhost:3000/api/v1/user/logout`,
         {
           method: "POST",
           credentials: "include",

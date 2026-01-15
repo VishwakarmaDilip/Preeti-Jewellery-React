@@ -42,7 +42,7 @@ export const userSlice = createSlice({
         operatePlaceOrder: (state, payload) => {
             const order_Id = payload.payload 
             setTimeout(() => {
-                window.opener.location.href(`https://api.devbydilip.cloud:5174/orders/${order_Id}`)
+                window.opener.location.href(`http://localhost:3000:5174/orders/${order_Id}`)
             }, 800);     
             toast.success("Order Placed")
         }
