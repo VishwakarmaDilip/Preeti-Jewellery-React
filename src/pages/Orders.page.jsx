@@ -13,8 +13,6 @@ const Orders = () => {
   const allorders = useSelector((state) => state.order.allOrders);
   const pageInfo = useSelector((state) => state.order.pageInfo);
 
-  console.log(allorders);
-
   const [orderStatus, setOrderStatus] = useState("");
   const [select, setSelect] = useState(0.7);
   const [pageNumber, setPageNumber] = useState(1);

@@ -41,7 +41,7 @@ const Checkout = () => {
     dispatch(cartApiCall());
   }, []);
 
-  console.log(window.opener);
+  // console.log(window.opener);
   
 
   useEffect(() => {

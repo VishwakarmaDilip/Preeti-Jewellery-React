@@ -165,9 +165,6 @@ export const checkUserAuth = createAsyncThunk(
 
             const data = fetchedData?.data || null
 
-            console.log(data);
-            
-
             return data
 
         } catch (error) {
