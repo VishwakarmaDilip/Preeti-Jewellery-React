@@ -71,7 +71,7 @@ const Checkout_Payment = () => {
       toast.success("Order Placed Successfully");
 
       setTimeout(() => {
-        window.open(`https://api.devbydilip.cloud/orders/${result}`,"_blank");
+        window.open(`https://prettyadornment.devbydilip.cloud/orders/${result}`,"_blank");
         window.close();
       },500)
 
