@@ -99,7 +99,7 @@ const Checkout_Payment = () => {
         </div>
         <div className=" flex justify-between px-8 font-semibold">
           <p>Address</p>
-          <p>Payment</p>
+          <p>Payment Wa</p>
         </div>
       </div>
 
