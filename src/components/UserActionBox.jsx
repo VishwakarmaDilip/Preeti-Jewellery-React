@@ -17,11 +17,11 @@ const UserActionBox = ({ onClose }) => {
         {
           method: "POST",
           credentials: "include",
-        }
+        },
       );
 
       if (response.status < 300)
-        navigate("/"), toast.success("Logged Out Successfully");
+        (navigate("/"), toast.success("Logged Out Successfully"));
       dispatch(checkUserAuth());
     } catch (error) {
       console.error("Logout failed:", error);
@@ -54,19 +54,19 @@ const UserActionBox = ({ onClose }) => {
 
         {/* User Action Buttons */}
         <div className="flex flex-col my-5 gap-6 xs:gap-0">
-          <button className="flex justify-between p-2 hover:bg-gray-100">
-            <NavLink
-              to={"/userProfile"}
-              onClick={() => onClose()}
-              className="flex items-center gap-3"
-            >
+          <NavLink
+            to={"/userProfile"}
+            onClick={() => onClose()}
+            className="flex justify-between p-2 hover:bg-gray-100"
+          >
+            <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                 <Icon.User />
               </div>
               <p>Edit Profile</p>
-            </NavLink>
+            </div>
             <Icon.ChevronRight />
-          </button>
+          </NavLink>
           <NavLink
             to={"/wishList"}
             onClick={() => onClose()}
@@ -80,7 +80,11 @@ const UserActionBox = ({ onClose }) => {
             </div>
             <Icon.ChevronRight />
           </NavLink>
-          <button className="flex justify-between p-2 hover:bg-gray-100">
+          <NavLink
+            to={"/changePassword"}
+            className="flex justify-between p-2 hover:bg-gray-100"
+            onClick={() => onClose()}
+          >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                 <Icon.Key />
@@ -88,7 +92,7 @@ const UserActionBox = ({ onClose }) => {
               <p>Change Password</p>
             </div>
             <Icon.ChevronRight />
-          </button>
+          </NavLink>
           <NavLink
             to={"/savedAddress"}
             onClick={() => onClose()}

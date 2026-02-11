@@ -20,6 +20,7 @@ import ShowAddress from "./pages/ShowAddress.page";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUserAuth } from "./features/Usfull reducers/ApiCalls";
 import { useEffect } from "react";
+import ChangePassword from "./pages/ChangePassword.page";
 
 const router = createBrowserRouter([
   // Open Routes
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
           { path: "/orders/:orderId", element: <ShowOrder /> },
           { path: "/savedAddress", element: <SavedAddress /> },
           { path: "/address", element: <ShowAddress /> },
+          { path: "/changePassword", element: <ChangePassword/>}
         ],
       },
     ],
