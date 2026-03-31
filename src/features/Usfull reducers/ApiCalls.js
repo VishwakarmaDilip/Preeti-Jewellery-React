@@ -565,3 +565,9 @@ export const getOrder = createAsyncThunk(
         }
     }
 )
+
+
+// product related api calls
+// export const getProduct = createAsyncThunk(
+//     "user/getProduct"
+// )

@@ -43,7 +43,7 @@ const ShowProduct = () => {
           {
             method: "GET",
             credentials: "include",
-          }
+          },
         );
 
         const responseData = await response.json();
@@ -60,7 +60,7 @@ const ShowProduct = () => {
     };
 
     fetchProduct();
-  }, [productId, refresh]);
+  }, [productId, refresh]); 
 
   // Fetch Wish List
   useEffect(() => {
@@ -90,7 +90,7 @@ const ShowProduct = () => {
           },
           credentials: "include",
           body: JSON.stringify({ productId, quantity }),
-        }
+        },
       );
 
       if (response.status < 300) {
@@ -209,7 +209,8 @@ const ShowProduct = () => {
                   -
                 </button>
                 <p className="text-black">{productQuantity}</p>
-                <button onClick={() => setProductQuantity((prev) => prev + 1)}>
+                <button onClick={() => setProductQuantity((prev) => prev + 1)}
+                  disabled={product?.quantity === 0 || productQuantity === product?.quantity}>
                   +
                 </button>
               </div>
@@ -234,13 +235,14 @@ const ShowProduct = () => {
 
           {/* action button */}
           <div className=" flex flex-wrap justify-center gap-4 w-full ">
-            <button className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold">
+            <button className={` w-36 h-12 border border-black rounded-2xl  font-semibold ${product?.quantity === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-buttonColor active:bg-clickColor hover:shadow-boxShadow"}`}>
               Buy Now
             </button>
             {!productsInCart.some((currItem) => currItem?._id === productId) ? (
               <button
-                className=" w-36 h-12 border border-black bg-buttonColor rounded-2xl hover:shadow-boxShadow active:bg-clickColor font-semibold"
+                className={` w-36 h-12 border border-black rounded-2xl  font-semibold ${product.quantity === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-buttonColor active:bg-clickColor hover:shadow-boxShadow"}`}
                 onClick={() => handleAddToCart(productId, productQuantity)}
+                disabled={product?.quantity == 0}
               >
                 Add to Cart
               </button>

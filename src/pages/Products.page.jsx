@@ -17,7 +17,7 @@ import Cookies from "js-cookie";
 import UserBarMBL from "../components/UserBarMBL";
 
 const Products = () => {
-  const token = useSelector(state => state.user.loggedIn);
+  const token = useSelector((state) => state.user.loggedIn);
   const dispatch = useDispatch();
   const productsInCart = useSelector((state) => state.cart.productsInCart);
   const cartState = useSelector((state) => state.cart.cartChanged);
@@ -58,7 +58,7 @@ const Products = () => {
             {
               method: "GET",
               credentials: "include",
-            }
+            },
           );
 
           const responseData = await response.json();
@@ -89,7 +89,7 @@ const Products = () => {
           `https://api.devbydilip.cloud/api/v1/user/category/getCategories`,
           {
             credentials: "include",
-          }
+          },
         );
 
         const responseData = await response.json();
@@ -133,7 +133,7 @@ const Products = () => {
     }
 
     if (screen.width < 500) {
-      setFilter(pre => !pre);
+      setFilter((pre) => !pre);
     }
   };
 
@@ -149,7 +149,7 @@ const Products = () => {
             },
             credentials: "include",
             body: JSON.stringify({ productId }),
-          }
+          },
         );
 
         if (response.status < 300) {
@@ -180,7 +180,7 @@ const Products = () => {
   };
 
   const toggleFilterBox = () => {
-    setFilter(pre=> !pre)
+    setFilter((pre) => !pre);
   };
 
   return (
@@ -198,7 +198,7 @@ const Products = () => {
         </div>
         {/* filter form */}
         <form
-          className={`fixed bottom-16 xs:bottom-0 ${filter ? "left-[11rem]": "left-[25rem]"} xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
+          className={`fixed bottom-16 xs:bottom-0 ${filter ? "left-[11rem]" : "left-[25rem]"} xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
           onSubmit={handleSubmit(onSubmit)}
         >
           {screen.width < 500 && (
@@ -213,7 +213,9 @@ const Products = () => {
                 className={`appearance-none focus:outline-none px-2 focus:ring-2 bg-white p-2 rounded-lg w-44 transition-all ease-in-out`}
                 {...register("category")}
               >
-                <option value="" className="text-sm">Category</option>
+                <option value="" className="text-sm">
+                  Category
+                </option>
                 {category?.map((cat) => (
                   <option key={cat?._id} value={cat?._id} className="text-sm">
                     {cat?.categoryName}
@@ -302,7 +304,7 @@ const Products = () => {
                 <Heart
                   fill={
                     !wishList?.some(
-                      (currItem) => currItem._id === currProd?._id
+                      (currItem) => currItem._id === currProd?._id,
                     )
                       ? "white"
                       : "red"
@@ -310,7 +312,7 @@ const Products = () => {
                   className=" absolute right-1 top-1 cursor-pointer"
                   onClick={
                     !wishList?.some(
-                      (currItem) => currItem?._id === currProd?._id
+                      (currItem) => currItem?._id === currProd?._id,
                     )
                       ? () => handleAddToList(currProd?._id)
                       : () => handleRemoveFromList(currProd?._id)
@@ -341,15 +343,27 @@ const Products = () => {
                         ₹{currProd?.price * 1.5}
                       </p>
                     </div>
+                    {currProd.quantity <= 5 && (
+                      <div className="text-red-600">
+                        {currProd.quantity > 0 ? (
+                          <p>
+                            Product left : {currProd.quantity}
+                          </p>
+                        ) : (
+                          <p>Out Of Stock</p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="w-full h-1/5 flex justify-center items-center">
                   {!productsInCart.some(
-                    (currItem) => currItem?._id === currProd._id
+                    (currItem) => currItem?._id === currProd._id,
                   ) ? (
                     <button
-                      className=" bg-buttonColor h-3/6 w-36 xs:w-52 rounded-lg cursor-pointer border border-black hover:shadow-boxShadow active:bg-clickColor"
+                      className={`h-3/6 w-36 xs:w-52 rounded-lg border border-black ${currProd?.quantity == 0 ?"cursor-not-allowed bg-gray-400" : "cursor-pointer bg-buttonColor  hover:shadow-boxShadow active:bg-clickColor "}`}
                       onClick={() => handleAddToCart(currProd?._id)}
+                      disabled={currProd.quantity == 0}
                     >
                       Add to Cart
                     </button>
