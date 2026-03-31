@@ -548,7 +548,7 @@ export const getOrder = createAsyncThunk(
     async (order_Id, thunkAPI) => {
         try {
             const response = await fetch(
-                `https://api.devbydilip.cloud/api/v1/order/getOrder/${order_Id}`,
+                `https://api.devbydilip.cloud/api/v1/order/getOrder/user/${order_Id}`,
                 {
                     credentials: "include"
                 }

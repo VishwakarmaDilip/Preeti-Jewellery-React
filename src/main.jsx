@@ -8,10 +8,6 @@ import { Toaster } from "react-hot-toast";
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <App />
-    {screen.width < 640 ? (
-      <Toaster position="top-right" />
-    ) : (
-      <Toaster position="top-center" />
-    )}
-  </Provider>
+    <Toaster position="top-center" />
+  </Provider>,
 );

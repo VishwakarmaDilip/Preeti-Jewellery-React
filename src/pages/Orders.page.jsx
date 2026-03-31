@@ -13,8 +13,6 @@ const Orders = () => {
   const allorders = useSelector((state) => state.order.allOrders);
   const pageInfo = useSelector((state) => state.order.pageInfo);
 
-  console.log(allorders);
-
   const [orderStatus, setOrderStatus] = useState("");
   const [select, setSelect] = useState(0.7);
   const [pageNumber, setPageNumber] = useState(1);
@@ -233,15 +231,17 @@ const Orders = () => {
                       >
                         Estimated Arrival : {order?.delivery}
                       </div>
-                      {order?.status != "Cancelled" ? (
-                        <div className="text-green-400 font-bold bg-green-100 px-4 rounded-full">
-                          {order?.status}
-                        </div>
-                      ) : (
-                        <div className="text-red-400 font-bold bg-red-100 px-4 rounded-full">
-                          {order?.status}
-                        </div>
-                      )}
+                      <div
+                        className={`${
+                          order?.status === "Cancelled"
+                            ? "text-red-400 font-bold bg-red-100"
+                            : order?.status === "Shipping"
+                              ? "text-yellow-400 font-bold bg-yellow-100"
+                              : "text-green-400 font-bold bg-green-100"
+                        } px-4 rounded-full`}
+                      >
+                        {order?.status}
+                      </div>
                     </div>
                   </div>
 

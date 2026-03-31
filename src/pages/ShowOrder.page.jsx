@@ -6,7 +6,7 @@ import { getOrder } from "../features/Usfull reducers/ApiCalls";
 import Button from "../components/Button";
 
 const ShowOrder = () => {
-  const [helpBar, setHelpBar] = useState(false)
+  const [helpBar, setHelpBar] = useState(false);
   const order_id = useParams();
   const dispatch = useDispatch();
   const fetchedOrder = useSelector((state) => state.order.order);
@@ -22,19 +22,27 @@ const ShowOrder = () => {
 
   const orderDate = fetchedOrder?.createdAt
     ? new Intl.DateTimeFormat("en-IN", option).format(
-        new Date(fetchedOrder?.createdAt)
+        new Date(fetchedOrder?.createdAt),
       )
     : "";
 
-  const toggleHelpBar = () => {
-    setHelpBar(pre => !pre)
+  let deliveryDate;
+  if(fetchedOrder?.status === "Delivered") {
+    deliveryDate = fetchedOrder?.updatedAt
+    ? new Intl.DateTimeFormat("en-IN", option).format(
+      new Date(fetchedOrder?.updatedAt)
+    ) : "";
   }
- 
+
+  const toggleHelpBar = () => {
+    setHelpBar((pre) => !pre);
+  };
+
   return (
     <div className="xs:mt-16 p-5 xs:px-32">
       <div className="bg-white p-4 rounded-md">
         {/* page head */}
-        <div >
+        <div>
           <div className="flex justify-between items-center">
             {/* ID */}
             <h1 className="text-xl xs:text-3xl font-bold">
@@ -62,7 +70,7 @@ const ShowOrder = () => {
                   className={
                     "bg-blue-600 h-8 w-14 text-sm rounded-lg flex items-center justify-center"
                   }
-                  onClick={()=> toggleHelpBar()}
+                  onClick={() => toggleHelpBar()}
                 >
                   <p>HELP</p>
                 </Button>
@@ -79,11 +87,19 @@ const ShowOrder = () => {
               </p>
             </div>
             {fetchedOrder?.status != "Cancelled" ? (
-              <div className="flex gap-1 text-sm xs:text-base font-semibold text-green-500">
-                <Icon.Truck className="size-5 xs:size-6" />
-                <p>Estimated Delivery :</p>
-                <p>{fetchedOrder?.delivery}</p>
-              </div>
+              fetchedOrder?.status != "Delivered" ? (
+                <div className="flex gap-1 text-sm xs:text-base font-semibold text-green-500">
+                  <Icon.Truck className="size-5 xs:size-6" />
+                  <p>Estimated Delivery :</p>
+                  <p>{fetchedOrder?.delivery}</p>
+                </div>
+              ) : (
+                <div className="flex gap-1 text-sm xs:text-base font-semibold text-green-500">
+                  <Icon.Truck className="size-5 xs:size-6" />
+                  <p>Delivered On</p>
+                  <p>{deliveryDate}</p>
+                </div>
+              )
             ) : (
               <div className="text-red-400 font-bold bg-red-100 px-4 flex justify-center rounded-full">
                 {fetchedOrder?.status}
@@ -182,11 +198,13 @@ const ShowOrder = () => {
       </div>
 
       {screen.width < 500 && (
-        <div className={`bg-white shadow-boxShadowBorder2 fixed px-3 pt-3 w-full left-0 ${helpBar ? "bottom-[4.2rem]" : "-bottom-96"} transition-all ease-in-out`}>
+        <div
+          className={`bg-white shadow-boxShadowBorder2 fixed px-3 pt-3 w-full left-0 ${helpBar ? "bottom-[4.2rem]" : "-bottom-96"} transition-all ease-in-out`}
+        >
           <ul className="flex flex-col">
             <li className="pb-6 flex justify-between items-center pr-2">
               <p className="font-semibold">Need Help ?</p>
-              <Icon.X onClick={() => toggleHelpBar()}/>
+              <Icon.X onClick={() => toggleHelpBar()} />
             </li>
             <li className="border-b pb-3 pl-2">
               <NavLink className={"flex gap-2"}>
