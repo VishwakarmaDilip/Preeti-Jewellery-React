@@ -92,7 +92,7 @@ const Cart = () => {
                         onClick={() =>
                           handleQuantityOfProduct(item._id, item.quantity + 1)
                         }
-                        disabled={loading}
+                        disabled={loading || item?.quantity === item?.stockQuantity}
                         className={`${
                           loading ? " cursor-not-allowed" : "cursor-pointer"
                         }`}

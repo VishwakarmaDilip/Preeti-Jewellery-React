@@ -9,21 +9,20 @@ import {
 } from "../features/Usfull reducers/ApiCalls";
 import Button from "../components/Button";
 import { NavLink } from "react-router-dom";
-import * as Icon from "lucide-react"
+import * as Icon from "lucide-react";
 
 const WishList = () => {
   const wishList = useSelector((state) => state.wishList.wishList);
+  const wishListState = useSelector(
+    (state) => state.wishList.iswishListChanged,
+  );
   const cartState = useSelector((state) => state.cart.cartChanged);
   const productsInCart = useSelector((state) => state.cart.productsInCart);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getWishList());
-  }, [wishList]);
-
-  useEffect(() => {
-    dispatch(cartApiCall());
-  }, [cartState]);
+  }, [wishListState]);
 
   useEffect(() => {
     dispatch(cartApiCall());
@@ -40,6 +39,8 @@ const WishList = () => {
   const removefromCart = async (productId) => {
     dispatch(handleRemoveFromCart(productId));
   };
+
+  console.log(wishList);
 
   return (
     <div className="h-fit w-full xs:mt-8 p-5 xs:p-10 flex flex-col items-center gap-6">
@@ -68,7 +69,10 @@ const WishList = () => {
                 <div className="border-b border-gray-200" key={item._id}>
                   <ul className="grid grid-cols-3 xs:grid-cols-6 p-2 pl-5 items-center text-lg min-h-[145px] gap-4 xs:gap-0">
                     <li className=" flex gap-3 col-start-1 col-end-4 items-center ">
-                      <NavLink to={`/products/${item._id}`} className="w-24 xs:w-28 overflow-hidden rounded-md">
+                      <NavLink
+                        to={`/products/${item._id}`}
+                        className="w-24 xs:w-28 overflow-hidden rounded-md"
+                      >
                         <img src={item.image[0]} alt="" />
                       </NavLink>
                       <div>
@@ -77,33 +81,37 @@ const WishList = () => {
                         </p>
                       </div>
                     </li>
-                    <li className="xs:col-start-4 text-center ">₹{item?.price}</li>
+                    <li className="xs:col-start-4 text-center ">
+                      ₹{item?.price}
+                    </li>
                     <li className="text-center text-green-500 font-semibold text-sm xs:text-base">
-                      <p>In Stock</p>
+                      {item?.quantity === 0 ? (
+                        <p className="text-red-500">Out Of Stock</p>
+                      ) : (
+                        <p>In Stock</p>
+                      )}
                     </li>
                     <li className="text-center text-red-600 ">
                       <button onClick={() => handleRemove(item._id)}>
-                        {screen.width > 500 ? (<p>Remove</p>) : (<Icon.Trash2 />)}
+                        {screen.width > 500 ? <p>Remove</p> : <Icon.Trash2 />}
                       </button>
                     </li>
                   </ul>
                   <div className="w-full flex justify-between p-3 pb-5 gap-2 text-sm xs:text-base">
                     <Button
-                      className={
-                        "bg-buttonColor w-1/2 text-black font-bold hover:shadow-boxShadow active:bg-clickColor"
-                      }
+                      className={`w-1/2 text-black font-bold ${item?.quantity === 0 ? "bg-gray-400" : "bg-buttonColor hover:shadow-boxShadow active:bg-clickColor"}`}
                       textColor={true}
+                      disabled={item?.quantity === 0}
                     >
                       Buy Now
                     </Button>
                     {!productsInCart?.some(
-                      (currItem) => currItem?._id === item?._id
+                      (currItem) => currItem?._id === item?._id,
                     ) ? (
                       <Button
-                        className={
-                          "bg-buttonColor w-1/2 text-black font-bold hover:shadow-boxShadow active:bg-clickColor"
-                        }
+                        className={`w-1/2 text-black font-bold ${item?.quantity === 0 ? "bg-gray-400" : "bg-buttonColor hover:shadow-boxShadow active:bg-clickColor"}`}
                         textColor={true}
+                        disabled={item?.quantity === 0}
                         onClick={() => handleAddToCart(item?._id)}
                       >
                         Add To Cart
