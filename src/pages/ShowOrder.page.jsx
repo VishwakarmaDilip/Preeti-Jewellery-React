@@ -27,11 +27,12 @@ const ShowOrder = () => {
     : "";
 
   let deliveryDate;
-  if(fetchedOrder?.status === "Delivered") {
+  if (fetchedOrder?.status === "Delivered") {
     deliveryDate = fetchedOrder?.updatedAt
-    ? new Intl.DateTimeFormat("en-IN", option).format(
-      new Date(fetchedOrder?.updatedAt)
-    ) : "";
+      ? new Intl.DateTimeFormat("en-IN", option).format(
+          new Date(fetchedOrder?.updatedAt),
+        )
+      : "";
   }
 
   const toggleHelpBar = () => {
@@ -182,6 +183,7 @@ const ShowOrder = () => {
                 {fetchedOrder?.address?.[0]?.firstName}{" "}
                 {fetchedOrder?.address?.[0]?.lastName}
               </p>
+              <p className="pl-2">{fetchedOrder?.address?.[0]?.mobile},</p>
               <p className="pl-2">
                 {fetchedOrder?.address?.[0]?.address},{" "}
                 {fetchedOrder?.address?.[0]?.city} -{" "}

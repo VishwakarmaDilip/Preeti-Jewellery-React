@@ -322,7 +322,7 @@ const Products = () => {
                   {/* image box */}
                   <NavLink
                     to={`/products/${currProd?._id}`}
-                    className=" w-full h-3/5 flex justify-center rounded-t-md overflow-hidden"
+                    className=" w-full h-3/5 flex justify-center rounded-t-md overflow-hidden relative"
                   >
                     <img
                       src={currProd?.image[0]}
@@ -330,6 +330,11 @@ const Products = () => {
                       loading="lazy"
                       className="w-full"
                     />
+                    {currProd?.status === "Disable" && (
+                      <div className="absolute top-0 left-0 w-full h-full bg-black/50 text-2xl text-red-500 font-bold flex justify-center items-center">
+                        <p>Disabled</p>
+                      </div>
+                    )}
                   </NavLink>
 
                   {/* product detail */}
@@ -346,9 +351,7 @@ const Products = () => {
                     {currProd.quantity <= 5 && (
                       <div className="text-red-600">
                         {currProd.quantity > 0 ? (
-                          <p>
-                            Product left : {currProd.quantity}
-                          </p>
+                          <p>Product left : {currProd.quantity}</p>
                         ) : (
                           <p>Out Of Stock</p>
                         )}
@@ -361,9 +364,11 @@ const Products = () => {
                     (currItem) => currItem?._id === currProd._id,
                   ) ? (
                     <button
-                      className={`h-3/6 w-36 xs:w-52 rounded-lg border border-black ${currProd?.quantity == 0 ?"cursor-not-allowed bg-gray-400" : "cursor-pointer bg-buttonColor  hover:shadow-boxShadow active:bg-clickColor "}`}
+                      className={`h-3/6 w-36 xs:w-52 rounded-lg border border-black ${currProd?.quantity == 0 || currProd?.status === "Disable" ? "cursor-not-allowed bg-gray-400" : "cursor-pointer bg-buttonColor  hover:shadow-boxShadow active:bg-clickColor "}`}
                       onClick={() => handleAddToCart(currProd?._id)}
-                      disabled={currProd.quantity == 0}
+                      disabled={
+                        currProd.quantity == 0 || currProd?.status === "Disable"
+                      }
                     >
                       Add to Cart
                     </button>

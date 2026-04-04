@@ -40,8 +40,6 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(cartApiCall());
   }, []);
-
-  console.log(window.opener);
   
 
   useEffect(() => {
@@ -309,9 +307,10 @@ const Checkout = () => {
                       <p>
                         Qty : <span>{item.quantity}</span>
                       </p>
+                      <p>₹{item.price}</p>
                     </div>
                   </div>
-                  <div>₹{item.price}</div>
+                  <div>₹{item.totalAmount}</div>
                 </div>
               );
             })}

@@ -60,7 +60,7 @@ const ShowProduct = () => {
     };
 
     fetchProduct();
-  }, [productId, refresh]); 
+  }, [productId, refresh]);
 
   // Fetch Wish List
   useEffect(() => {
@@ -111,11 +111,11 @@ const ShowProduct = () => {
 
   return (
     <div className="mt-[5vh] mb-[8vh] xs:mb-0 w-full h-fit xs:h-screen flex items-center justify-center">
-      <div className=" w-[90%] xs:w-4/5 h-full flex flex-col xs:flex-row items-center justify-center gap-8">
+      <div className=" w-[90%] xs:w-4/5 h-full flex flex-col xs:flex-row items-center justify-center">
         {/*Product image */}
-        <div className="w-1/2 flex flex-col gap-10 py-10">
+        <div className="w-1/2 flex flex-col gap-8 py-10 items-center">
           {/* image */}
-          <div className="xs:h-96 flex items-center justify-center">
+          <div className="xs:h-96 w-[22rem] flex items-center justify-center">
             {viewImage && <img src={viewImage} alt="" className="h-full" />}
           </div>
 
@@ -125,7 +125,7 @@ const ShowProduct = () => {
               <div
                 key={index}
                 onClick={() => setViewImage(img)}
-                className={`h-20 cursor-pointer p-1 rounded transition-transform hover:scale-105 ${
+                className={`xs:h-20 h-14 cursor-pointer p-1 rounded transition-transform hover:scale-105 ${
                   viewImage === img
                     ? "border-4 border-theamColor2"
                     : "border border-gray-300"
@@ -209,8 +209,14 @@ const ShowProduct = () => {
                   -
                 </button>
                 <p className="text-black">{productQuantity}</p>
-                <button onClick={() => setProductQuantity((prev) => prev + 1)}
-                  disabled={product?.quantity === 0 || productQuantity === product?.quantity}>
+                <button
+                  onClick={() => setProductQuantity((prev) => prev + 1)}
+                  disabled={
+                    product?.quantity === 0 ||
+                    productQuantity === product?.quantity ||
+                    product?.status === "Disable"
+                  }
+                >
                   +
                 </button>
               </div>
@@ -221,8 +227,24 @@ const ShowProduct = () => {
           <div className=" space-y-2 my-5 xs:my-0">
             <h2 className=" text-2xl font-extrabold">Product Detail</h2>
             <div>
+              {product?.status === "Disable" && (
+                <p className="font-bold text-red-500">Disabled</p>
+              )}
               <p>Product Name: {product?.productName}</p>
-              <p>Net Quantity: {product?.quantity}</p>
+              <p>
+                Net Quantity:{" "}
+                {product?.quantity <= 5 ? (
+                  <span className="text-red-600">
+                    {product?.quantity > 0 ? (
+                      <span>{product?.quantity}</span>
+                    ) : (
+                      <span>Out Of Stock</span>
+                    )}
+                  </span>
+                ) : (
+                  <span>{product?.quantity}</span>
+                )}{" "}
+              </p>
               <p>PID: {product?.productId}</p>
               <p
                 className="text-blue-500 cursor-pointer w-fit"
@@ -235,14 +257,18 @@ const ShowProduct = () => {
 
           {/* action button */}
           <div className=" flex flex-wrap justify-center gap-4 w-full ">
-            <button className={` w-36 h-12 border border-black rounded-2xl  font-semibold ${product?.quantity === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-buttonColor active:bg-clickColor hover:shadow-boxShadow"}`}>
+            <button
+              className={` w-36 h-12 border border-black rounded-2xl  font-semibold ${product?.quantity === 0 || product?.status === "Disable" ? "bg-gray-400 cursor-not-allowed" : "bg-buttonColor active:bg-clickColor hover:shadow-boxShadow"}`}
+            >
               Buy Now
             </button>
             {!productsInCart.some((currItem) => currItem?._id === productId) ? (
               <button
-                className={` w-36 h-12 border border-black rounded-2xl  font-semibold ${product.quantity === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-buttonColor active:bg-clickColor hover:shadow-boxShadow"}`}
+                className={` w-36 h-12 border border-black rounded-2xl  font-semibold ${product.quantity === 0 || product?.status === "Disable" ? "bg-gray-400 cursor-not-allowed" : "bg-buttonColor active:bg-clickColor hover:shadow-boxShadow"}`}
                 onClick={() => handleAddToCart(productId, productQuantity)}
-                disabled={product?.quantity == 0}
+                disabled={
+                  product?.quantity == 0 || product?.status === "Disable"
+                }
               >
                 Add to Cart
               </button>
