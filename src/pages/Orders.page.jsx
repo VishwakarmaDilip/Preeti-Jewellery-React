@@ -176,7 +176,10 @@ const Orders = () => {
                 <select
                   className="appearance-none bg-gray-300 rounded-3xl w-56 pl-3 h-[2rem] relative z-0"
                   {...register("selectDate", {
-                    onChange: (e) => quickDate(e.target.value),
+                    onChange: (e) => {
+                      quickDate(e.target.value);
+                      toggleFilterBox();
+                    },
                   })}
                 >
                   <option value="" className="bg-white">
