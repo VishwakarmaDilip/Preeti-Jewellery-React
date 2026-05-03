@@ -198,7 +198,7 @@ const Products = () => {
         </div>
         {/* filter form */}
         <form
-          className={`fixed bottom-16 xs:bottom-0 ${filter ? "left-[11rem]" : "left-[25rem]"} xs:left-0 z-20 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
+          className={`fixed bottom-16 xs:bottom-0 ${filter ? "left-[11rem]" : "left-[25rem]"} xs:left-0 z-10 flex xs:flex-row xs:relative flex-col bg-white gap-6 pr-4 p-4 xs:p-0 shadow-boxShadowBorder2 xs:shadow-none transition-all ease-in-out`}
           onSubmit={handleSubmit(onSubmit)}
         >
           {screen.width < 500 && (
@@ -309,7 +309,7 @@ const Products = () => {
                       ? "white"
                       : "red"
                   }
-                  className=" absolute right-1 top-1 cursor-pointer"
+                  className=" absolute z-10 right-1 top-1 cursor-pointer"
                   onClick={
                     !wishList?.some(
                       (currItem) => currItem?._id === currProd?._id,
